@@ -29,7 +29,12 @@ fun NavGraphBuilder.profileNavigationGraph(
             arguments = ProfileDestinations.RegisterUser.arguments,
         ){
 
-            RegisterScreen(navController = navController, scaffoldState = scaffoldState)
+            RegisterScreen(
+                onPopBackStack = {
+                    navController.popBackStack()
+                },
+                scaffoldState = scaffoldState
+            )
         }
 
         composable(
@@ -37,7 +42,12 @@ fun NavGraphBuilder.profileNavigationGraph(
             arguments = ProfileDestinations.LogInUser.arguments,
         ){
 
-            LogInScreen(navController = navController, scaffoldState = scaffoldState)
+            LogInScreen(
+                onPopBackStack = {
+                    navController.popBackStack()
+                },
+                scaffoldState = scaffoldState
+            )
         }
     }
 }

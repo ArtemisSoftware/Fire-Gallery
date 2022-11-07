@@ -11,11 +11,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.button.FGButton
-import com.artemissoftware.common.composables.dialog.models.DialogOptions
-import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
@@ -24,14 +20,15 @@ import com.artemissoftware.common.composables.textfield.FGTextFieldType
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RegisterScreen(
-    navController: NavHostController,
+    onPopBackStack: () -> Unit,
     scaffoldState: FGScaffoldState,
 ) {
 
@@ -39,34 +36,14 @@ fun RegisterScreen(
     val state = viewModel.state.collectAsState()
 
 
-    LaunchedEffect(key1 = true) {
-
-        viewModel.eventFlow.collectLatest { event ->
-            when(event) {
-                is UIEvent.ShowErrorDialog -> {
-
-                    val dialogType = DialogType.Error(
-                        title = event.title,
-                        description = event.message,
-                        dialogOptions = DialogOptions(
-                            confirmationTextId = R.string.accept,
-                        )
-                    )
-
-                    scaffoldState.showDialog(dialogType)
-                }
-                else ->{}
-            }
-        }
-    }
-
-    LaunchedEffect(key1 = state.value.registered){
-        if(state.value.registered) navController.popBackStack()
-    }
-
+    ManageUiEvents(
+        uiEvent = viewModel.uiEventLolo,
+        onPopBackStack = onPopBackStack,
+        scaffoldState = scaffoldState
+    )
 
     BuildRegisterScreen(
-        navController = navController,
+        onPopBackStack = onPopBackStack,
         state = state.value,
         events = viewModel::onTriggerEvent
     )
@@ -76,7 +53,7 @@ fun RegisterScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BuildRegisterScreen(
-    navController: NavHostController,
+    onPopBackStack: () -> Unit,
     state: RegisterState,
     events: ((RegisterEvents) -> Unit)? = null,
 ) {
@@ -101,7 +78,7 @@ private fun BuildRegisterScreen(
         isLoading = state.isLoading,
         showTopBar = true,
         onNavigationClick = {
-            navController.popBackStack()
+            onPopBackStack.invoke()
         }
     ) {
 
@@ -207,11 +184,36 @@ private fun BuildRegisterScreen(
 }
 
 
+@Composable
+private fun ManageUiEvents(
+    uiEvent: Flow<UiEvent>,
+    scaffoldState: FGScaffoldState,
+    onPopBackStack: () -> Unit
+) {
+
+    LaunchedEffect(key1 = true) {
+
+        uiEvent.collectLatest { event ->
+            when(event) {
+                is UiEvent.ShowDialog -> {
+                    scaffoldState.showDialog(event.dialogType)
+                }
+                is UiEvent.PopBackStack -> { onPopBackStack.invoke() }
+                else ->{}
+            }
+        }
+    }
+
+}
+
+
+
+
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPreview() {
 
     val state = RegisterState()
 
-    BuildRegisterScreen(state = state, navController = rememberNavController())
+    BuildRegisterScreen(state = state, onPopBackStack = {})
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetGalleriesUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -49,8 +49,8 @@ class GalleryViewModel @Inject constructor(
                         isLoading = false
                     )
 
-                    _eventFlow.emit(
-                        UIEvent.ShowErrorDialog(
+                    _uiEvent.emit(
+                        UiEvent.ShowErrorDialog(
                             title = "Gallery error",
                             message = result.message ?: "Unknown error"
                         )

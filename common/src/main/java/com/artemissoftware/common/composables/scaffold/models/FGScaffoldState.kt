@@ -12,6 +12,10 @@ import kotlinx.coroutines.CoroutineScope
 class FGScaffoldState(
     private val scope: CoroutineScope
 ) {
+
+
+    //TODO: refactor this class
+
 //    private val _scaffoldState = BottomSheetScaffoldState(
 //        DrawerState(DrawerValue.Closed),
 //        BottomSheetState(

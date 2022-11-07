@@ -9,19 +9,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.screens.gallery.GalleryState
-import com.artemissoftware.firegallery.screens.profile.ProfileViewModel
 import com.artemissoftware.firegallery.screens.splash.SplashEvents
-import com.artemissoftware.firegallery.screens.splash.SplashState
 import com.artemissoftware.firegallery.screens.splash.SplashViewModel
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -35,9 +31,9 @@ fun SplashScreen(
 
     LaunchedEffect(key1 = true) {
 
-        viewModel.eventFlow.collectLatest { event ->
+        viewModel.uiEvent.collectLatest { event ->
             when(event) {
-                is UIEvent.ShowErrorDialog -> {
+                is UiEvent.ShowErrorDialog -> {
 
                     val dialogType = DialogType.Error(
                         title = event.title,

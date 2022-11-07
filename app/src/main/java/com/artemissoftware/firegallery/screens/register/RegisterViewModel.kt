@@ -1,15 +1,15 @@
 package com.artemissoftware.firegallery.screens.register
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.profile.GetValidationRulesUseCase
 import com.artemissoftware.domain.usecases.authentication.RegisterUserUseCase
 import com.artemissoftware.domain.usecases.authentication.ValidateRegisterUseCase
+import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -49,31 +49,17 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun getValidationRules(){
-
-        getValidationRulesUseCase.invoke().onEach { result ->
-            _state.value = _state.value.copy(
-                validationRules = result
-            )
-
-        }.launchIn(viewModelScope)
+        _state.value = _state.value.copy(
+            validationRules = getValidationRulesUseCase.invoke()
+        )
     }
 
 
     private fun validateRegister(email: String, password: String, passwordConfirm: String, username: String){
 
-        validateRegisterUseCase.invoke(email = email, password = password, passwordConfirm = passwordConfirm, username = username).onEach { result ->
-
-            when(result) {
-                is Resource.Success -> {
-
-                    _state.value = _state.value.copy(
-                        isValidData = result.data?.isValid ?: false
-                    )
-                }
-                else ->{}
-            }
-
-        }.launchIn(viewModelScope)
+        _state.value = _state.value.copy(
+            isValidData = validateRegisterUseCase.invoke(email = email, password = password, passwordConfirm = passwordConfirm, username = username).isValid
+        )
     }
 
 
@@ -84,9 +70,10 @@ class RegisterViewModel @Inject constructor(
                 is Resource.Success -> {
 
                     _state.value = _state.value.copy(
-                        registered = true,
                         isLoading = false
                     )
+
+                    sendUiEvent(UiEvent.PopBackStack)
                 }
                 is Resource.Error -> {
 
@@ -94,12 +81,18 @@ class RegisterViewModel @Inject constructor(
                         isLoading = false
                     )
 
-                    _eventFlow.emit(
-                        UIEvent.ShowErrorDialog(
-                            title = "Register",
-                            message = result.message ?: "Unknown error"
+                    sendUiEvent(
+                        UiEvent.ShowDialog(
+                            DialogType.Error(
+                                title = "Register",
+                                description = result.message ?: "Unknown error",
+                                dialogOptions = DialogOptions(
+                                    confirmationTextId = R.string.accept,
+                                )
+                            )
                         )
                     )
+
                 }
                 is Resource.Loading -> {
 

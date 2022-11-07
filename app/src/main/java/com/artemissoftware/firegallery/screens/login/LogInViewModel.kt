@@ -1,14 +1,14 @@
 package com.artemissoftware.firegallery.screens.login
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.authentication.LogInUseCase
 import com.artemissoftware.domain.usecases.authentication.ValidateLoginUseCase
+import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,19 +39,10 @@ class LogInViewModel @Inject constructor(
     }
 
     private fun validateLogIn(email: String, password: String) {
-        validateLoginUseCase.invoke(email = email, password = password).onEach { result ->
 
-            when(result) {
-                is Resource.Success -> {
-
-                    _state.value = _state.value.copy(
-                        isValidData = result.data?.isValid ?: false
-                    )
-                }
-                else ->{}
-            }
-
-        }.launchIn(viewModelScope)
+        _state.value = _state.value.copy(
+            isValidData = validateLoginUseCase.invoke(email = email, password = password).isValid
+        )
     }
 
     private fun logInUser(email: String, password: String) {
@@ -64,6 +55,8 @@ class LogInViewModel @Inject constructor(
                         loggedIn = true,
                         isLoading = false
                     )
+
+                    sendUiEvent(UiEvent.PopBackStack)
                 }
                 is Resource.Error -> {
 
@@ -71,12 +64,18 @@ class LogInViewModel @Inject constructor(
                         isLoading = false
                     )
 
-                    _eventFlow.emit(
-                        UIEvent.ShowErrorDialog(
-                            title = "Authentication",
-                            message = result.message ?: "Unknown error"
+                    sendUiEvent(
+                        UiEvent.ShowDialog(
+                            DialogType.Error(
+                                title = "Authentication",
+                                description = result.message ?: "Unknown error",
+                                dialogOptions = DialogOptions(
+                                    confirmationTextId = R.string.accept,
+                                )
+                            )
                         )
                     )
+
                 }
                 is Resource.Loading -> {
 

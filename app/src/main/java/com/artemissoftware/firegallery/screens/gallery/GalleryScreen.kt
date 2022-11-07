@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,7 +23,7 @@ import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
 import com.artemissoftware.firegallery.screens.gallery.mappers.toUI
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -39,9 +38,9 @@ fun GalleryScreen(
 
     LaunchedEffect(key1 = true) {
 
-        viewModel.eventFlow.collectLatest { event ->
+        viewModel.uiEvent.collectLatest { event ->
             when(event) {
-                is UIEvent.ShowErrorDialog -> {
+                is UiEvent.ShowErrorDialog -> {
 
                     val dialogType = DialogType.Error(
                         title = event.title,

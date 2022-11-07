@@ -1,18 +1,14 @@
 package com.artemissoftware.firegallery.screens.picturedetail
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPictureDetailUseCase
-import com.artemissoftware.domain.usecases.GetPicturesUseCase
 import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -112,8 +108,8 @@ class PictureDetailViewModel @Inject constructor(
 
             GetPictureDetailUseCase.PICTURE_UNAVAILABLE ->{
 
-                _eventFlow.emit(
-                    UIEvent.ShowInfoDialog(
+                _uiEvent.emit(
+                    UiEvent.ShowInfoDialog(
                         title = "Picture",
                         message = GetPictureDetailUseCase.PICTURE_UNAVAILABLE
                     )

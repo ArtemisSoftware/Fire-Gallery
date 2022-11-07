@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,7 +30,7 @@ import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 import com.artemissoftware.firegallery.screens.picturedetail.composables.PictureInformation
 import com.artemissoftware.firegallery.screens.picturedetail.mappers.toUI
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -46,9 +45,9 @@ fun PictureDetailScreen(
 
     LaunchedEffect(key1 = true) {
 
-        viewModel.eventFlow.collectLatest { event ->
+        viewModel.uiEvent.collectLatest { event ->
             when(event) {
-                is UIEvent.ShowInfoDialog -> {
+                is UiEvent.ShowInfoDialog -> {
 
                     val dialogType = DialogType.Info(
                         title = event.title,

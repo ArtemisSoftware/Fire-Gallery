@@ -1,18 +1,15 @@
 package com.artemissoftware.domain.usecases.authentication
 
-import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.profile.UserValidation
 import com.artemissoftware.domain.repositories.RemoteConfigRepository
 import com.artemissoftware.domain.util.UserDataValidation
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ValidateRegisterUseCase @Inject constructor(
     private val remoteConfigRepository: RemoteConfigRepository
 ) {
 
-    operator fun invoke(email: String, password: String, passwordConfirm: String, username: String): Flow<Resource<UserValidation>> = flow {
+    operator fun invoke(email: String, password: String, passwordConfirm: String, username: String): UserValidation {
 
         val userValidation = UserValidation()
         var validEmail = false
@@ -41,7 +38,7 @@ class ValidateRegisterUseCase @Inject constructor(
         }
 
         userValidation.isValid = validEmail && validPassword && validUsername
-        emit(Resource.Success(data = userValidation))
+        return userValidation
     }
 
     companion object{

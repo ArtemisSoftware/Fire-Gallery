@@ -25,7 +25,7 @@ import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -39,9 +39,9 @@ fun FavoritesScreen(
 
     LaunchedEffect(key1 = true) {
 
-        viewModel.eventFlow.collectLatest { event ->
+        viewModel.uiEvent.collectLatest { event ->
             when(event) {
-                is UIEvent.ShowInfoDialog -> {
+                is UiEvent.ShowInfoDialog -> {
 
                     val dialogType = DialogType.Info(
                         title = event.title,

@@ -5,7 +5,7 @@ import com.artemissoftware.domain.FirebaseError
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.setup.SetupAppUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -59,8 +59,8 @@ class SplashViewModel @Inject constructor(
 
             SetupAppUseCase.ERROR_READING_REMOTE_CONFIG ->{
 
-                _eventFlow.emit(
-                    UIEvent.ShowErrorDialog(
+                _uiEvent.emit(
+                    UiEvent.ShowErrorDialog(
                         title = "Fire Gallery",
                         message = messageAppend
                     )

@@ -1,8 +1,5 @@
 package com.artemissoftware.firegallery.screens.pictures
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
@@ -10,11 +7,9 @@ import com.artemissoftware.domain.usecases.GetPicturesUseCase
 import com.artemissoftware.domain.usecases.GetPicturesUseCase.Companion.INEXISTENT_GALLERY
 import com.artemissoftware.domain.usecases.GetPicturesUseCase.Companion.NO_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.navigation.NavigationArguments
-import com.artemissoftware.firegallery.screens.gallery.GalleryState
 import com.artemissoftware.firegallery.screens.gallery.models.GalleryUI
-import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailEvents
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -97,8 +92,8 @@ class PicturesViewModel @Inject constructor(
 
             NO_PICTURES_AVAILABLE ->{
 
-                _eventFlow.emit(
-                    UIEvent.ShowInfoDialog(
+                _uiEvent.emit(
+                    UiEvent.ShowInfoDialog(
                         title = "Pictures",
                         message = message + messageToAppend
                     )
@@ -109,8 +104,8 @@ class PicturesViewModel @Inject constructor(
 
     private fun showError(message: String){
         viewModelScope.launch {
-            _eventFlow.emit(
-                UIEvent.ShowErrorDialog(
+            _uiEvent.emit(
+                UiEvent.ShowErrorDialog(
                     title = "Pictures",
                     message = message
                 )

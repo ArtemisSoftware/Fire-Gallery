@@ -12,7 +12,7 @@ class ValidateLoginUseCase @Inject constructor(
     private val remoteConfigRepository: RemoteConfigRepository
 ) {
 
-    operator fun invoke(email: String, password: String): Flow<Resource<UserValidation>> = flow {
+    operator fun invoke(email: String, password: String): UserValidation  {
 
         val userValidation = UserValidation()
         var validEmail = false
@@ -33,15 +33,32 @@ class ValidateLoginUseCase @Inject constructor(
         }
 
         userValidation.isValid = validEmail && validPassword
-        emit(Resource.Success(data = userValidation))
+        return userValidation
     }
 
-
-
-
-
-    val EMAIL_REGEX = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})";
-
+//    operator fun invoke(email: String, password: String): Flow<Resource<UserValidation>> = flow {
+//
+//        val userValidation = UserValidation()
+//        var validEmail = false
+//        var validPassword = false
+//
+//        if(UserDataValidation.isEmailValid(remoteConfigRepository.getUserValidationConfigs().emailRegex, email)){
+//            validEmail = true
+//        }
+//        else{
+//            userValidation.emailError = INVALID_EMAIL
+//        }
+//
+//        if(UserDataValidation.validatePassword(password, remoteConfigRepository.getUserValidationConfigs())){
+//            validPassword = true
+//        }
+//        else{
+//            userValidation.passwordError = INVALID_PASSWORD
+//        }
+//
+//        userValidation.isValid = validEmail && validPassword
+//        emit(Resource.Success(data = userValidation))
+//    }
 
     companion object{
 

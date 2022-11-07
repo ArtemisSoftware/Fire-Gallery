@@ -8,7 +8,7 @@ import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase.C
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.UIEvent
+import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -104,8 +104,8 @@ class FavoritesViewModel @Inject constructor(
 
             NO_FAVORITE_PICTURES_AVAILABLE ->{
 
-                _eventFlow.emit(
-                    UIEvent.ShowInfoDialog(
+                _uiEvent.emit(
+                    UiEvent.ShowInfoDialog(
                         title = "Favorites",
                         message = NO_FAVORITE_PICTURES_AVAILABLE
                     )
