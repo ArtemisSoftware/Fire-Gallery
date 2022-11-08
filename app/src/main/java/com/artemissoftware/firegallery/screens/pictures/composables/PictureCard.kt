@@ -21,23 +21,12 @@ import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 
-@Composable
-fun PictureCard(
-    picture: Picture,
-    onClick: (String) -> Unit,
-) {
-
-    PictureContent(
-        picture = picture,
-        onClick = onClick
-    )
-}
 
 @Composable
 fun PictureCard(
-    isFavorite: Boolean,
+    isFavorite: Boolean = false,
     picture: Picture,
-    onFavoriteClick: (String) -> Unit,
+    onFavoriteClick: (String) -> Unit = {},
     onClick: (String) -> Unit,
 ) {
 

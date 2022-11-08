@@ -7,7 +7,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RegisterScreen(
     onPopBackStack: () -> Unit,
@@ -45,7 +43,11 @@ fun RegisterScreen(
     BuildRegisterScreen(
         onPopBackStack = onPopBackStack,
         state = state.value,
-        events = viewModel::onTriggerEvent
+        events = viewModel::onTriggerEvent,
+        email = viewModel.email,
+        username = viewModel.username,
+        password = viewModel.password,
+        confirmPassword = viewModel.confirmPassword
     )
 
 }
@@ -56,23 +58,12 @@ private fun BuildRegisterScreen(
     onPopBackStack: () -> Unit,
     state: RegisterState,
     events: ((RegisterEvents) -> Unit)? = null,
+    email: String,
+    username: String,
+    password: String,
+    confirmPassword: String
 ) {
 
-    val email = remember { mutableStateOf(TextFieldValue()) }
-    val username = remember { mutableStateOf(TextFieldValue()) }
-    val password = remember { mutableStateOf(TextFieldValue()) }
-    val passwordConfirm = remember { mutableStateOf(TextFieldValue()) }
-
-    val validateRegister = {
-        events?.invoke(
-            RegisterEvents.ValidateRegister(
-                email = email.value.text,
-                username = username.value.text,
-                password = password.value.text,
-                passwordConfirm = passwordConfirm.value.text
-            )
-        )
-    }
 
     FGScaffold(
         isLoading = state.isLoading,
@@ -117,22 +108,22 @@ private fun BuildRegisterScreen(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
+
+
                 FGOutlinedTextField(
                     fgTextFieldType = FGTextFieldType.EMAIL,
-                    text = email.value,
-                    onValueChange = { text->
-                        email.value = text
-                        validateRegister.invoke()
+                    text = email,
+                    onValueChange = { email->
+                        events?.invoke(RegisterEvents.ValidateRegister(email = email))
                     },
                     label = stringResource(R.string.email)
                 )
 
                 FGOutlinedTextField(
-                    text = username.value,
+                    text = username,
                     maxChar = state.validationRules?.usernameMaxLength,
                     onValueChange = { text->
-                        username.value = text
-                        validateRegister.invoke()
+                        events?.invoke(RegisterEvents.ValidateRegister(username = text))
                     },
                     label = stringResource(R.string.user_name)
                 )
@@ -140,22 +131,20 @@ private fun BuildRegisterScreen(
 
                 FGOutlinedTextField(
                     fgTextFieldType = FGTextFieldType.PASSWORD,
-                    text = password.value,
+                    text = password,
                     maxChar = state.validationRules?.passwordMaxLength,
-                    onValueChange = { text->
-                        password.value = text
-                        validateRegister.invoke()
+                    onValueChange = { password->
+                        events?.invoke(RegisterEvents.ValidateRegister(password = password))
                     },
                     label = stringResource(R.string.password)
                 )
 
                 FGOutlinedTextField(
                     fgTextFieldType = FGTextFieldType.PASSWORD,
-                    text = passwordConfirm.value,
+                    text = confirmPassword,
                     maxChar = state.validationRules?.passwordMaxLength,
-                    onValueChange = { text->
-                        passwordConfirm.value = text
-                        validateRegister.invoke()
+                    onValueChange = { confirmPassword->
+                        events?.invoke(RegisterEvents.ValidateRegister(passwordConfirm = confirmPassword))
                     },
                     label = stringResource(R.string.confirm_password),
                     imeAction = ImeAction.Done
@@ -168,13 +157,7 @@ private fun BuildRegisterScreen(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.register),
                     onClick = {
-                        events?.invoke(
-                            RegisterEvents.Register(
-                                username = username.value.text,
-                                email = email.value.text,
-                                password = password.value.text
-                            )
-                        )
+                        events?.invoke(RegisterEvents.Register)
                     }
                 )
 
@@ -215,5 +198,7 @@ private fun RegisterScreenPreview() {
 
     val state = RegisterState()
 
-    BuildRegisterScreen(state = state, onPopBackStack = {})
+    BuildRegisterScreen(onPopBackStack = {}, state = state, email = "email", username = "username",
+        password = "password",
+        confirmPassword = "confirmPassword")
 }

@@ -1,5 +1,8 @@
 package com.artemissoftware.firegallery.screens.register
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
@@ -27,6 +30,18 @@ class RegisterViewModel @Inject constructor(
     private val _state: MutableStateFlow<RegisterState> = MutableStateFlow(RegisterState())
     val state: StateFlow<RegisterState> = _state
 
+    var email by mutableStateOf("")
+        private set
+
+    var username by mutableStateOf("")
+        private set
+
+    var password by mutableStateOf("")
+        private set
+
+    var confirmPassword by mutableStateOf("")
+        private set
+
     init {
         onTriggerEvent(RegisterEvents.GetValidationRules)
     }
@@ -39,11 +54,15 @@ class RegisterViewModel @Inject constructor(
             }
 
             is RegisterEvents.ValidateRegister ->{
-                validateRegister(email = event.email, password = event.password, passwordConfirm = event.passwordConfirm, username = event.username)
+                email = event.email ?: ""
+                username = event.username ?: ""
+                password = event.password ?: ""
+                confirmPassword = event.passwordConfirm ?: ""
+                validateRegister(email = email, password = password, passwordConfirm = confirmPassword, username = username)
             }
 
             is RegisterEvents.Register ->{
-                registerUser(email = event.email, password = event.password, username = event.username)
+                registerUser()
             }
         }
     }
@@ -63,7 +82,7 @@ class RegisterViewModel @Inject constructor(
     }
 
 
-    private fun registerUser(email: String, password: String, username: String){
+    private fun registerUser(){
         registerUserUseCase.invoke(email = email, password = password, username = username).onEach { result ->
 
             when(result) {

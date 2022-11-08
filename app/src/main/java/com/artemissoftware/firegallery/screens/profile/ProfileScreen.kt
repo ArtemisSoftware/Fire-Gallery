@@ -7,10 +7,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,6 +26,7 @@ import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold28
 import com.artemissoftware.common.theme.InfoBlue
+import com.artemissoftware.common.theme.Orange
 import com.artemissoftware.domain.models.profile.AppConfig
 import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.firegallery.R
@@ -68,16 +66,16 @@ private fun BuildProfileScreen(
     val user = state.profile?.user
 
     FGScaffold(
-        isLoading = state.isLoading,
-        modifier = Modifier.padding(4.dp)
+        isLoading = state.isLoading
     ) {
 
         Column(
+            modifier = Modifier.padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
             FGText(
-                modifier = Modifier.padding(top = 12.dp),
+                modifier = Modifier.padding(top = 16.dp),
                 style = TextAlbertSansBold28,
                 text = stringResource(R.string.profile)
             )
@@ -97,7 +95,6 @@ private fun BuildProfileScreen(
 
                             ProfileOption(
                                 icon = Icons.Filled.AccountBox,
-                                iconColor = InfoBlue,
                                 title = it,
                                 description = stringResource(R.string.user_name),
                                 onClick = {}
@@ -109,7 +106,6 @@ private fun BuildProfileScreen(
 
                         ProfileOption(
                             icon = Icons.Filled.Favorite,
-                            iconColor = InfoBlue,
                             title = it.favorites.size.toString(),
                             description = stringResource(R.string.number_favorite_pictures),
                             onClick = {
@@ -129,7 +125,6 @@ private fun BuildProfileScreen(
 
                         ProfileOption(
                             icon = Icons.Filled.Notifications,
-                            iconColor = InfoBlue,
                             isChecked = it.notifications,
                             description = stringResource(R.string.allow_receive_push_notifications),
                             onCheck = {
@@ -142,8 +137,7 @@ private fun BuildProfileScreen(
 
                     item {
                         ProfileOption(
-                            icon = Icons.Filled.Password,
-                            iconColor = InfoBlue,
+                            icon = Icons.Filled.Token,
                             title = stringResource(R.string.firebase_token),
                             description = it.firebaseToken,
                             onClick = {

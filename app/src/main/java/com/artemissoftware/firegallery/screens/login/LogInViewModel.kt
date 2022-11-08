@@ -1,5 +1,8 @@
 package com.artemissoftware.firegallery.screens.login
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
@@ -25,15 +28,23 @@ class LogInViewModel @Inject constructor(
     private val _state: MutableStateFlow<LogInState> = MutableStateFlow(LogInState())
     val state: StateFlow<LogInState> = _state
 
+    var email by mutableStateOf("")
+        private set
+
+    var password by mutableStateOf("")
+        private set
+
     override fun onTriggerEvent(event: LogInEvents) {
         when(event){
 
             is LogInEvents.ValidateLogin ->{
-                validateLogIn(email = event.email, password = event.password)
+                email = event.email ?: email
+                password = event.password ?: password
+                validateLogIn(email = email, password = password)
             }
 
             is LogInEvents.LogIn ->{
-                logInUser(email = event.email, password = event.password)
+                logInUser()
             }
         }
     }
@@ -45,14 +56,13 @@ class LogInViewModel @Inject constructor(
         )
     }
 
-    private fun logInUser(email: String, password: String) {
+    private fun logInUser() {
         loginUseCase.invoke(email = email, password = password).onEach { result ->
 
             when(result) {
                 is Resource.Success -> {
 
                     _state.value = _state.value.copy(
-                        loggedIn = true,
                         isLoading = false
                     )
 
@@ -64,8 +74,7 @@ class LogInViewModel @Inject constructor(
                         isLoading = false
                     )
 
-                    sendUiEvent(
-                        UiEvent.ShowDialog(
+                    sendUiEvent(UiEvent.ShowDialog(
                             DialogType.Error(
                                 title = "Authentication",
                                 description = result.message ?: "Unknown error",

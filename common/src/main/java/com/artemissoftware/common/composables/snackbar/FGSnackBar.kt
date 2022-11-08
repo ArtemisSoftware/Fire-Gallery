@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.artemissoftware.common.theme.FGStyle.TextMeOne
 
 @Composable
 fun FGSnackBar(
@@ -52,8 +51,7 @@ fun FGSnackBar(
 
             Text(
                 color = type.textColor,
-                text = description,
-                style = TextMeOne
+                text = description
             )
         }
 

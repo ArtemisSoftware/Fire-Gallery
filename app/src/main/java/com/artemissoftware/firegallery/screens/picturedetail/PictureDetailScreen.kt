@@ -91,7 +91,7 @@ private fun BuildPictureDetailScreen(
         },
         topBarOptionComposable = {
 
-            state.picture?.let { picture->
+            state.picture?.let { picture-> //TODO: so deve aparecer se user estiver logado
 
                 FavoriteButton(
                     isFavorite = state.isFavorite,

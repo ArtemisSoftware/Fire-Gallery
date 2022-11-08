@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -36,9 +37,10 @@ fun FGOutlinedTextField(
     modifier: Modifier = Modifier,
     fgTextFieldType: FGTextFieldType = FGTextFieldType.TEXT,
     label: String,
-    text: TextFieldValue,
+    text: String,
+    textStyle: TextStyle = FGStyle.TextAlbertSans,
     maxChar: Int? = null,
-    onValueChange: (TextFieldValue) -> Unit = {},
+    onValueChange: (String) -> Unit = {},
     borderColor: androidx.compose.ui.graphics.Color = Orange,
     imeAction: ImeAction = ImeAction.Next
 ) {
@@ -46,7 +48,7 @@ fun FGOutlinedTextField(
     val focusManager = LocalFocusManager.current
     val relocation = remember { BringIntoViewRequester() }
     val scope = rememberCoroutineScope()
-    val textFormated = text.copy(text = text.text.take(maxChar ?: fgTextFieldType.getMaxChar()))
+    val textFormatted = text.take(maxChar ?: fgTextFieldType.getMaxChar())
 
     var isPasswordVisible = remember { mutableStateOf(fgTextFieldType != FGTextFieldType.PASSWORD) }
 
@@ -56,8 +58,8 @@ fun FGOutlinedTextField(
             .onFocusEvent {
                 if (it.isFocused) scope.launch { delay(300); relocation.bringIntoView() }
             },
-        value = textFormated,
-        textStyle = FGStyle.TextAlbertSans,
+        value = textFormatted,
+        textStyle = textStyle,
         onValueChange = { text->
             onValueChange.invoke(text)
         },
@@ -86,8 +88,8 @@ fun FGOutlinedTextField(
         trailingIcon = {
             TrailingIcon(
                 fgTextFieldType = fgTextFieldType,
-                onClick = onValueChange,
-                text = text.text,
+                onClick = { onValueChange.invoke(text) },
+                text = text,
                 isPasswordVisible = isPasswordVisible
             )
         }
@@ -507,7 +509,7 @@ private fun BuildEDPTextField(
 @Composable
 private fun FGOutlinedTextFieldPreview() {
 
-    var text = TextFieldValue("Example")
+    var text = "Example"
 
     Column(verticalArrangement = Arrangement.spacedBy(36.dp)) {
         FGOutlinedTextField(

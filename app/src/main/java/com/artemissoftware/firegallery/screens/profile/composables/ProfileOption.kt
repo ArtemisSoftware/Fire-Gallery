@@ -19,12 +19,13 @@ import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.icon.FGCircularIcon
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
+import com.artemissoftware.common.theme.Orange
 import com.artemissoftware.common.theme.ToggleBlue
 
 @Composable
 fun ProfileOption(
     icon: ImageVector,
-    iconColor: Color = Color.Green,
+    iconColor: Color = Orange,
     iconBackgroundColor: Color? = null,
     description: String,
     isChecked: Boolean = false,
@@ -83,7 +84,7 @@ fun ProfileOption(
 @Composable
 fun ProfileOption(
     icon: ImageVector,
-    iconColor: Color = Color.Green,
+    iconColor: Color = Orange,
     iconBackgroundColor: Color? = null,
     title: String,
     description: String? = null,

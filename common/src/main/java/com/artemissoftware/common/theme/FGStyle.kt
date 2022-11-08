@@ -64,36 +64,6 @@ object FGStyle {
         fontWeight = FontWeight.W500
     )
 
-    private val MeOneFont = FontFamily(
-        Font(R.font.textmeone_regular),
-        Font(R.font.textmeone_regular, FontWeight.W500),
-        Font(R.font.textmeone_regular, FontWeight.Bold)
-    )
-
-    val TextMeOne = TextStyle(
-        fontFamily = MeOneFont,
-        fontSize = 14.sp
-    )
-
-    val TextMeOne12 = TextMeOne.copy(
-        fontSize = 12.sp
-    )
-
-    val TextMeOneBold = TextMeOne.copy(
-        fontWeight = FontWeight.Bold
-    )
-
-    val TextMeOneBold12 = TextMeOneBold.copy(
-        fontSize = 12.sp
-    )
-
-    val TextMeOneBold16 = TextMeOneBold.copy(
-        fontSize = 16.sp
-    )
-
-    val TextMeOneBold32 = TextMeOneBold.copy(
-        fontSize = 32.sp
-    )
 
     private val Oswald = FontFamily(
         Font(R.font.oswald_regular),

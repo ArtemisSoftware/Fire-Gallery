@@ -21,7 +21,9 @@ fun FGButton(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    backgroundColor: Color = Orange,
+    disabledBackgroundColor: Color = LightBlue,
 ) {
 
     Button(
@@ -29,7 +31,7 @@ fun FGButton(
         enabled = enabled,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Orange,
+            backgroundColor = backgroundColor,
             disabledBackgroundColor = LightBlue
         ),
         content = {

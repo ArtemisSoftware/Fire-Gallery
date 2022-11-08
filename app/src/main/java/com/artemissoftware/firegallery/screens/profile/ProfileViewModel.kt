@@ -67,22 +67,24 @@ class ProfileViewModel @Inject constructor(
 
         val appConfig = AppConfig(notifications = notificationsEnabled)
 
-        updateProfileUseCase.invoke(appConfig)
-            .onEach { }
-            .launchIn(viewModelScope)
+        viewModelScope.launch {
+            updateProfileUseCase.invoke(appConfig)
+        }
+
     }
 
     private fun logOut(){
 
         logOutUseCase.invoke().onEach { result ->
-            when(result) {
-                is Resource.Loading -> {
-                    _state.value = _state.value.copy(
-                        isLoading = true
-                    )
+
+            _state.value = _state.value.copy(
+                isLoading = when(result) {
+                    is Resource.Loading -> {
+                        true
+                    }
+                    else ->{ false }
                 }
-                else ->{}
-            }
+            )
 
         }.launchIn(viewModelScope)
     }

@@ -7,7 +7,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +42,9 @@ fun LogInScreen(
     BuildLogInScreen(
         onPopBackStack = onPopBackStack,
         state = state.value,
-        events = viewModel::onTriggerEvent
+        events = viewModel::onTriggerEvent,
+        email = viewModel.email,
+        password = viewModel.password
     )
 
 }
@@ -55,9 +56,9 @@ private fun BuildLogInScreen(
     onPopBackStack: () -> Unit,
     state: LogInState,
     events: ((LogInEvents) -> Unit)? = null,
+    email: String,
+    password: String
 ) {
-    var email = remember { mutableStateOf(TextFieldValue()) }
-    val password = remember { mutableStateOf(TextFieldValue()) }
 
     FGScaffold(
         isLoading = state.isLoading,
@@ -104,30 +105,18 @@ private fun BuildLogInScreen(
 
                 FGOutlinedTextField(
                     fgTextFieldType = FGTextFieldType.EMAIL,
-                    text = email.value,
-                    onValueChange = { text->
-                        email.value = text
-                        events?.invoke(
-                            LogInEvents.ValidateLogin(
-                                email = email.value.text,
-                                password = password.value.text
-                            )
-                        )
+                    text = email,
+                    onValueChange = { email->
+                        events?.invoke(LogInEvents.ValidateLogin(email = email))
                     },
                     label = stringResource(R.string.email)
                 )
 
                 FGOutlinedTextField(
                     fgTextFieldType = FGTextFieldType.PASSWORD,
-                    text = password.value,
-                    onValueChange = { text->
-                        password.value = text
-                        events?.invoke(
-                            LogInEvents.ValidateLogin(
-                                email = email.value.text,
-                                password = password.value.text
-                            )
-                        )
+                    text = password,
+                    onValueChange = { password->
+                        events?.invoke(LogInEvents.ValidateLogin(password = password))
                     },
                     label = stringResource(R.string.password),
                     imeAction = ImeAction.Done
@@ -140,7 +129,7 @@ private fun BuildLogInScreen(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.log_in),
                     onClick = {
-                        events?.invoke(LogInEvents.LogIn(email = email.value.text, password = password.value.text))
+                        events?.invoke(LogInEvents.LogIn)
                     }
                 )
 
@@ -179,6 +168,6 @@ private fun BuildLogInScreenPreview() {
 
     val state = LogInState()
 
-    BuildLogInScreen(state = state, onPopBackStack = {})
+    BuildLogInScreen(state = state, onPopBackStack = {}, email ="email", password = "password")
 
 }
