@@ -30,7 +30,7 @@ class GetPictureDetailUseCase @Inject constructor(
                 it.chipColorConfig = remoteConfigRepository.getCurrentSeasonConfig().chipColorConfig
                 emit(Resource.Success(data = it))
             } ?: kotlin.run {
-                emit(Resource.Error(message = PICTURE_UNAVAILABLE))
+                emit(Resource.Error(message = result.error.message))
             }
 
         }

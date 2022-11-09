@@ -75,7 +75,12 @@ fun NavGraphBuilder.galleryNavigationGraph(
             route = GalleryDestinations.PictureDetail.fullRoute,
             arguments = GalleryDestinations.Pictures.arguments
         ) {
-            PictureDetailScreen(navController = navController, scaffoldState = scaffoldState)
+            PictureDetailScreen(
+                onPopBackStack = {
+                    navController.popBackStack()
+                },
+                scaffoldState = scaffoldState
+            )
         }
     }
 }

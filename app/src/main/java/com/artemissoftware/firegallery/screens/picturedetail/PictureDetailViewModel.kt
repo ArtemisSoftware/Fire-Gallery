@@ -2,10 +2,13 @@ package com.artemissoftware.firegallery.screens.picturedetail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPictureDetailUseCase
 import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
+import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
@@ -56,6 +59,7 @@ class PictureDetailViewModel @Inject constructor(
             getUserUseCase.invoke().collectLatest { result ->
 
                 _state.value = _state.value.copy(
+                    isAuthenticated = result != null,
                     isFavorite = result?.favorites?.contains(pictureId) ?: false,
                 )
             }
@@ -64,11 +68,9 @@ class PictureDetailViewModel @Inject constructor(
 
 
     private fun saveFavorite(pictureId: String, isFavorite: Boolean) {
-
-        updateFavoriteUseCase(pictureId = pictureId, isFavorite = isFavorite)
-            .onEach {
-
-        }.launchIn(viewModelScope)
+        viewModelScope.launch {
+            updateFavoriteUseCase.invoke(pictureId = pictureId, isFavorite = isFavorite)
+        }
     }
 
 
@@ -102,16 +104,34 @@ class PictureDetailViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private suspend fun showDialog(message: String){
+    private fun showDialog(message: String){
 
         when(message){
 
             GetPictureDetailUseCase.PICTURE_UNAVAILABLE ->{
 
-                _uiEvent.emit(
-                    UiEvent.ShowInfoDialog(
-                        title = "Picture",
-                        message = GetPictureDetailUseCase.PICTURE_UNAVAILABLE
+                sendUiEvent(UiEvent.ShowDialog(
+                        DialogType.Info(
+                            title = "Picture",
+                            description = message,
+                            dialogOptions = DialogOptions(
+                                confirmationTextId = R.string.accept,
+                            )
+                        )
+                    )
+                )
+
+            }
+            else ->{
+
+                sendUiEvent(UiEvent.ShowDialog(
+                        DialogType.Error(
+                            title = "Picture",
+                            description = message,
+                            dialogOptions = DialogOptions(
+                                confirmationTextId = R.string.accept,
+                            )
+                        )
                     )
                 )
             }
