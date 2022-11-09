@@ -1,22 +1,29 @@
 package com.artemissoftware.firegallery.screens.favorites
 
 import androidx.lifecycle.viewModelScope
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetUserUseCase
-import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase
 import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
+import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase_
+import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.HomeDestinations
+import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val getFavoritePicturesUseCase: GetFavoritePicturesUseCase,
+    private val getPicturesUseCase_: GetPicturesUseCase_,
     private val getUserUseCase: GetUserUseCase,
     private val updateFavoriteUseCase: UpdateFavoriteUseCase,
 ): FGBaseEventViewModel<FavoriteEvents>() {
@@ -25,29 +32,24 @@ class FavoritesViewModel @Inject constructor(
     val state: StateFlow<PictureState> = _state
 
     init {
-        onTriggerEvent(FavoriteEvents.GetUser)
-        onTriggerEvent(FavoriteEvents.GetFavorites)
+        getUser()
+        getFavorites()
     }
 
     override fun onTriggerEvent(event: FavoriteEvents) {
         when(event){
 
-            is FavoriteEvents.GetUser -> {
-                getUser()
-            }
-            is FavoriteEvents.GetFavorites -> {
-                getFavorites()
-            }
             is FavoriteEvents.Remove -> {
                 remove(event.pictureId)
+            }
+            is FavoriteEvents.GoToPictureDetail -> {
+                sendUiEvent(UiEvent.Navigate(GalleryDestinations.PictureDetail.withArgs(event.pictureId)))
             }
         }
     }
 
     private fun getUser(){
-
         viewModelScope.launch {
-
             getUserUseCase.invoke().collectLatest { result ->
                 _state.value = _state.value.copy(
                     favorites = result?.favorites?: emptyList()
@@ -58,9 +60,9 @@ class FavoritesViewModel @Inject constructor(
 
 
     private fun remove(pictureId: String) {
-        updateFavoriteUseCase.invoke(pictureId = pictureId, isFavorite = false)
-            .onEach {}
-            .launchIn(viewModelScope)
+        viewModelScope.launch {
+            updateFavoriteUseCase.invoke(pictureId = pictureId, isFavorite = false)
+        }
     }
 
 
@@ -68,11 +70,7 @@ class FavoritesViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            _state.value = _state.value.copy(
-                isLoading = true
-            )
-
-            getFavoritePicturesUseCase.invoke().collectLatest { result ->
+            getPicturesUseCase_.invoke(onlyFavorites = true).collectLatest { result ->
 
                 when(result) {
                     is Resource.Success -> {
@@ -91,6 +89,11 @@ class FavoritesViewModel @Inject constructor(
 
                         result.message?.let { showDialog(it) }
                     }
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(
+                            isLoading = true
+                        )
+                    }
                     else->{}
                 }
             }
@@ -98,16 +101,39 @@ class FavoritesViewModel @Inject constructor(
     }
 
 
-    private suspend fun showDialog(message: String){
+    private fun showDialog(message: String){
 
         when(message){
 
             NO_FAVORITE_PICTURES_AVAILABLE ->{
 
-                _uiEvent.emit(
-                    UiEvent.ShowInfoDialog(
-                        title = "Favorites",
-                        message = NO_FAVORITE_PICTURES_AVAILABLE
+                sendUiEvent(UiEvent.ShowDialog(
+                        DialogType.Info(
+                            title = "Favorites",
+                            description = NO_FAVORITE_PICTURES_AVAILABLE,
+                            dialogOptions = DialogOptions(
+                                confirmationTextId = R.string.accept,
+                                confirmation = {
+                                    sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(HomeDestinations.Gallery))
+                                }
+                            )
+                        )
+                    )
+                )
+
+            }
+            else->{
+                sendUiEvent(UiEvent.ShowDialog(
+                        DialogType.Error(
+                            title = "Favorites",
+                            description = message,
+                            dialogOptions = DialogOptions(
+                                confirmationTextId = R.string.accept,
+                                confirmation = {
+                                    sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(HomeDestinations.Gallery))
+                                }
+                            )
+                        )
                     )
                 )
             }

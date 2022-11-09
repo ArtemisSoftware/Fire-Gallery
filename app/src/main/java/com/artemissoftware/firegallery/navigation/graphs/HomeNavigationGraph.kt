@@ -26,15 +26,33 @@ fun HomeNavigationGraph(
     ) {
 
         composable(route = HomeDestinations.Gallery.route) {
-            GalleryScreen(navController, scaffoldState = scaffoldState)
+            GalleryScreen(
+                onNavigate = {
+                    navController.navigate(it.route)
+                },
+                scaffoldState = scaffoldState
+            )
         }
 
         composable(route = HomeDestinations.Favorites.route) {
-            FavoritesScreen(navController = navController, scaffoldState = scaffoldState)
+            FavoritesScreen(
+                onChangeCurrentPositionBottomBar = {
+                    scaffoldState.changeCurrentPositionBottomBar(it.destination, navController = navController)
+                },
+                onNavigate = {
+                    navController.navigate(it.route)
+                },
+                scaffoldState = scaffoldState
+            )
         }
 
         composable(route = HomeDestinations.Profile.route) {
-            ProfileScreen(navController = navController, scaffoldState)
+            ProfileScreen(
+                onNavigate = {
+                    navController.navigate(it.route)
+                },
+                scaffoldState = scaffoldState
+            )
         }
 
         galleryNavigationGraph(navController = navController, scaffoldState = scaffoldState)

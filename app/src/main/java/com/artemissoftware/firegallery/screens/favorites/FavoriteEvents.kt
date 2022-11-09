@@ -4,7 +4,6 @@ import com.artemissoftware.firegallery.ui.FGBaseEvents
 
 sealed class FavoriteEvents: FGBaseEvents(){
 
-    object GetUser: FavoriteEvents()
-    object GetFavorites : FavoriteEvents()
     data class Remove(val pictureId: String): FavoriteEvents()
+    data class GoToPictureDetail(val pictureId: String) : FavoriteEvents()
 }

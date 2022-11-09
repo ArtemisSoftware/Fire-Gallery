@@ -25,7 +25,6 @@ import com.artemissoftware.firegallery.screens.picturedetail.composables.Favorit
 @Composable
 fun PictureCard(
     addFavoriteButton: Boolean = false,
-    isFavorite: Boolean = false, //TODO: pode/deve desaparecer
     picture: Picture,
     onFavoriteClick: (String) -> Unit = {},
     onClick: (String) -> Unit,
@@ -108,8 +107,7 @@ private fun PictureCardPreview() {
 private fun FavoriteCardPreview() {
     PictureCard(
         addFavoriteButton = true,
-        isFavorite = true,
-        picture = Picture.picturesMockList[0],
+        picture = Picture.picturesMockList[1],
         onFavoriteClick = {},
         onClick = {}
     )

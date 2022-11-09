@@ -14,7 +14,7 @@ class UpdateFavoriteUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository
 ) {
 
-    operator fun invoke(pictureId : String, isFavorite: Boolean): Flow<Unit> = flow {
+    suspend operator fun invoke(pictureId : String, isFavorite: Boolean) {
 
         val user = authenticationRepository.getUser().first()
         user?.let {
@@ -22,5 +22,14 @@ class UpdateFavoriteUseCase @Inject constructor(
         }
 
     }
+
+//    operator fun invoke(pictureId : String, isFavorite: Boolean): Flow<Unit> = flow {
+//
+//        val user = authenticationRepository.getUser().first()
+//        user?.let {
+//            profileDataStoreRepository.updateFavorite(pictureId = pictureId, isFavorite = isFavorite, email = it.email)
+//        }
+//
+//    }
 
 }

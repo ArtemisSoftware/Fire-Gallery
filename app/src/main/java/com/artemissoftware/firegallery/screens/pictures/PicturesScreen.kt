@@ -31,7 +31,6 @@ import kotlinx.coroutines.flow.collectLatest
 fun PicturesScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     onPopBackStack: () -> Unit,
-    navController: NavHostController,
     scaffoldState: FGScaffoldState,
     viewModel: PicturesViewModel = hiltViewModel()
 ) {
@@ -45,15 +44,19 @@ fun PicturesScreen(
         onNavigate = onNavigate
     )
 
-    BuildPicturesScreen(state = state.value, navController = navController, events = viewModel::onTriggerEvent)
+    BuildPicturesScreen(
+        state = state.value,
+        events = viewModel::onTriggerEvent,
+        onPopBackStack = onPopBackStack
+    )
 
 }
 
 @Composable
 private fun BuildPicturesScreen(
+    onPopBackStack: () -> Unit,
     state: PictureState,
-    events: ((PictureEvents) -> Unit)? = null,
-    navController: NavHostController
+    events: ((PictureEvents) -> Unit)? = null
 ) {
 
     FGScaffold(
@@ -61,7 +64,7 @@ private fun BuildPicturesScreen(
         showTopBar = state.showOptions,
         title = state.galleryName,
         onNavigationClick = {
-            navController.popBackStack()
+            onPopBackStack.invoke()
         },
     ) {
 
@@ -98,5 +101,5 @@ private fun BuildPicturesScreen(
 @Composable
 private fun GalleryScreenPreview() {
 
-    BuildPicturesScreen(state = PictureState(pictures = Picture.picturesMockList), navController = rememberNavController())
+    BuildPicturesScreen(state = PictureState(pictures = Picture.picturesMockList), onPopBackStack = {})
 }

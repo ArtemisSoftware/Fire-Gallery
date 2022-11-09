@@ -29,30 +29,30 @@ fun SplashScreen(
     val viewModel: SplashViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = true) {
-
-        viewModel.uiEvent.collectLatest { event ->
-            when(event) {
-                is UiEvent.ShowErrorDialog -> {
-
-                    val dialogType = DialogType.Error(
-                        title = event.title,
-                        description = event.message,
-                        dialogOptions = DialogOptions(
-                            confirmationTextId = R.string.retry,
-                            confirmation = {
-                                viewModel.onTriggerEvent(SplashEvents.LoadSplash)
-                            }
-                        )
-                    )
-
-                    scaffoldState.showDialog(dialogType)
-                }
-                else ->{}
-            }
-
-        }
-    }
+//    LaunchedEffect(key1 = true) {
+//
+//        viewModel.uiEvent.collectLatest { event ->
+//            when(event) {
+//                is UiEvent.ShowErrorDialog -> {
+//
+//                    val dialogType = DialogType.Error(
+//                        title = event.title,
+//                        description = event.message,
+//                        dialogOptions = DialogOptions(
+//                            confirmationTextId = R.string.retry,
+//                            confirmation = {
+//                                viewModel.onTriggerEvent(SplashEvents.LoadSplash)
+//                            }
+//                        )
+//                    )
+//
+//                    scaffoldState.showDialog(dialogType)
+//                }
+//                else ->{}
+//            }
+//
+//        }
+//    }
 
     LaunchedEffect(key1 = state.value.dataLoaded){
         if(state.value.dataLoaded) onAnimationFinish.invoke()

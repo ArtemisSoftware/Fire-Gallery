@@ -19,11 +19,11 @@ import com.artemissoftware.common.composables.textfield.FGTextFieldType
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
+import com.artemissoftware.firegallery.ui.ManageUIEvents
 import com.artemissoftware.firegallery.ui.UiEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LogInScreen(
     onPopBackStack: () -> Unit,
@@ -33,7 +33,7 @@ fun LogInScreen(
     val viewModel: LogInViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
-    ManageUiEvents(
+    ManageUIEvents(
         uiEvent = viewModel.uiEventLolo,
         onPopBackStack = onPopBackStack,
         scaffoldState = scaffoldState
@@ -136,29 +136,6 @@ private fun BuildLogInScreen(
             }
         }
     }
-}
-
-
-@Composable
-private fun ManageUiEvents(
-    uiEvent: Flow<UiEvent>,
-    scaffoldState: FGScaffoldState,
-    onPopBackStack: () -> Unit
-) {
-
-    LaunchedEffect(key1 = true) {
-
-        uiEvent.collectLatest { event ->
-            when(event) {
-                is UiEvent.ShowDialog -> {
-                    scaffoldState.showDialog(event.dialogType)
-                }
-                is UiEvent.PopBackStack -> { onPopBackStack.invoke() }
-                else ->{}
-            }
-        }
-    }
-
 }
 
 

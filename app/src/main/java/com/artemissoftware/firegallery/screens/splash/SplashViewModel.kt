@@ -55,18 +55,18 @@ class SplashViewModel @Inject constructor(
 
     private suspend fun showDialog(message: String, messageAppend: String){
 
-        when(message){
-
-            SetupAppUseCase.ERROR_READING_REMOTE_CONFIG ->{
-
-                _uiEvent.emit(
-                    UiEvent.ShowErrorDialog(
-                        title = "Fire Gallery",
-                        message = messageAppend
-                    )
-                )
-            }
-        }
+//        when(message){
+//
+//            SetupAppUseCase.ERROR_READING_REMOTE_CONFIG ->{
+//
+//                _uiEvent.emit(
+//                    UiEvent.ShowErrorDialog(
+//                        title = "Fire Gallery",
+//                        message = messageAppend
+//                    )
+//                )
+//            }
+//        }
     }
 
 }

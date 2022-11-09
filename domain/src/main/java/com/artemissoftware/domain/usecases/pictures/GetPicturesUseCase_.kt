@@ -5,6 +5,7 @@ import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.artemissoftware.domain.repositories.GalleryRepository
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.first
@@ -59,6 +60,9 @@ class GetPicturesUseCase_ @Inject constructor(
 
         var resource: Resource<List<Picture>> = Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
 
+        emit(Resource.Loading())
+        delay(500)
+
         if(favorites.isNotEmpty()){
 
             val result = galleryRepository.getFavoritePictures(favorites)
@@ -87,6 +91,7 @@ class GetPicturesUseCase_ @Inject constructor(
         favorites: List<String>
     ) {
         emit(Resource.Loading())
+        delay(500)
 
         val pictures = galleryRepository.getPictures(galleryId = galleryId, favorites)
 

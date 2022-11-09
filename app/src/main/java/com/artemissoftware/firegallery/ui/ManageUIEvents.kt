@@ -11,6 +11,7 @@ fun ManageUIEvents(
     uiEvent: Flow<UiEvent>,
     scaffoldState: FGScaffoldState,
     onNavigate: (UiEvent.Navigate) -> Unit = {},
+    onChangeCurrentPositionBottomBar: (UiEvent.ChangeCurrentPositionBottomBar) -> Unit = {},
     onPopBackStack: () -> Unit = {}
 ) {
 
@@ -22,8 +23,8 @@ fun ManageUIEvents(
                     scaffoldState.showDialog(event.dialogType)
                 }
                 is UiEvent.PopBackStack -> { onPopBackStack.invoke() }
-                is UiEvent.Navigate -> onNavigate(event)
-                else ->{}
+                is UiEvent.Navigate -> { onNavigate(event) }
+                is UiEvent.ChangeCurrentPositionBottomBar -> { onChangeCurrentPositionBottomBar(event) }
             }
         }
     }

@@ -6,75 +6,50 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.artemissoftware.common.composables.dialog.models.DialogOptions
-import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Gallery
-import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
 import com.artemissoftware.firegallery.screens.gallery.mappers.toUI
+import com.artemissoftware.firegallery.ui.ManageUIEvents
 import com.artemissoftware.firegallery.ui.UiEvent
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun GalleryScreen(
-    navController: NavHostController,
-    scaffoldState: FGScaffoldState
+    onNavigate: (UiEvent.Navigate) -> Unit,
+    scaffoldState: FGScaffoldState,
+    viewModel: GalleryViewModel = hiltViewModel()
 ) {
 
-    val viewModel: GalleryViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
+    ManageUIEvents(
+        uiEvent = viewModel.uiEventLolo,
+        scaffoldState = scaffoldState,
+        onNavigate = onNavigate
+    )
 
-    LaunchedEffect(key1 = true) {
-
-        viewModel.uiEvent.collectLatest { event ->
-            when(event) {
-                is UiEvent.ShowErrorDialog -> {
-
-                    val dialogType = DialogType.Error(
-                        title = event.title,
-                        description = event.message,
-                        dialogOptions = DialogOptions(
-                            confirmationTextId = R.string.accept,
-                        )
-                    )
-
-                    scaffoldState.showDialog(dialogType)
-                }
-                else ->{}
-            }
-
-        }
-    }
-
-    BuildGalleryScreen(state = state.value, navController = navController)
+    BuildGalleryScreen(state = state.value, events = viewModel::onTriggerEvent)
 }
 
 @Composable
 private fun BuildGalleryScreen(
     state: GalleryState,
-    navController: NavHostController
+    events: ((GalleryEvents) -> Unit)? = null
 ) {
 
     FGScaffold(
-        isLoading = state.isLoading,
-        modifier = Modifier.padding(horizontal = 4.dp)
+        isLoading = state.isLoading
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .padding(4.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
@@ -82,9 +57,8 @@ private fun BuildGalleryScreen(
 
                 GalleryCard(
                     gallery = gallery,
-                    onClick = { galleryId->
-
-                        navController.navigate(GalleryDestinations.Pictures.withCustomArgs(gallery.toUI()))
+                    onClick = {
+                        events?.invoke(GalleryEvents.GoToPictures(gallery.toUI()))
                     }
                 )
             }
@@ -97,5 +71,5 @@ private fun BuildGalleryScreen(
 private fun GalleryScreenPreview() {
 
     val state = GalleryState(galleries = Gallery.galleryMockList)
-    BuildGalleryScreen(state, rememberNavController())
+    BuildGalleryScreen(state, events = {})
 }

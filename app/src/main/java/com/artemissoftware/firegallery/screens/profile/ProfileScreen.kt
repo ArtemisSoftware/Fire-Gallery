@@ -33,19 +33,26 @@ import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.navigation.graphs.ProfileDestinations
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
+import com.artemissoftware.firegallery.ui.ManageUIEvents
+import com.artemissoftware.firegallery.ui.UiEvent
 
 
 @Composable
 fun ProfileScreen(
-    navController: NavHostController,
+    onNavigate: (UiEvent.Navigate) -> Unit,
     scaffoldState: FGScaffoldState
 ) {
 
     val viewModel: ProfileViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState().value
 
+    ManageUIEvents(
+        uiEvent = viewModel.uiEventLolo,
+        scaffoldState = scaffoldState,
+        onNavigate = onNavigate
+    )
+
     BuildProfileScreen(
-        navController = navController,
         scaffoldState = scaffoldState,
         state = state,
         events = viewModel::onTriggerEvent
@@ -54,7 +61,6 @@ fun ProfileScreen(
 
 @Composable
 private fun BuildProfileScreen(
-    navController: NavHostController,
     scaffoldState: FGScaffoldState? = null,
     state: ProfileState,
     events: ((ProfileEvents) -> Unit)? = null,
@@ -110,10 +116,10 @@ private fun BuildProfileScreen(
                             description = stringResource(R.string.number_favorite_pictures),
                             onClick = {
 
-                                scaffoldState?.changeCurrentPositionBottomBar(
-                                    destination = HomeDestinations.Favorites,
-                                    navController
-                                )
+//                                scaffoldState?.changeCurrentPositionBottomBar(
+//                                    destination = HomeDestinations.Favorites,
+//                                    navController
+//                                )
                             }
                         )
                     }
@@ -173,7 +179,7 @@ private fun BuildProfileScreen(
                                 modifier = Modifier.weight(0.5F),
                                 text = stringResource(R.string.log_in),
                                 onClick = {
-                                    navController.navigate(ProfileDestinations.LogInUser.route)
+                                    events?.invoke(ProfileEvents.GoToLogin)
                                 }
                             )
                             Spacer(modifier = Modifier.width(16.dp))
@@ -181,7 +187,7 @@ private fun BuildProfileScreen(
                                 modifier = Modifier.weight(0.5F),
                                 text = stringResource(R.string.register),
                                 onClick = {
-                                    navController.navigate(ProfileDestinations.RegisterUser.route)
+                                    events?.invoke(ProfileEvents.GoToRegister)
                                 }
                             )
                         }
@@ -198,5 +204,5 @@ private fun BuildProfileScreen(
 @Composable
 private fun BuildProfileScreenPreview() {
 
-    BuildProfileScreen(state = ProfileState(profile = Profile.mockProfile), navController = rememberNavController())
+    BuildProfileScreen(state = ProfileState(profile = Profile.mockProfile))
 }

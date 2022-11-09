@@ -1,12 +1,19 @@
 package com.artemissoftware.firegallery.screens.gallery
 
 import androidx.lifecycle.viewModelScope
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetGalleriesUseCase
+import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 
@@ -19,14 +26,14 @@ class GalleryViewModel @Inject constructor(
     val state: StateFlow<GalleryState> = _state
 
     init {
-        onTriggerEvent(GalleryEvents.GetGalleries)
+        getGetGalleries()
     }
 
     override fun onTriggerEvent(event: GalleryEvents) {
         when(event){
 
-            is GalleryEvents.GetGalleries -> {
-                getGetGalleries()
+            is GalleryEvents.GoToPictures -> {
+                sendUiEvent(UiEvent.Navigate(GalleryDestinations.Pictures.withCustomArgs(event.galleryUI)))
             }
         }
     }
@@ -49,10 +56,14 @@ class GalleryViewModel @Inject constructor(
                         isLoading = false
                     )
 
-                    _uiEvent.emit(
-                        UiEvent.ShowErrorDialog(
-                            title = "Gallery error",
-                            message = result.message ?: "Unknown error"
+                    sendUiEvent(UiEvent.ShowDialog(
+                            DialogType.Error(
+                                title = "Gallery",
+                                description = result.message ?: "Unknown error",
+                                dialogOptions = DialogOptions(
+                                    confirmationTextId = R.string.accept,
+                                )
+                            )
                         )
                     )
                 }

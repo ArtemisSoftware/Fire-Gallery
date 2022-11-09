@@ -72,7 +72,6 @@ fun NavGraphBuilder.galleryNavigationGraph(
                 onPopBackStack = {
                     navController.popBackStack()
                 },
-                navController = navController,
                 scaffoldState = scaffoldState,
                 onNavigate = {
                     navController.navigate(it.route)
