@@ -8,6 +8,7 @@ data class PictureState(
     val pictures: List<Picture> = emptyList(),
     val favorites: List<String> = emptyList(),
     val isLoading: Boolean = false,
+    val isAuthenticated: Boolean = false,
     val showOptions: Boolean = false,
 ) {
     fun isFavorite(pictureId: String): Boolean {

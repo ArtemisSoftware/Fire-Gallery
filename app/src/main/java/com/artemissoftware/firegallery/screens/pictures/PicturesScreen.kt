@@ -22,49 +22,37 @@ import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
+import com.artemissoftware.firegallery.screens.profile.ProfileEvents
+import com.artemissoftware.firegallery.ui.ManageUIEvents
 import com.artemissoftware.firegallery.ui.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PicturesScreen(
+    onNavigate: (UiEvent.Navigate) -> Unit,
+    onPopBackStack: () -> Unit,
     navController: NavHostController,
-    scaffoldState: FGScaffoldState
+    scaffoldState: FGScaffoldState,
+    viewModel: PicturesViewModel = hiltViewModel()
 ) {
 
-    val viewModel: PicturesViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = true) {
+    ManageUIEvents(
+        uiEvent = viewModel.uiEventLolo,
+        scaffoldState = scaffoldState,
+        onPopBackStack = onPopBackStack,
+        onNavigate = onNavigate
+    )
 
-        viewModel.uiEvent.collectLatest { event ->
-            when(event) {
-                is UiEvent.ShowInfoDialog -> {
-
-                    val dialogType = DialogType.Info(
-                        title = event.title,
-                        description = event.message,
-                        dialogOptions = DialogOptions(
-                            confirmationTextId = R.string.accept,
-                            confirmation = {
-                                navController.popBackStack()
-                            }
-                        )
-                    )
-
-                    scaffoldState.showDialog(dialogType)
-                }
-                else ->{}
-            }
-        }
-    }
-
-    BuildPicturesScreen(state = state.value, navController = navController)
+    BuildPicturesScreen(state = state.value, navController = navController, events = viewModel::onTriggerEvent)
 
 }
 
 @Composable
 private fun BuildPicturesScreen(
     state: PictureState,
+    events: ((PictureEvents) -> Unit)? = null,
     navController: NavHostController
 ) {
 
@@ -89,9 +77,10 @@ private fun BuildPicturesScreen(
                 state.pictures.forEach { picture ->
 
                     PictureCard(
+                        addFavoriteButton = state.isAuthenticated && picture.isFavorite,
                         picture = picture,
                         onClick = { pictureId ->
-                            navController.navigate(GalleryDestinations.PictureDetail.withArgs(pictureId))
+                            events?.invoke(PictureEvents.GoToPictureDetail(pictureId))
                         }
                     )
 

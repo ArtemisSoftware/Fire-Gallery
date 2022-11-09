@@ -24,15 +24,16 @@ import com.artemissoftware.firegallery.screens.picturedetail.composables.Favorit
 
 @Composable
 fun PictureCard(
-    isFavorite: Boolean = false,
+    addFavoriteButton: Boolean = false,
+    isFavorite: Boolean = false, //TODO: pode/deve desaparecer
     picture: Picture,
     onFavoriteClick: (String) -> Unit = {},
     onClick: (String) -> Unit,
 ) {
 
     PictureContent(
-        addFavoriteButton = true,
-        isFavorite = isFavorite,
+        addFavoriteButton = addFavoriteButton,
+        isFavorite = picture.isFavorite,
         picture = picture,
         onClick = onClick,
         onFavoriteClick = onFavoriteClick
@@ -106,6 +107,7 @@ private fun PictureCardPreview() {
 @Composable
 private fun FavoriteCardPreview() {
     PictureCard(
+        addFavoriteButton = true,
         isFavorite = true,
         picture = Picture.picturesMockList[0],
         onFavoriteClick = {},

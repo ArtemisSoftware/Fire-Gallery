@@ -39,10 +39,10 @@ class GalleryRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getPictures(galleryId: Int): List<Picture> {
-
+    override suspend fun getPictures(galleryId: Int, favorites: List<String>): List<Picture> {
+        //TODO mudar isto
         return cloudStoreSource.getPictures(galleryId).map { document ->
-            document.toObject<PictureFso>()!!.toPicture()
+            document.toObject<PictureFso>()!!.toPicture(favorites = favorites)
         }
     }
 
@@ -59,7 +59,7 @@ class GalleryRepositoryImpl @Inject constructor(
             }
 
             return FirebaseResponse(data = response.map { document ->
-                document.toObject<PictureFso>()!!.toPicture()
+                document.toObject<PictureFso>()!!.toPicture(true)
             })
 
         }
@@ -85,7 +85,7 @@ class GalleryRepositoryImpl @Inject constructor(
             }
 
             val pictures = response.map { document ->
-                document.toObject<PictureFso>()!!.toPicture()
+                document.toObject<PictureFso>()!!.toPicture(false) //TODO: isto é um problema
             }
 
             if(pictures.isEmpty()){

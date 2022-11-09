@@ -68,7 +68,16 @@ fun NavGraphBuilder.galleryNavigationGraph(
             arguments = GalleryDestinations.Pictures.arguments,
         ){
 
-            PicturesScreen(navController = navController, scaffoldState = scaffoldState)
+            PicturesScreen(
+                onPopBackStack = {
+                    navController.popBackStack()
+                },
+                navController = navController,
+                scaffoldState = scaffoldState,
+                onNavigate = {
+                    navController.navigate(it.route)
+                }
+            )
         }
 
         composable(

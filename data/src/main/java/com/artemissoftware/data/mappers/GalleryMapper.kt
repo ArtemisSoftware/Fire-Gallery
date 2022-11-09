@@ -15,13 +15,21 @@ fun GalleryFso.toGallery(): Gallery {
 }
 
 
-fun PictureFso.toPicture(): Picture {
+fun PictureFso.toPicture(favorites: List<String> = emptyList()): Picture {
+
+    return this.toPicture(
+        isFavorite = favorites.contains(id)
+    )
+}
+
+fun PictureFso.toPicture(isFavorite: Boolean = false): Picture {
 
     return Picture(
         id = id,
         author = author,
         imageUrl = imageUrl,
         tags = tags,
-        title = title
+        title = title,
+        isFavorite = isFavorite
     )
 }

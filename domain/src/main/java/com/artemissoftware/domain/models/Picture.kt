@@ -5,6 +5,7 @@ import com.artemissoftware.domain.models.configurations.ChipColorConfig
 data class Picture(
     val id: String,
     val title: String,
+    val isFavorite: Boolean = false,
     val author: String,
     val imageUrl: String,
     val tags: List<String> = emptyList(),
