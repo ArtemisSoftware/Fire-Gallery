@@ -1,41 +1,93 @@
-package com.artemissoftware.firegallery.screens.splash.composables
+package com.artemissoftware.common.composables.button
 
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.theme.Orange
 import com.artemissoftware.common.theme.RedOrange
-import com.artemissoftware.firegallery.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun Logo(
+fun FGAnimatableButton(
     modifier: Modifier = Modifier,
+    imageVector: ImageVector,
     preRevealColor: Color = Orange,
     borderColor: Color = RedOrange,
-    logoColor: Color = Red,
-    shouldAnimate : Boolean = true,
-    onAnimationFinish: () -> Unit = {}
+    logoColor: Color = Color.Red,
+    shouldAnimate : Boolean = false,
+    onAnimationFinish: () -> Unit = {},
+    iconSize : Dp = 140.dp,
+    onClick : () -> Unit = {}
 ) {
+    BuildFGAnimatableButton(
+        modifier = modifier,
+        centerImage = {
+            Image(modifier = Modifier.size(iconSize), imageVector = imageVector, contentDescription = "Center Button", colorFilter = ColorFilter.tint(logoColor))
+        },
+        preRevealColor = preRevealColor,
+        borderColor = borderColor,
+        shouldAnimate = shouldAnimate,
+        onAnimationFinish = onAnimationFinish,
+        onClick = onClick
+    )
+}
 
+@Composable
+fun FGAnimatableButton(
+    modifier: Modifier = Modifier,
+    painter: Painter,
+    preRevealColor: Color = Orange,
+    borderColor: Color = RedOrange,
+    logoColor: Color = Color.Red,
+    shouldAnimate : Boolean = false,
+    onAnimationFinish: () -> Unit = {},
+    iconSize : Dp = 140.dp,
+    onClick : () -> Unit = {}
+) {
+    BuildFGAnimatableButton(
+        modifier = modifier,
+        centerImage = {
+            Image(modifier = Modifier.size(iconSize), painter = painter, contentDescription = "Center Button", colorFilter = ColorFilter.tint(logoColor))
+        },
+        preRevealColor = preRevealColor,
+        borderColor = borderColor,
+        shouldAnimate = shouldAnimate,
+        onAnimationFinish = onAnimationFinish,
+        onClick = onClick
+    )
+}
+
+@Composable
+private fun BuildFGAnimatableButton(
+    modifier: Modifier = Modifier,
+    centerImage: @Composable () -> Unit,
+    preRevealColor: Color = Orange,
+    borderColor: Color = RedOrange,
+    shouldAnimate : Boolean = true,
+    onAnimationFinish: () -> Unit = {},
+    onClick : () -> Unit = {}
+) {
     val boxSize = 180.dp
     val borderWidth = 2.dp
 
@@ -95,58 +147,38 @@ fun Logo(
 
     val actualBorderWidth = if(shouldAnimate) animatedBorderWidth.value else borderWidth.value
     val actualBorderColor = if(shouldAnimate) animateColor.value else borderColor
+
     Box(
         modifier = modifier
             .size(boxSize)
             .offset(y = offsetState)
             .alpha(alpha = alphaState)
             .clip(CircleShape)
+            .clickable(onClick = onClick)
             .background(color = preRevealColor)
             .border(
                 width = Dp(actualBorderWidth),
                 color = actualBorderColor,
                 shape = CircleShape
-            )
+            ),
+        contentAlignment = Alignment.Center
 
     ) {
+        Box(
+            modifier = Modifier.size(140.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            centerImage()
 
-        LogoImage(
-            modifier =  Modifier
-                .size(140.dp)
-                .align(alignment = Alignment.Center),
-            logoColor = logoColor)
-
+        }
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun LogoPreview() {
-
-    Logo()
-}
-
-@Composable
-fun LogoImage(
-    modifier: Modifier = Modifier,
-    logoColor: Color,
-){
-    Image(
-        painter = painterResource(id = R.drawable.ic_flame),
-        contentDescription = "Compose image",
-        colorFilter =  ColorFilter.tint(color = logoColor),
-        modifier = modifier,
-    )
-
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun LogoImagePreview() {
-
-    LogoImage(
-        modifier =  Modifier
-            .size(140.dp),
-        logoColor = Color.Green
+fun FGAnimatableButtonPreview() {
+    FGAnimatableButton(
+        imageVector = Icons.Default.Refresh,
+        shouldAnimate = false
     )
 }

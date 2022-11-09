@@ -36,6 +36,8 @@ import com.artemissoftware.common.theme.LightBlue
 fun FGCircularButton(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colors.primary,
+    buttonSize : Dp = 48.dp,
     onClick: () -> Unit = {}
 ) {
     Surface(
@@ -44,7 +46,7 @@ fun FGCircularButton(
         border = BorderStroke(width = 2.dp, color = LightBlue),
         modifier = modifier
             .clip(CircleShape)
-            .size(48.dp)
+            .size(buttonSize)
             .clickable {
                 onClick.invoke()
         },
@@ -53,7 +55,7 @@ fun FGCircularButton(
 
         Icon(
             imageVector = imageVector,
-            contentDescription = "", tint = Color(0XFF0F9D58),
+            contentDescription = "", tint = color,
         )
     }
 }

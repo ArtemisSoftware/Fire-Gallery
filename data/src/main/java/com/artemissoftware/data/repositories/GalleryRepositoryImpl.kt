@@ -46,6 +46,20 @@ class GalleryRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>?, blackListedPictureIds : List<String>): FirebaseResponse<List<Picture>> {
+        return try {
+            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso> {
+                cloudStoreSource.getPicturesForTinder(numberOfImages, favoriteImages?: emptyList(), blackListedPictureIds)
+            }
+
+            FirebaseResponse(data = response.map { document ->
+                document.toObject<PictureFso>()!!.toPicture()
+            })
+        } catch (ex : FireGalleryException) {
+            FirebaseResponse(error = ex.toFirebaseError())
+        }
+    }
+
     override suspend fun getFavoritePictures(pictureIds: List<String>): FirebaseResponse<List<Picture>> {
 
         return try {

@@ -4,9 +4,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.*
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.navigation.mapper.toBottomBarItem
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
@@ -50,13 +49,15 @@ class MainViewModel @Inject constructor(
                     listOf(
                         HomeDestinations.Gallery,
                         HomeDestinations.Favorites,
-                        HomeDestinations.Profile
+                        HomeDestinations.Profile,
+                        HomeDestinations.Tinder
                     )
 
                 } ?: kotlin.run {
                     listOf(
                         HomeDestinations.Gallery,
-                        HomeDestinations.Profile
+                        HomeDestinations.Profile,
+                        HomeDestinations.Tinder
                     )
                 }
 
@@ -98,6 +99,16 @@ class MainViewModel @Inject constructor(
                             title = R.string.profile,
                             activeIcon = Icons.Default.Person,
                             inactiveIcon = Icons.Outlined.Person
+                        )
+                    )
+                }
+
+                HomeDestinations.Tinder -> {
+                    bottomBarItems.add(
+                        HomeDestinations.Tinder.toBottomBarItem(
+                            title = R.string.tinder,
+                            activeIcon = Icons.Default.Search,
+                            inactiveIcon = Icons.Outlined.Search
                         )
                     )
                 }

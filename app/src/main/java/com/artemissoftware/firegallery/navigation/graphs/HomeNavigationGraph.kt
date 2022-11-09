@@ -13,6 +13,7 @@ import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.favorites.FavoritesScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
 import com.artemissoftware.firegallery.screens.profile.ProfileScreen
+import com.artemissoftware.firegallery.screens.tindergallery.TinderGalleryScreen
 
 @Composable
 fun HomeNavigationGraph(
@@ -46,6 +47,10 @@ fun HomeNavigationGraph(
             )
         }
 
+        composable(route = HomeDestinations.Tinder.route) {
+            TinderGalleryScreen()
+        }
+
         composable(route = HomeDestinations.Profile.route) {
             ProfileScreen(
                 onNavigate = {
@@ -69,5 +74,6 @@ sealed class HomeDestinations(
 
     object Gallery : HomeDestinations(route = "GALLERY")
     object Favorites : HomeDestinations(route = "FAVORITES")
+    object Tinder : HomeDestinations(route = "TINDER")
     object Profile : HomeDestinations(route = "PROFILE")
 }
