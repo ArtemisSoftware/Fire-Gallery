@@ -29,7 +29,7 @@ fun GalleryScreen(
     val state = viewModel.state.collectAsState()
 
     ManageUIEvents(
-        uiEvent = viewModel.uiEventLolo,
+        uiEvent = viewModel.uiEvent,
         scaffoldState = scaffoldState,
         onNavigate = onNavigate
     )

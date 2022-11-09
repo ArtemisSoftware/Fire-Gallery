@@ -54,12 +54,21 @@ class FavoritesViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     favorites = result?.favorites?: emptyList()
                 )
+
+                if(state.value.favorites.isEmpty() && state.value.pictures.isNotEmpty()){
+                    showDialog(NO_FAVORITE_PICTURES_AVAILABLE)
+                }
             }
         }
     }
 
 
     private fun remove(pictureId: String) {
+
+        if(state.value.favorites.size -1 <= 0){
+            showDialog(NO_FAVORITE_PICTURES_AVAILABLE)
+        }
+
         viewModelScope.launch {
             updateFavoriteUseCase.invoke(pictureId = pictureId, isFavorite = false)
         }

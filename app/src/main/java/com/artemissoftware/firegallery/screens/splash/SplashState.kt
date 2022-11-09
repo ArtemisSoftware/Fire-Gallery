@@ -1,3 +1,6 @@
 package com.artemissoftware.firegallery.screens.splash
 
-data class SplashState(val dataLoaded: Boolean = false)
+data class SplashState(
+    var dataLoaded: Boolean = false,
+    var animationConcluded: Boolean = false
+)

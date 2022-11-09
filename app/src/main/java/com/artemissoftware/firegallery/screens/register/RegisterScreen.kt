@@ -32,7 +32,7 @@ fun RegisterScreen(
     val state = viewModel.state.collectAsState()
 
     ManageUIEvents(
-        uiEvent = viewModel.uiEventLolo,
+        uiEvent = viewModel.uiEvent,
         onPopBackStack = onPopBackStack,
         scaffoldState = scaffoldState
     )

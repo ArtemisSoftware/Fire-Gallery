@@ -75,7 +75,7 @@ fun RootNavigationGraph(
     scaffoldState: FGScaffoldState
 ) {
 
-    var startDestination = remember { mutableStateOf(RootDestinations.Splash.route) }
+    val startDestination = remember { mutableStateOf(RootDestinations.Splash.route) }
 
     NavHost(
         navController = navController,
@@ -86,11 +86,14 @@ fun RootNavigationGraph(
         composable(route = RootDestinations.Splash.route) {
             SplashScreen(
                 scaffoldState = scaffoldState,
-                onAnimationFinish = {
-                    navController.popBackStack()
-                    navController.navigate(RootDestinations.Home.route)
+                onNavigatePopUpTo = {
+                    navController.navigate(it.destinationRoute) {
+                        popUpTo(it.currentRoute) {
+                            inclusive = true
+                        }
+                    }
+                },
 
-                }
             )
         }
 

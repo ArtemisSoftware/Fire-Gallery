@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,21 +16,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.button.FGButton
 import com.artemissoftware.common.composables.button.FGOutlinedButton
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold28
-import com.artemissoftware.common.theme.InfoBlue
-import com.artemissoftware.common.theme.Orange
-import com.artemissoftware.domain.models.profile.AppConfig
 import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.navigation.HomeDestinations
-import com.artemissoftware.firegallery.navigation.graphs.ProfileDestinations
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
 import com.artemissoftware.firegallery.ui.ManageUIEvents
 import com.artemissoftware.firegallery.ui.UiEvent
@@ -47,7 +39,7 @@ fun ProfileScreen(
     val state = viewModel.state.collectAsState().value
 
     ManageUIEvents(
-        uiEvent = viewModel.uiEventLolo,
+        uiEvent = viewModel.uiEvent,
         scaffoldState = scaffoldState,
         onNavigate = onNavigate
     )

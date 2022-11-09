@@ -1,14 +1,15 @@
 package com.artemissoftware.firegallery.screens.splash
 
 import androidx.lifecycle.viewModelScope
-import com.artemissoftware.domain.FirebaseError
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.setup.SetupAppUseCase
+import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.graphs.RootDestinations
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -18,8 +19,7 @@ class SplashViewModel @Inject constructor(
     private val setupAppUseCase: SetupAppUseCase
 ): FGBaseEventViewModel<SplashEvents>() {
 
-    private val _state: MutableStateFlow<SplashState> = MutableStateFlow(SplashState())
-    val state: StateFlow<SplashState> = _state
+    private var state = SplashState()
 
     init {
         loadAppSettings()
@@ -31,6 +31,10 @@ class SplashViewModel @Inject constructor(
             is SplashEvents.LoadSplash ->{
                 loadAppSettings()
             }
+            SplashEvents.AnimationConcluded -> {
+                state.animationConcluded = true
+                goToHome()
+            }
         }
     }
 
@@ -41,32 +45,37 @@ class SplashViewModel @Inject constructor(
             when(result){
 
                 is Resource.Success -> {
-                    _state.value = _state.value.copy(
-                        dataLoaded = true
-                    )
+                    state.dataLoaded = true
+                    goToHome()
                 }
                 is Resource.Error -> {
-                    showDialog(result.message ?: "", (result.data as FirebaseError).message)
+
+                    sendUiEvent(UiEvent.ShowDialog(
+                            DialogType.Error(
+                                title = "Fire Gallery",
+                                description = result.message?: "Unknown error",
+                                dialogOptions = DialogOptions(
+                                    confirmationTextId = R.string.accept,
+                                    confirmation = {
+                                        onTriggerEvent(SplashEvents.LoadSplash)
+                                    }
+                                )
+                            )
+                        )
+                    )
+
                 }
                 else ->{}
             }
         }.launchIn(viewModelScope)
     }
 
-    private suspend fun showDialog(message: String, messageAppend: String){
 
-//        when(message){
-//
-//            SetupAppUseCase.ERROR_READING_REMOTE_CONFIG ->{
-//
-//                _uiEvent.emit(
-//                    UiEvent.ShowErrorDialog(
-//                        title = "Fire Gallery",
-//                        message = messageAppend
-//                    )
-//                )
-//            }
-//        }
+    private fun goToHome(){
+        with(state){
+            if(dataLoaded && animationConcluded){
+                sendUiEvent(UiEvent.NavigatePopUpTo(currentRoute = RootDestinations.Splash.route, destinationRoute = RootDestinations.Home.route))
+            }
+        }
     }
-
 }

@@ -25,9 +25,6 @@ import com.artemissoftware.firegallery.screens.picturedetail.composables.Favorit
 import com.artemissoftware.firegallery.screens.picturedetail.composables.PictureInformation
 import com.artemissoftware.firegallery.screens.picturedetail.mappers.toUI
 import com.artemissoftware.firegallery.ui.ManageUIEvents
-import com.artemissoftware.firegallery.ui.UiEvent
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PictureDetailScreen(
@@ -39,7 +36,7 @@ fun PictureDetailScreen(
     val state = viewModel.state.collectAsState()
 
     ManageUIEvents(
-        uiEvent = viewModel.uiEventLolo,
+        uiEvent = viewModel.uiEvent,
         onPopBackStack = onPopBackStack,
         scaffoldState = scaffoldState
     )

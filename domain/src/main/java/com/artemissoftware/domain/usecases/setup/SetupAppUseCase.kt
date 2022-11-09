@@ -17,13 +17,9 @@ class SetupAppUseCase @Inject constructor(
         result.data?.let {
             emit(Resource.Success())
         } ?: kotlin.run {
-            emit(Resource.Error(message = ERROR_READING_REMOTE_CONFIG, data = result.error))
+            emit(Resource.Error(message = result.error.message))
 
         }
     }
 
-
-    companion object{
-        const val ERROR_READING_REMOTE_CONFIG = "Error reading remote config"
-    }
 }

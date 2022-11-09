@@ -20,9 +20,6 @@ import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
 import com.artemissoftware.firegallery.ui.ManageUIEvents
-import com.artemissoftware.firegallery.ui.UiEvent
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LogInScreen(
@@ -34,7 +31,7 @@ fun LogInScreen(
     val state = viewModel.state.collectAsState()
 
     ManageUIEvents(
-        uiEvent = viewModel.uiEventLolo,
+        uiEvent = viewModel.uiEvent,
         onPopBackStack = onPopBackStack,
         scaffoldState = scaffoldState
     )

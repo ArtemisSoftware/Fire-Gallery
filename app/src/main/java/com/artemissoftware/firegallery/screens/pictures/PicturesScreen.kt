@@ -5,27 +5,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.artemissoftware.common.composables.dialog.models.DialogOptions
-import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.grid.FGStaggeredVerticalGrid
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Picture
-import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
-import com.artemissoftware.firegallery.screens.profile.ProfileEvents
 import com.artemissoftware.firegallery.ui.ManageUIEvents
 import com.artemissoftware.firegallery.ui.UiEvent
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PicturesScreen(
@@ -38,7 +29,7 @@ fun PicturesScreen(
     val state = viewModel.state.collectAsState()
 
     ManageUIEvents(
-        uiEvent = viewModel.uiEventLolo,
+        uiEvent = viewModel.uiEvent,
         scaffoldState = scaffoldState,
         onPopBackStack = onPopBackStack,
         onNavigate = onNavigate
