@@ -71,10 +71,6 @@ fun FavoriteButton(
 @Composable
 private fun FavoriteButtonPreview() {
 
-    val isFavorite = remember {
-        mutableStateOf(false)
-    }
-
     FavoriteButton(
         pulsatingType = PulsatingType.INFINITE,
         modifier = Modifier,

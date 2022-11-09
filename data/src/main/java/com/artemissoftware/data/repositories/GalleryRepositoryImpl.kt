@@ -40,7 +40,7 @@ class GalleryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPictures(galleryId: Int, favorites: List<String>): List<Picture> {
-        //TODO mudar isto
+        //TODO mudar isto. Juntar este metodo com o getFavoritePictures
         return cloudStoreSource.getPictures(galleryId).map { document ->
             document.toObject<PictureFso>()!!.toPicture(favorites = favorites)
         }
@@ -53,7 +53,7 @@ class GalleryRepositoryImpl @Inject constructor(
             }
 
             FirebaseResponse(data = response.map { document ->
-                document.toObject<PictureFso>()!!.toPicture()
+                document.toObject<PictureFso>()!!.toPicture(false) //TODO: tenho que mudar isto, este false deve ser por omissão. COmo está fica confuso
             })
         } catch (ex : FireGalleryException) {
             FirebaseResponse(error = ex.toFirebaseError())
