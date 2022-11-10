@@ -15,7 +15,7 @@ fun GalleryFso.toGallery(): Gallery {
 }
 
 
-fun PictureFso.toPicture(favorites: List<String> = emptyList()): Picture {
+fun PictureFso.toPicture(favorites: List<String>): Picture {
 
     return this.toPicture(
         isFavorite = favorites.contains(id)

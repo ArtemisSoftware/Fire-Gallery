@@ -64,8 +64,6 @@ class GalleryRepositoryImpl @Inject constructor(
         }
     }
 
-
-
     private suspend fun getPicturesByGallery(galleryId: Int, favorites: List<String> = emptyList()): FirebaseResponse<List<Picture>> {
 
         return try {
@@ -82,7 +80,6 @@ class GalleryRepositoryImpl @Inject constructor(
             FirebaseResponse(error = ex.toFirebaseError())
         }
     }
-
 
     private suspend fun getFavoritePictures(pictureIds: List<String>): FirebaseResponse<List<Picture>> {
 
@@ -110,8 +107,6 @@ class GalleryRepositoryImpl @Inject constructor(
 
     }
 
-
-
     override suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>?, blackListedPictureIds : List<String>): FirebaseResponse<List<Picture>> {
         return try {
             val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso> {
@@ -119,14 +114,12 @@ class GalleryRepositoryImpl @Inject constructor(
             }
 
             FirebaseResponse(data = response.map { document ->
-                document.toObject<PictureFso>()!!.toPicture(false) //TODO: tenho que mudar isto, este false deve ser por omissão. COmo está fica confuso
+                document.toObject<PictureFso>()!!.toPicture()
             })
         } catch (ex : FireGalleryException) {
             FirebaseResponse(error = ex.toFirebaseError())
         }
     }
-
-
 
     override suspend fun getPictureDetail(pictureId: String): FirebaseResponse<Picture> {
 
@@ -141,7 +134,7 @@ class GalleryRepositoryImpl @Inject constructor(
             }
 
             val pictures = response.map { document ->
-                document.toObject<PictureFso>()!!.toPicture(false) //TODO: isto é um problema
+                document.toObject<PictureFso>()!!.toPicture()
             }
 
             if(pictures.isEmpty()){
