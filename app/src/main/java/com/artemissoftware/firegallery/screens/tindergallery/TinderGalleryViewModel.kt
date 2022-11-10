@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.models.SwipeResult
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.Picture
-import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.domain.usecases.tinder.GetPicturesForTinderUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.lang.Integer.max
-import java.lang.Integer.min
 import javax.inject.Inject
 
 @HiltViewModel
@@ -92,12 +90,10 @@ class TinderGalleryViewModel @Inject constructor(
     }
 
     private fun saveFavorite(picture : Picture) {
-
         viewModelScope.launch {
             updateFavoriteUseCase.invoke(pictureId = picture.id, isFavorite = true)
             calculateNextMove()
         }
-
     }
 
 

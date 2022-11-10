@@ -5,9 +5,9 @@ import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetUserUseCase
-import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
-import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase_
+import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase
+import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val getPicturesUseCase_: GetPicturesUseCase_,
+    private val getPicturesUseCase: GetPicturesUseCase,
     private val getUserUseCase: GetUserUseCase,
     private val updateFavoriteUseCase: UpdateFavoriteUseCase,
 ): FGBaseEventViewModel<FavoriteEvents>() {
@@ -79,7 +79,7 @@ class FavoritesViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            getPicturesUseCase_.invoke(onlyFavorites = true).collectLatest { result ->
+            getPicturesUseCase.invoke().collectLatest { result ->
 
                 when(result) {
                     is Resource.Success -> {

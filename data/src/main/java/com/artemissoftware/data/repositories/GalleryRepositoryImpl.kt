@@ -39,28 +39,52 @@ class GalleryRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getPictures(galleryId: Int, favorites: List<String>): List<Picture> {
-        //TODO mudar isto. Juntar este metodo com o getFavoritePictures
-        return cloudStoreSource.getPictures(galleryId).map { document ->
-            document.toObject<PictureFso>()!!.toPicture(favorites = favorites)
+    override suspend fun getPictures(galleryId: Int?, favorites: List<String>?): FirebaseResponse<List<Picture>>{
+
+        return when{
+
+            (galleryId != null && favorites == null) ->{ //Just gallery pictures
+                getPicturesByGallery(galleryId)
+            }
+
+            (galleryId != null && favorites != null) ->{ //Just gallery pictures
+                getPicturesByGallery(galleryId, favorites)
+            }
+
+            (galleryId == null && favorites != null) ->{ //just favorite pictures
+                getFavoritePictures(favorites)
+            }
+
+            (galleryId != null && favorites != null) ->{ //just favorite pictures in a gallery
+                FirebaseResponse(error = FirebaseError(message = "Query not supported"))
+            }
+            else->{ //error
+                FirebaseResponse(error = FirebaseError(message = "Invalid query parameters"))
+            }
         }
     }
 
-    override suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>?, blackListedPictureIds : List<String>): FirebaseResponse<List<Picture>> {
+
+
+    private suspend fun getPicturesByGallery(galleryId: Int, favorites: List<String> = emptyList()): FirebaseResponse<List<Picture>> {
+
         return try {
-            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso> {
-                cloudStoreSource.getPicturesForTinder(numberOfImages, favoriteImages?: emptyList(), blackListedPictureIds)
+
+            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso>{
+                cloudStoreSource.getPictures(galleryId)
             }
 
-            FirebaseResponse(data = response.map { document ->
-                document.toObject<PictureFso>()!!.toPicture(false) //TODO: tenho que mudar isto, este false deve ser por omissão. COmo está fica confuso
+            return FirebaseResponse(data = response.map { document ->
+                document.toObject<PictureFso>()!!.toPicture(favorites = favorites)
             })
-        } catch (ex : FireGalleryException) {
+        }
+        catch (ex: FireGalleryException) {
             FirebaseResponse(error = ex.toFirebaseError())
         }
     }
 
-    override suspend fun getFavoritePictures(pictureIds: List<String>): FirebaseResponse<List<Picture>> {
+
+    private suspend fun getFavoritePictures(pictureIds: List<String>): FirebaseResponse<List<Picture>> {
 
         return try {
 
@@ -85,6 +109,24 @@ class GalleryRepositoryImpl @Inject constructor(
         }
 
     }
+
+
+
+    override suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>?, blackListedPictureIds : List<String>): FirebaseResponse<List<Picture>> {
+        return try {
+            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso> {
+                cloudStoreSource.getPicturesForTinder(numberOfImages, favoriteImages?: emptyList(), blackListedPictureIds)
+            }
+
+            FirebaseResponse(data = response.map { document ->
+                document.toObject<PictureFso>()!!.toPicture(false) //TODO: tenho que mudar isto, este false deve ser por omissão. COmo está fica confuso
+            })
+        } catch (ex : FireGalleryException) {
+            FirebaseResponse(error = ex.toFirebaseError())
+        }
+    }
+
+
 
     override suspend fun getPictureDetail(pictureId: String): FirebaseResponse<Picture> {
 

@@ -6,9 +6,9 @@ import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetUserUseCase
-import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase_
-import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase_.Companion.INEXISTENT_GALLERY
-import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase_.Companion.NO_PICTURES_AVAILABLE
+import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase
+import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.INEXISTENT_GALLERY
+import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.NO_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PicturesViewModel @Inject constructor(
-    private val getPicturesUseCase_: GetPicturesUseCase_,
+    private val getPicturesUseCase_: GetPicturesUseCase,
     private val getUserUseCase: GetUserUseCase,
     savedStateHandle: SavedStateHandle
 ): FGBaseEventViewModel<PictureEvents>() {
