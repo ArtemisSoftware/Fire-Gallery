@@ -5,9 +5,6 @@ import com.artemissoftware.domain.FirebaseError
 import com.artemissoftware.domain.FirebaseResponse
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.repositories.AuthenticationRepository
-import com.artemissoftware.domain.repositories.GalleryRepository
-import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
-import com.artemissoftware.domain.usecases.tinder.GetPicturesForTinderUseCase
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before

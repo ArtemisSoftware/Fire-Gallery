@@ -27,7 +27,9 @@ ext.versions = [
         kotlinxCoroutinesCore       : '1.5.1',
         datastore                   : '1.0.0',
         accompanistNavigationAnimation : '0.21.1-beta',
-        navigationCompose           : '2.5.1'
+        navigationCompose           : '2.5.1',
+
+        mockito                     : '3.2.0',
 
 //        gradle                 : '7.0.3',
 //        kotlin                 : '1.5.31',
@@ -151,7 +153,7 @@ ext.tests = [
 //        junit         : "junit:junit:$versions.junit",
 //        junitExtension: "androidx.test.ext:junit:$versions.junitExtension",
 //        coreTesting   : "androidx.arch.core:core-testing:$versions.coreTesting",
-//        mockito       : "org.mockito.kotlin:mockito-kotlin:$versions.mockito",
+        mockito       : "org.mockito.kotlin:mockito-kotlin:$versions.mockito",
 //        coroutines    : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines",
 //        espresso      : "androidx.test.espresso:espresso-core:$versions.espresso",
 
