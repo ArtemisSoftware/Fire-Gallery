@@ -81,7 +81,8 @@ fun NavGraphBuilder.galleryNavigationGraph(
 
         composable(
             route = GalleryDestinations.PictureDetail.fullRoute,
-            arguments = GalleryDestinations.Pictures.arguments
+            arguments = GalleryDestinations.PictureDetail.arguments,
+            deepLinks = GalleryDestinations.PictureDetail.deepLink
         ) {
             PictureDetailScreen(
                 onPopBackStack = {
@@ -95,8 +96,9 @@ fun NavGraphBuilder.galleryNavigationGraph(
 
 sealed class GalleryDestinations(
     route: String,
-    customArguments: List<CustomArguments> = emptyList()
-) : BaseDestinations(route = route, customArguments = customArguments){
+    customArguments: List<CustomArguments> = emptyList(),
+    baseDeepLink: String = NavigationArguments.ARTEMIS_SOFTWARE_URI
+) : BaseDestinations(route = route, customArguments = customArguments, baseDeepLink = baseDeepLink){
 
     object Pictures : GalleryDestinations(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType())))
     object PictureDetail : GalleryDestinations(route = "PICTURE_DETAIL", listOf(CustomArguments(NavigationArguments.PICTURE_ID)))

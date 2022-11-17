@@ -116,6 +116,7 @@ class PictureDetailViewModel @Inject constructor(
                             description = message,
                             dialogOptions = DialogOptions(
                                 confirmationTextId = R.string.accept,
+
                             )
                         )
                     )
@@ -130,6 +131,9 @@ class PictureDetailViewModel @Inject constructor(
                             description = message,
                             dialogOptions = DialogOptions(
                                 confirmationTextId = R.string.accept,
+                                confirmation = {
+                                    sendUiEvent(UiEvent.PopBackStack)
+                                }
                             )
                         )
                     )
