@@ -9,10 +9,5 @@ import javax.inject.Inject
 
 class GenerateLocalNotificationUseCase @Inject constructor(private val localNotificationsRepository: LocalNotificationsRepository) {
 
-    operator fun invoke(localNotification: LocalNotification): Flow<Resource<Any>> = flow {
-
-        localNotificationsRepository.generateNotification(localNotification = localNotification)
-        emit(Resource.Success())
-    }
-
+    suspend operator fun invoke(localNotification: LocalNotification) = localNotificationsRepository.generateNotification(localNotification = localNotification)
 }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,9 +32,10 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
 
 
     private fun saveToken(token: String){
-        updateFirebaseTokenUseCase.invoke(token).onEach {}.launchIn(
-            CoroutineScope(job)
-        )
+
+        CoroutineScope(job).launch {
+            updateFirebaseTokenUseCase.invoke(token)
+        }
     }
 
 
@@ -55,9 +57,10 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(localNotification: LocalNotification) {
-        generateLocalNotificationUseCase.invoke(localNotification).onEach {}.launchIn(
-            CoroutineScope(job)
-        )
+
+        CoroutineScope(job).launch {
+            generateLocalNotificationUseCase.invoke(localNotification)
+        }
     }
 
 

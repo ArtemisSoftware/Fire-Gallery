@@ -8,10 +8,6 @@ import javax.inject.Inject
 
 class UpdateFirebaseTokenUseCase @Inject constructor(private val dataStoreRepository: AppSettingsDataStoreRepository) {
 
-    operator fun invoke(firebaseToken : String): Flow<Resource<Any>> = flow {
-
-        dataStoreRepository.updateFirebaseToken(firebaseToken = firebaseToken)
-        emit(Resource.Success())
-    }
+    suspend operator fun invoke(firebaseToken : String) = dataStoreRepository.updateFirebaseToken(firebaseToken = firebaseToken)
 
 }
