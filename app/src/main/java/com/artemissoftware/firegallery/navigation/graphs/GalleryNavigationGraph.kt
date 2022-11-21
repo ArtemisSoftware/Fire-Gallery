@@ -1,16 +1,12 @@
 package com.artemissoftware.firegallery.navigation.graphs
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.MutableState
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.artemissoftware.common.composables.navigation.animatedComposable
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.firegallery.DetailsScreen
 import com.artemissoftware.firegallery.navigation.NavigationArguments
-import com.artemissoftware.firegallery.navigation.NavigationArguments.ARTEMIS_SOFTWARE_URI
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
@@ -97,7 +93,7 @@ fun NavGraphBuilder.galleryNavigationGraph(
 sealed class GalleryDestinations(
     route: String,
     customArguments: List<CustomArguments> = emptyList(),
-    baseDeepLink: String = NavigationArguments.ARTEMIS_SOFTWARE_URI
+    baseDeepLink: String = NavigationArguments.FIRE_GALLERY_URI
 ) : BaseDestinations(route = route, customArguments = customArguments, baseDeepLink = baseDeepLink){
 
     object Pictures : GalleryDestinations(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType())))

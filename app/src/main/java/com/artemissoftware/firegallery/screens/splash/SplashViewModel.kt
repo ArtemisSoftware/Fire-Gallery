@@ -1,10 +1,12 @@
 package com.artemissoftware.firegallery.screens.splash
 
+import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.setup.SetupAppUseCase
+import com.artemissoftware.firegallery.MainActivity
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.graphs.RootDestinations
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
@@ -78,4 +80,5 @@ class SplashViewModel @Inject constructor(
             }
         }
     }
+
 }

@@ -58,7 +58,7 @@
                 <action android:name="android.intent.action.VIEW" />
 
                 <data android:scheme="https" />
-                <data android:host="firegallery.com" />
+                <data android:host="fire-gallery.com" />
             </intent-filter>
         </activity>
 

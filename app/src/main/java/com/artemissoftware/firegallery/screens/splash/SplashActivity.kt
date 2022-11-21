@@ -34,10 +34,6 @@ class SplashActivity : ComponentActivity() {
         val action = intent.action
         val uri = intent.data
 
-        val dd = 0
-        val ddd = action.toString()
-        val ll = " ddssd" + ddd
-
         if(action == Intent.ACTION_VIEW && uri != null){
 
             val intent = Intent(this, MainActivity::class.java).apply {

@@ -44,7 +44,7 @@ fun NavGraphBuilder.deeplinkNavigationGraph(
 sealed class DeepLinkDestinations(
     route: String,
     customArguments: List<CustomArguments> = emptyList(),
-    baseDeepLink: String = NavigationArguments.ARTEMIS_SOFTWARE_URI
+    baseDeepLink: String = NavigationArguments.FIRE_GALLERY_URI
 ) : BaseDestinations(route = route, customArguments = customArguments, baseDeepLink = baseDeepLink){
 
     object PictureDetail : DeepLinkDestinations(

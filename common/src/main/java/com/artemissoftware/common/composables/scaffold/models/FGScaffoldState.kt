@@ -1,5 +1,7 @@
 package com.artemissoftware.common.composables.scaffold.models
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavHostController
 import com.artemissoftware.common.composables.dialog.models.DialogType
@@ -205,6 +207,30 @@ class FGScaffoldState(
 
     fun setBottomBarDestinations(items: List<BottomBarItem>) {
         bottomBarItems.value = items
+    }
+
+
+    var _deepLink = mutableStateOf<Uri?>(null)
+        private set
+
+    fun setDeepLink(intent: Intent){
+        val action = intent.action
+        val uri = intent.data
+
+        intent.extras?.let {
+            var link = it.getString("deep_link")
+            _deepLink.value = Uri.parse(link)
+        }
+
+    }
+
+
+    fun executeDeepLink(navController: NavHostController){
+        _deepLink.value?.let{
+            navController.navigate(it)
+        }
+
+        _deepLink.value = null
     }
 
 }

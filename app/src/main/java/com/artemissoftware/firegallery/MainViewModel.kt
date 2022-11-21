@@ -27,15 +27,7 @@ class MainViewModel @Inject constructor(
     val scaffoldState by lazy { FGScaffoldState(viewModelScope) }
 
     init {
-        onTriggerEvent(MainEvents.GetUser)
-    }
-
-    override fun onTriggerEvent(event: MainEvents) {
-        when(event){
-            is MainEvents.GetUser ->{
-                getUser()
-            }
-        }
+        getUser()
     }
 
     private fun getUser(){
@@ -118,5 +110,6 @@ class MainViewModel @Inject constructor(
 
         scaffoldState.setBottomBarDestinations(bottomBarItems)
     }
+
 
 }

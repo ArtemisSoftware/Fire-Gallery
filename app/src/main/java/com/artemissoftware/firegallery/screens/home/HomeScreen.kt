@@ -34,8 +34,6 @@ fun HomeScreen(
     navController: NavHostController = rememberNavController(),
     scaffoldState: FGScaffoldState
 ) {
-    //"https://artemis-software.com/pictureId=AAOO"
-    //navController.navigate(GalleryDestinations.PictureDetail.withArgs("AAOO"))
 
     FGScaffold(
         fgScaffoldState = scaffoldState,
@@ -43,27 +41,10 @@ fun HomeScreen(
         navController = navController
     ) {
 
-        try {
-            //navController.navigate(Uri.parse("https://artemis-software.com/pictureId=" + "AAOO"))
-        }
-        catch (e: java.lang.NullPointerException){
-
-        }
 
         HomeNavigationGraph(navController = navController, scaffoldState = scaffoldState)
 
-        Button(
-            onClick = {
-
-                navController.navigate(Uri.parse("https://artemis-software.com/pictureId=" + "AAOO"))
-                //navController.navigate("https://artemis-software.com/pictureId=AAOO")
-                //--navController.navigate(GalleryDestinations.PictureDetail.withArgs("AAOO"))
-                      },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Navigate By DeepLink")
-        }
+        scaffoldState.executeDeepLink(navController)
     }
 
 }
