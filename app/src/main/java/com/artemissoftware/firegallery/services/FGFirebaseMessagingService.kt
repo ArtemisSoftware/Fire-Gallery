@@ -4,6 +4,7 @@ import com.artemissoftware.domain.models.LocalNotification
 import com.artemissoftware.domain.usecases.notifications.UpdateFirebaseTokenUseCase
 import com.artemissoftware.domain.usecases.notifications.GenerateLocalNotificationUseCase
 import com.artemissoftware.firegallery.MainActivity
+import com.artemissoftware.firegallery.screens.splash.SplashActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +50,7 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
 
         if (data.isNotEmpty()) {
             with(data){
-                return LocalNotification(title = get(TITLE), text = get(BODY), link = get(LINK), cls = MainActivity::class.java)
+                return LocalNotification(title = get(TITLE), text = get(BODY), link = get(LINK), cls = SplashActivity::class.java)
             }
         }
 
