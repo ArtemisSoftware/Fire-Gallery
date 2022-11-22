@@ -9,6 +9,7 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
 import com.artemissoftware.common.extensions.changeGraph
+import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
 import kotlinx.coroutines.CoroutineScope
 
 class FGScaffoldState(
@@ -210,27 +211,34 @@ class FGScaffoldState(
     }
 
 
-    var _deepLink = mutableStateOf<Uri?>(null)
+    var deepLink = mutableStateOf<Uri?>(null)
         private set
+
+    var intent = mutableStateOf<Intent?>(null)
+        private set
+
+    fun setIntent(intent: Intent){
+        this.intent.value = intent
+    }
 
     fun setDeepLink(intent: Intent){
         val action = intent.action
         val uri = intent.data
 
         intent.extras?.let {
-            var link = it.getString("deep_link")
-            _deepLink.value = Uri.parse(link)
+            var link = it.getString(DEEP_LINK)
+            deepLink.value = Uri.parse(link)
         }
 
     }
 
 
     fun executeDeepLink(navController: NavHostController){
-        _deepLink.value?.let{
+        deepLink.value?.let{
             navController.navigate(it)
         }
 
-        _deepLink.value = null
+        deepLink.value = null
     }
 
 }

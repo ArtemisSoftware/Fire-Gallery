@@ -4,27 +4,45 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.ui.Modifier
+import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
 import com.artemissoftware.firegallery.MainActivity
+import com.artemissoftware.firegallery.MainViewModel
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.graphs.RootNavigationGraph
+import com.artemissoftware.firegallery.screens.splash.activity.SplashActivityViewModel
+import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 class SplashActivity : ComponentActivity() {
 
+    private val viewModel: SplashActivityViewModel by viewModels()
+
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        setContent {
-//            FireGalleryTheme {
-//                // A surface container using the 'background' color from the theme
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colors.background
-//                ) {
-//                    RootNavigationGraph(navController = rememberAnimatedNavController(), viewModel.scaffoldState)
-//                }
-//            }
-//        }
+        viewModel.scaffoldState.setIntent(intent)
 
-        startNextAndFinish()
+        setContent {
+            FireGalleryTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    RootNavigationGraph(navController = rememberAnimatedNavController(), viewModel.scaffoldState)
+                }
+            }
+        }
+
+        //startNextAndFinish()
     }
 
 
@@ -38,14 +56,12 @@ class SplashActivity : ComponentActivity() {
 
             val intent = Intent(this, MainActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                putExtra("deep_link", uri.toString())
+                putExtra(DEEP_LINK, uri.toString())
             }
 
             startActivity(intent)
             finish()
-
         }
-
     }
 
 }

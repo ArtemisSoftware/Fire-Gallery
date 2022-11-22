@@ -75,12 +75,12 @@ fun RootNavigationGraph(
     scaffoldState: FGScaffoldState
 ) {
 
-    val startDestination = remember { mutableStateOf(RootDestinations.Splash.route) }
+    //val startDestination = remember { mutableStateOf(RootDestinations.Splash.route) }
 
     NavHost(
         navController = navController,
         route = Graph.ROOT,
-        startDestination = startDestination.value
+        startDestination = RootDestinations.Splash.route
     ) {
 
         composable(route = RootDestinations.Splash.route) {
@@ -97,12 +97,12 @@ fun RootNavigationGraph(
             )
         }
 
-        composable(route = RootDestinations.Home.route) {
-            HomeScreen(scaffoldState = scaffoldState)
-        }
+//        composable(route = RootDestinations.Home.route) {
+//            HomeScreen(scaffoldState = scaffoldState)
+//        }
 
 
-        deeplinkNavigationGraph(navController = navController, scaffoldState = scaffoldState, startDestination)
+        //deeplinkNavigationGraph(navController = navController, scaffoldState = scaffoldState, startDestination)
 
     }
 
