@@ -19,7 +19,9 @@ import com.artemissoftware.firegallery.navigation.graphs.RootNavigationGraph
 import com.artemissoftware.firegallery.screens.splash.activity.SplashActivityViewModel
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
 
     private val viewModel: SplashActivityViewModel by viewModels()

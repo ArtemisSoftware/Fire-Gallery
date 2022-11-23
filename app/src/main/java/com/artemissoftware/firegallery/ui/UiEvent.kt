@@ -13,4 +13,6 @@ sealed class UiEvent {
     data class NavigatePopUpTo(val currentRoute: String, val destinationRoute: String): UiEvent()
 
     data class ChangeCurrentPositionBottomBar(val destination: BaseDestinations): UiEvent()
+
+    data class FinishAndStartActivity(val activity: Class<*>): UiEvent()
 }

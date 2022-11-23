@@ -19,13 +19,15 @@ import com.artemissoftware.firegallery.ui.UiEvent
 fun SplashScreen(
     onNavigatePopUpTo: (UiEvent.NavigatePopUpTo) -> Unit,
     scaffoldState: FGScaffoldState,
-    viewModel: SplashViewModel = hiltViewModel()
+    viewModel: SplashViewModel = hiltViewModel(),
+    onFinishAndStartActivity: (UiEvent.FinishAndStartActivity) -> Unit
 ) {
 
     ManageUIEvents(
         uiEvent = viewModel.uiEvent,
         scaffoldState = scaffoldState,
-        onNavigatePopUpTo = onNavigatePopUpTo
+        onNavigatePopUpTo = onNavigatePopUpTo,
+        onFinishAndStartActivity = onFinishAndStartActivity
     )
 
     BuildSplashScreen(

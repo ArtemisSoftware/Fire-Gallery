@@ -1,13 +1,13 @@
 package com.artemissoftware.firegallery.navigation.graphs
 
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
-import com.artemissoftware.firegallery.screens.home.HomeScreen
 import com.artemissoftware.firegallery.screens.SplashScreen
 
 
@@ -76,7 +76,7 @@ fun RootNavigationGraph(
 ) {
 
     //val startDestination = remember { mutableStateOf(RootDestinations.Splash.route) }
-
+    val context = LocalContext.current
     NavHost(
         navController = navController,
         route = Graph.ROOT,
@@ -86,6 +86,9 @@ fun RootNavigationGraph(
         composable(route = RootDestinations.Splash.route) {
             SplashScreen(
                 scaffoldState = scaffoldState,
+                onFinishAndStartActivity = {
+                             scaffoldState.startNextAndFinish(it.activity, context )
+                },
                 onNavigatePopUpTo = {
                     navController.navigate(it.destinationRoute) {
                         popUpTo(it.currentRoute) {

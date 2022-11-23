@@ -76,7 +76,8 @@ class SplashViewModel @Inject constructor(
     private fun goToHome(){
         with(state){
             if(dataLoaded && animationConcluded){
-                sendUiEvent(UiEvent.NavigatePopUpTo(currentRoute = RootDestinations.Splash.route, destinationRoute = RootDestinations.Home.route))
+                //sendUiEvent(UiEvent.NavigatePopUpTo(currentRoute = RootDestinations.Splash.route, destinationRoute = RootDestinations.Home.route))
+                sendUiEvent(UiEvent.FinishAndStartActivity(MainActivity::class.java))
             }
         }
     }

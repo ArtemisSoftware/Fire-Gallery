@@ -1,5 +1,7 @@
 package com.artemissoftware.common.composables.scaffold.models
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
@@ -217,6 +219,10 @@ class FGScaffoldState(
     var intent = mutableStateOf<Intent?>(null)
         private set
 
+
+
+
+
     fun setIntent(intent: Intent){
         this.intent.value = intent
     }
@@ -232,6 +238,40 @@ class FGScaffoldState(
 
     }
 
+    fun startNextAndFinish(activity: Class<*>, context: Context){
+
+        intent?.let {
+
+        }
+
+
+        val intent = Intent(context, activity::class.java)
+        context.startActivity(intent)
+        (context as? Activity)?.finish()
+
+
+//        val context = LocalContext.current
+//        ...
+//        onClick = {
+//            val intent = Intent(context, ListActivity::class.java)
+//            intent.putExtra(YourExtraKey, YourExtraValue)
+//            context.startActivity(intent)
+//        }
+
+//        val action = intent.action
+//        val uri = intent.data
+//
+//        if(action == Intent.ACTION_VIEW && uri != null){
+//
+//            val intent = Intent(this, activity::class.java).apply {
+//                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                putExtra(DEEP_LINK, uri.toString())
+//            }
+//
+//            startActivity(intent)
+//            finish()
+//        }
+    }
 
     fun executeDeepLink(navController: NavHostController){
         deepLink.value?.let{

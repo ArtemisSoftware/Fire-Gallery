@@ -13,7 +13,8 @@ fun ManageUIEvents(
     onNavigate: (UiEvent.Navigate) -> Unit = {},
     onNavigatePopUpTo: (UiEvent.NavigatePopUpTo) -> Unit = {},
     onChangeCurrentPositionBottomBar: (UiEvent.ChangeCurrentPositionBottomBar) -> Unit = {},
-    onPopBackStack: () -> Unit = {}
+    onPopBackStack: () -> Unit = {},
+    onFinishAndStartActivity: (UiEvent.FinishAndStartActivity) -> Unit = {}
 ) {
 
     LaunchedEffect(key1 = true) {
@@ -27,6 +28,7 @@ fun ManageUIEvents(
                 is UiEvent.Navigate -> { onNavigate(event) }
                 is UiEvent.ChangeCurrentPositionBottomBar -> { onChangeCurrentPositionBottomBar(event) }
                 is UiEvent.NavigatePopUpTo -> { onNavigatePopUpTo(event) }
+                is UiEvent.FinishAndStartActivity -> { onFinishAndStartActivity(event) }
             }
         }
     }
