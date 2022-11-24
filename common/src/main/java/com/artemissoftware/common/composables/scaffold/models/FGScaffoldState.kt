@@ -225,6 +225,18 @@ class FGScaffoldState(
 
     fun setIntent(intent: Intent){
         this.intent.value = intent
+
+        val action = intent.action
+        val uri = intent.data
+
+        if(action == Intent.ACTION_VIEW && uri != null ){
+                deepLink.value = uri
+        }
+
+//        intent.extras?.let {
+//            var link = it.getString(DEEP_LINK)
+//            deepLink.value = Uri.parse(link)
+//        }
     }
 
     fun setDeepLink(intent: Intent){
@@ -271,6 +283,23 @@ class FGScaffoldState(
 //            startActivity(intent)
 //            finish()
 //        }
+    }
+
+
+    fun updateIntent(intent: Intent) : Intent{
+
+        deepLink.value?.let { uriDeepLink->
+
+            val updatedIntent = intent.apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                putExtra(DEEP_LINK, uriDeepLink.toString())
+            }
+
+            return updatedIntent
+
+        } ?: kotlin.run {
+            return intent
+        }
     }
 
     fun executeDeepLink(navController: NavHostController){

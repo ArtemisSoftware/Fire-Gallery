@@ -1,5 +1,7 @@
 package com.artemissoftware.firegallery.navigation.graphs
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.*
@@ -7,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.firegallery.MainActivity
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.SplashScreen
 
@@ -87,7 +90,11 @@ fun RootNavigationGraph(
             SplashScreen(
                 scaffoldState = scaffoldState,
                 onFinishAndStartActivity = {
-                             scaffoldState.startNextAndFinish(it.activity, context )
+                    val intent = Intent(context, it.activity)
+
+                    context.startActivity(scaffoldState.updateIntent(intent))
+                    (context as? Activity)?.finish()
+                             //scaffoldState.startNextAndFinish(/*it.activity*/MainActivity::class.java, context )
                 },
                 onNavigatePopUpTo = {
                     navController.navigate(it.destinationRoute) {
