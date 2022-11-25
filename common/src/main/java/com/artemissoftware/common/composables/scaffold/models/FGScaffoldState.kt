@@ -216,27 +216,20 @@ class FGScaffoldState(
     var deepLink = mutableStateOf<Uri?>(null)
         private set
 
-    var intent = mutableStateOf<Intent?>(null)
-        private set
-
-
-
-
 
     fun setIntent(intent: Intent){
-        this.intent.value = intent
 
         val action = intent.action
         val uri = intent.data
 
         if(action == Intent.ACTION_VIEW && uri != null ){
-                deepLink.value = uri
+            deepLink.value = uri
         }
-
-//        intent.extras?.let {
-//            var link = it.getString(DEEP_LINK)
-//            deepLink.value = Uri.parse(link)
-//        }
+        else{
+            intent.extras?.getString(DEEP_LINK)?.let { link->
+                deepLink.value = Uri.parse(link)
+            }
+        }
     }
 
     fun updateIntent(intent: Intent) : Intent{
@@ -253,16 +246,6 @@ class FGScaffoldState(
         } ?: kotlin.run {
             return intent
         }
-    }
-
-
-    fun setDeepLink(intent: Intent){
-
-        intent.extras?.let {
-            var link = it.getString(DEEP_LINK)
-            deepLink.value = Uri.parse(link)
-        }
-
     }
 
     fun executeDeepLink(navController: NavHostController){

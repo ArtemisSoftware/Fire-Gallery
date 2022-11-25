@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.scaffoldState.setDeepLink(intent)
+        viewModel.scaffoldState.setIntent(intent)
 
         setContent {
             FireGalleryTheme {
