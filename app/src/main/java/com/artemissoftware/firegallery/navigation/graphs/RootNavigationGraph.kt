@@ -94,7 +94,6 @@ fun RootNavigationGraph(
 
                     context.startActivity(scaffoldState.updateIntent(intent))
                     (context as? Activity)?.finish()
-                             //scaffoldState.startNextAndFinish(/*it.activity*/MainActivity::class.java, context )
                 },
                 onNavigatePopUpTo = {
                     navController.navigate(it.destinationRoute) {
