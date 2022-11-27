@@ -1,12 +1,9 @@
-package com.artemissoftware.firegallery.navigation.routes
+package com.artemissoftware.firegallery.screens.profile
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NamedNavArgument
-import com.artemissoftware.firegallery.navigation.HomeDestinations
-import com.artemissoftware.firegallery.screens.profile.ProfileEvents
-import com.artemissoftware.firegallery.screens.profile.ProfileScreen
-import com.artemissoftware.firegallery.screens.profile.ProfileViewModel
+import com.artemissoftware.firegallery.navigation.routes.NavigationRoute
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 
 
 object ProfileRoute : NavigationRoute<ProfileEvents, ProfileViewModel> {
