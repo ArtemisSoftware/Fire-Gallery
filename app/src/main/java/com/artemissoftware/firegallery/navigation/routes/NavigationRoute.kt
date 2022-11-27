@@ -1,19 +1,15 @@
 package com.artemissoftware.firegallery.navigation.routes
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.FGBaseEvents
 import com.artemissoftware.firegallery.ui.ManageUIEvents
 
 interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
-
-    val route: String
 
     /**
      * Returns the screen's content.
@@ -27,24 +23,22 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
     @Composable
     fun viewModel(): T
 
-    /**
-     * Override when this page uses arguments.
-     *
-     * We do it here and not in the [NavigationComponent to keep it centralized]
-     */
-    fun getArguments(): List<NamedNavArgument> = listOf()
+    fun getDestination(): Destination
 
-    fun getArguments_(): BaseDestinations
 
     /**
      * Generates the composable for this route.
      */
     fun composable(
-        builder: NavGraphBuilder,
+        navGraphBuilder: NavGraphBuilder,
         scaffoldState: FGScaffoldState,
         navController: NavHostController
     ) {
-        builder.composable(route, getArguments()) {
+        navGraphBuilder.composable(
+            route = getDestination().route,
+            arguments = getDestination().arguments
+        ) {
+
             val viewModel = viewModel()
 
             ManageUIEvents(
