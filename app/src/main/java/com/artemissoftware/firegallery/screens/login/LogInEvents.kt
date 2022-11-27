@@ -6,4 +6,5 @@ sealed class LogInEvents: FGBaseEvents() {
 
     data class ValidateLogin(val email: String? = null, val password: String? = null): LogInEvents()
     object LogIn : LogInEvents()
+    object PopBackStack : LogInEvents()
 }

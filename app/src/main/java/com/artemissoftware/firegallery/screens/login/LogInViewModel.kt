@@ -46,6 +46,9 @@ class LogInViewModel @Inject constructor(
             is LogInEvents.LogIn ->{
                 logInUser()
             }
+            LogInEvents.PopBackStack -> {
+                sendUiEvent(UiEvent.PopBackStack)
+            }
         }
     }
 

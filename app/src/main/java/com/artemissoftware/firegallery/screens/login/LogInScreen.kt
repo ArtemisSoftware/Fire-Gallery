@@ -9,35 +9,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.button.FGButton
 import com.artemissoftware.common.composables.scaffold.FGScaffold
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.composables.textfield.FGOutlinedTextField
 import com.artemissoftware.common.composables.textfield.FGTextFieldType
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
-import com.artemissoftware.firegallery.ui.ManageUIEvents
 
 @Composable
-fun LogInScreen(
-    onPopBackStack: () -> Unit,
-    scaffoldState: FGScaffoldState,
-) {
+fun LogInScreen(viewModel: LogInViewModel) {
 
-    val viewModel: LogInViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
-    ManageUIEvents(
-        uiEvent = viewModel.uiEvent,
-        onPopBackStack = onPopBackStack,
-        scaffoldState = scaffoldState
-    )
-
     BuildLogInScreen(
-        onPopBackStack = onPopBackStack,
         state = state.value,
         events = viewModel::onTriggerEvent,
         email = viewModel.email,
@@ -50,7 +36,6 @@ fun LogInScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BuildLogInScreen(
-    onPopBackStack: () -> Unit,
     state: LogInState,
     events: ((LogInEvents) -> Unit)? = null,
     email: String,
@@ -61,7 +46,7 @@ private fun BuildLogInScreen(
         isLoading = state.isLoading,
         showTopBar = true,
         onNavigationClick = {
-            onPopBackStack.invoke()
+            events?.invoke(LogInEvents.PopBackStack)
         }
     ) {
 
@@ -142,6 +127,6 @@ private fun BuildLogInScreenPreview() {
 
     val state = LogInState()
 
-    BuildLogInScreen(state = state, onPopBackStack = {}, email ="email", password = "password")
+    BuildLogInScreen(state = state, email ="email", password = "password")
 
 }
