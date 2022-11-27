@@ -10,6 +10,7 @@ class DestinationRoutes {
     object Profile {
 
         val register = Destination.RegisterUser
+        val login = Destination.LogInUser
     }
 
 }
