@@ -54,6 +54,9 @@ class PicturesViewModel @Inject constructor(
             is PictureEvents.GoToPictureDetail -> {
                 sendUiEvent(UiEvent.Navigate(GalleryDestinations.PictureDetail.withArgs(event.pictureId)))
             }
+            PictureEvents.PopBackStack -> {
+                sendUiEvent(UiEvent.PopBackStack)
+            }
         }
     }
 

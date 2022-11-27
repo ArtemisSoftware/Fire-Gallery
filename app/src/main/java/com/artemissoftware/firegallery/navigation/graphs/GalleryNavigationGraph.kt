@@ -14,6 +14,7 @@ import com.artemissoftware.firegallery.navigation.NavigationArguments.ARTEMIS_SO
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
+import com.artemissoftware.firegallery.screens.pictures.PicturesRoute
 import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -61,23 +62,26 @@ fun NavGraphBuilder.galleryNavigationGraph(
 //            }
 //        }
 
+        //TODO: verificar se precisa de ser full route
+        PicturesRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
 
 
-        composable(
-            route = GalleryDestinations.Pictures.fullRoute,
-            arguments = GalleryDestinations.Pictures.arguments,
-        ){
-
-            PicturesScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                scaffoldState = scaffoldState,
-                onNavigate = {
-                    navController.navigate(it.route)
-                }
-            )
-        }
+//        composable(
+//            route = GalleryDestinations.Pictures.fullRoute,
+//            arguments = GalleryDestinations.Pictures.arguments,
+//        ){
+//
+//
+//            PicturesScreen(
+//                onPopBackStack = {
+//                    navController.popBackStack()
+//                },
+//                scaffoldState = scaffoldState,
+//                onNavigate = {
+//                    navController.navigate(it.route)
+//                }
+//            )
+//        }
 
         composable(
             route = GalleryDestinations.PictureDetail.fullRoute,

@@ -13,6 +13,10 @@ class DestinationRoutes {
         val login = Destination.LogInUser
     }
 
+    object Gallery {
+
+        val pictures = Destination.Pictures
+    }
 }
 
 

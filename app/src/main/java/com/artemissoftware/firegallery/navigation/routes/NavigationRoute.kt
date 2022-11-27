@@ -39,7 +39,7 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
         navController: NavHostController
     ) {
         navGraphBuilder.composable(
-            route = getDestination().route,
+            route = getDestination().getRoutel(),
             arguments = getDestination().arguments
         ) {
 

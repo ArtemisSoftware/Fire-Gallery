@@ -12,6 +12,11 @@ abstract class BaseDestinations(
     private val baseDeepLink: String? = null,
     private val customArguments: List<CustomArguments> = emptyList()
 ) {
+    //TODO: rever isto
+    fun getRoutel(): String {
+        return if(customArguments.isEmpty()) route else fullRoute
+    }
+
     val fullRoute: String = buildString {
         append(route)
         customArguments.forEachIndexed { index, custom ->
