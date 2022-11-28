@@ -2,6 +2,7 @@ package com.artemissoftware.firegallery.navigation.routes.destinations
 
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
+import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
@@ -18,5 +19,6 @@ sealed class Destination(
     object Pictures : Destination(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType())))
     object Gallery : Destination(route = "GALLERY")
     object PictureDetail : Destination(route = "PICTURE_DETAIL", listOf(CustomArguments(NavigationArguments.PICTURE_ID)))
+    object Favorites : Destination(route = "FAVORITES")
 
 }

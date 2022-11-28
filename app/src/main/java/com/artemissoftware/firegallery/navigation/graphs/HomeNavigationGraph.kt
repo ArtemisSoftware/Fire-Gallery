@@ -10,6 +10,7 @@ import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.graphs.galleryNavigationGraph
 import com.artemissoftware.firegallery.navigation.graphs.profileNavigationGraph
 import com.artemissoftware.firegallery.navigation.models.Graph
+import com.artemissoftware.firegallery.screens.favorites.FavoritesRoute
 import com.artemissoftware.firegallery.screens.profile.ProfileRoute
 import com.artemissoftware.firegallery.screens.favorites.FavoritesScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryRoute
@@ -38,17 +39,19 @@ fun HomeNavigationGraph(
 //            )
 //        }
 
-        composable(route = HomeDestinations.Favorites.route) {
-            FavoritesScreen(
-                onChangeCurrentPositionBottomBar = {
-                    scaffoldState.changeCurrentPositionBottomBar(it.destination, navController = navController)
-                },
-                onNavigate = {
-                    navController.navigate(it.route)
-                },
-                scaffoldState = scaffoldState
-            )
-        }
+        FavoritesRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
+
+//        composable(route = HomeDestinations.Favorites.route) {
+//            FavoritesScreen(
+//                onChangeCurrentPositionBottomBar = {
+//                    scaffoldState.changeCurrentPositionBottomBar(it.destination, navController = navController)
+//                },
+//                onNavigate = {
+//                    navController.navigate(it.route)
+//                },
+//                scaffoldState = scaffoldState
+//            )
+//        }
 
         composable(route = HomeDestinations.Tinder.route) {
             TinderGalleryScreen()
