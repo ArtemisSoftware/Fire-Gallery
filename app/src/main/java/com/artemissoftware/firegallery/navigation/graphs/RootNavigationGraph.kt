@@ -9,6 +9,7 @@ import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.home.HomeScreen
 import com.artemissoftware.firegallery.screens.SplashScreen
+import com.artemissoftware.firegallery.screens.splash.SplashRoute
 
 
 //@OptIn(ExperimentalAnimationApi::class)
@@ -83,19 +84,22 @@ fun RootNavigationGraph(
         startDestination = startDestination.value
     ) {
 
-        composable(route = RootDestinations.Splash.route) {
-            SplashScreen(
-                scaffoldState = scaffoldState,
-                onNavigatePopUpTo = {
-                    navController.navigate(it.destinationRoute) {
-                        popUpTo(it.currentRoute) {
-                            inclusive = true
-                        }
-                    }
-                },
+        SplashRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
 
-            )
-        }
+
+//        composable(route = RootDestinations.Splash.route) {
+//            SplashScreen(
+//                scaffoldState = scaffoldState,
+//                onNavigatePopUpTo = {
+//                    navController.navigate(it.destinationRoute) {
+//                        popUpTo(it.currentRoute) {
+//                            inclusive = true
+//                        }
+//                    }
+//                },
+//
+//            )
+//        }
 
         composable(route = RootDestinations.Home.route) {
             HomeScreen(scaffoldState = scaffoldState)

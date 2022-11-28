@@ -48,6 +48,13 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
             ManageUIEvents(
                 uiEvent = viewModel.uiEvent,
                 scaffoldState = scaffoldState,
+                onNavigatePopUpTo = {
+                    navController.navigate(it.destinationRoute) {
+                        popUpTo(it.currentRoute) {
+                            inclusive = true
+                        }
+                    }
+                },
                 onPopBackStack = {
                     navController.popBackStack()
                 },

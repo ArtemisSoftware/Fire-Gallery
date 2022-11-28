@@ -10,7 +10,7 @@ import com.artemissoftware.common.extensions.changeGraph
 import kotlinx.coroutines.CoroutineScope
 
 class FGScaffoldState(
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope? = null
 ) {
 
 

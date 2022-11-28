@@ -2,6 +2,11 @@ package com.artemissoftware.firegallery.navigation.routes.destinations
 
 class DestinationRoutes {
 
+    object Root {
+
+        val splash = Destination.Splash
+    }
+
     object Home {
 
         val profile = Destination.Profile

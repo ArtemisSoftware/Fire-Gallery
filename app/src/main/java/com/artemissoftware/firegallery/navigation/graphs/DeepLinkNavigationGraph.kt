@@ -22,20 +22,20 @@ fun NavGraphBuilder.deeplinkNavigationGraph(
         route = DEEP_LINK
     ) {
 
-        composable(
-            route = DeepLinkDestinations.PictureDetail.route,
-            arguments = DeepLinkDestinations.PictureDetail.arguments,
-            deepLinks = DeepLinkDestinations.PictureDetail.deepLink
-        ) {
-
-            startDestination.value = RootDestinations.Home.route
-            PictureDetailScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                scaffoldState = scaffoldState
-            )
-        }
+//        composable(
+//            route = DeepLinkDestinations.PictureDetail.route,
+//            arguments = DeepLinkDestinations.PictureDetail.arguments,
+//            deepLinks = DeepLinkDestinations.PictureDetail.deepLink
+//        ) {
+//
+//            startDestination.value = RootDestinations.Home.route
+//            PictureDetailScreen(
+//                onPopBackStack = {
+//                    navController.popBackStack()
+//                },
+//                scaffoldState = scaffoldState
+//            )
+//        }
 
     }
 }
