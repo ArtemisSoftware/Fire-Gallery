@@ -18,11 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.text.FGText
-import com.artemissoftware.common.extensions.hextoColor
 import com.artemissoftware.common.models.Chip
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSans12
 import com.artemissoftware.common.theme.Purple200
-import com.artemissoftware.common.theme.Purple500
 import com.artemissoftware.common.theme.Red
 import com.artemissoftware.common.theme.RedOrange
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment

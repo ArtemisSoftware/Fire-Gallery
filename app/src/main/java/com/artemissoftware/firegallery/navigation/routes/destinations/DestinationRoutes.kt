@@ -17,6 +17,7 @@ class DestinationRoutes {
     object Gallery {
 
         val pictures = Destination.Pictures
+        val pictureDetail = Destination.PictureDetail
     }
 }
 

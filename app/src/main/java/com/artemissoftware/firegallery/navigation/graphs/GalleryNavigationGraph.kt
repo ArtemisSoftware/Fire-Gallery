@@ -13,6 +13,7 @@ import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.NavigationArguments.ARTEMIS_SOFTWARE_URI
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
+import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailRoute
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 import com.artemissoftware.firegallery.screens.pictures.PicturesRoute
 import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
@@ -62,6 +63,8 @@ fun NavGraphBuilder.galleryNavigationGraph(
 //            }
 //        }
 
+
+
         //TODO: verificar se precisa de ser full route
         PicturesRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
 
@@ -83,17 +86,20 @@ fun NavGraphBuilder.galleryNavigationGraph(
 //            )
 //        }
 
-        composable(
-            route = GalleryDestinations.PictureDetail.fullRoute,
-            arguments = GalleryDestinations.Pictures.arguments
-        ) {
-            PictureDetailScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                scaffoldState = scaffoldState
-            )
-        }
+        //TODO: verificar os argumentos
+        PictureDetailRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
+
+//        composable(
+//            route = GalleryDestinations.PictureDetail.fullRoute,
+//            arguments = GalleryDestinations.Pictures.arguments
+//        ) {
+//            PictureDetailScreen(
+//                onPopBackStack = {
+//                    navController.popBackStack()
+//                },
+//                scaffoldState = scaffoldState
+//            )
+//        }
     }
 }
 

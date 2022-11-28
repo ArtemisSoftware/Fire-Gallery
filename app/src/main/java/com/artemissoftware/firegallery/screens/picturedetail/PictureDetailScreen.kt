@@ -28,21 +28,12 @@ import com.artemissoftware.firegallery.ui.ManageUIEvents
 
 @Composable
 fun PictureDetailScreen(
-    onPopBackStack: () -> Unit,
-    scaffoldState: FGScaffoldState,
-    viewModel: PictureDetailViewModel = hiltViewModel()
+    viewModel: PictureDetailViewModel
 ) {
 
     val state = viewModel.state.collectAsState()
 
-    ManageUIEvents(
-        uiEvent = viewModel.uiEvent,
-        onPopBackStack = onPopBackStack,
-        scaffoldState = scaffoldState
-    )
-
     BuildPictureDetailScreen(
-        onPopBackStack = onPopBackStack,
         state = state.value,
         events = viewModel::onTriggerEvent
     )
@@ -51,7 +42,6 @@ fun PictureDetailScreen(
 
 @Composable
 private fun BuildPictureDetailScreen(
-    onPopBackStack: () -> Unit,
     state: PictureDetailState,
     events: ((PictureDetailEvents) -> Unit)? = null
 ) {
@@ -60,7 +50,7 @@ private fun BuildPictureDetailScreen(
         isLoading = state.isLoading,
         showTopBar = state.showToolbar(),
         onNavigationClick = {
-            onPopBackStack.invoke()
+            events?.invoke(PictureDetailEvents.PopBackStack)
         },
         topBarOptionComposable = {
 
@@ -135,5 +125,5 @@ private fun ImageDisplay(picture: Picture?) {
 private fun BuildPictureDetailScreenPreview() {
 
     val state = PictureDetailState(picture = Picture.picturesMockList[0], isLoading = false)
-    BuildPictureDetailScreen(onPopBackStack = {}, state = state)
+    BuildPictureDetailScreen(state = state)
 }
