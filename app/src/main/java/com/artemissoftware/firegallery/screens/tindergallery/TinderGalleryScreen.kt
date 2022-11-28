@@ -34,8 +34,7 @@ import java.lang.Integer.max
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TinderGalleryScreen() {
-    val viewModel : TinderGalleryViewModel = hiltViewModel()
+fun TinderGalleryScreen(viewModel : TinderGalleryViewModel) {
 
     val state = viewModel.state.value
 

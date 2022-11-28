@@ -7,6 +7,7 @@ class DestinationRoutes {
         val profile = Destination.Profile
         val gallery = Destination.Gallery
         val favorites = Destination.Favorites
+        val tinderGallery = Destination.Tinder
     }
 
     object Profile {

@@ -15,6 +15,7 @@ import com.artemissoftware.firegallery.screens.profile.ProfileRoute
 import com.artemissoftware.firegallery.screens.favorites.FavoritesScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryRoute
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
+import com.artemissoftware.firegallery.screens.tindergallery.TinderGalleryRoute
 import com.artemissoftware.firegallery.screens.tindergallery.TinderGalleryScreen
 
 @Composable
@@ -53,9 +54,11 @@ fun HomeNavigationGraph(
 //            )
 //        }
 
-        composable(route = HomeDestinations.Tinder.route) {
-            TinderGalleryScreen()
-        }
+        TinderGalleryRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
+
+//        composable(route = HomeDestinations.Tinder.route) {
+//            TinderGalleryScreen()
+//        }
 
         ProfileRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
 
