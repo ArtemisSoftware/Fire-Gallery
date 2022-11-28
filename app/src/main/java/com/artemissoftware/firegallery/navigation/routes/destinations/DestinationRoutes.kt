@@ -9,6 +9,9 @@ class DestinationRoutes {
 
     object Home {
 
+        const val GRAPH = "home_graph"
+        val START_DESTINATION = Destination.Gallery.route
+
         val profile = Destination.Profile
         val gallery = Destination.Gallery
         val favorites = Destination.Favorites

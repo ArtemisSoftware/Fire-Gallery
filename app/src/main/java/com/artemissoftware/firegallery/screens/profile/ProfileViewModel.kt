@@ -48,7 +48,7 @@ class ProfileViewModel @Inject constructor(
                 sendUiEvent(UiEvent.Navigate(DestinationRoutes.Profile.register.route))
             }
             ProfileEvents.GoToFavorites -> {
-                sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(HomeDestinations.Favorites))
+                sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(DestinationRoutes.Home.favorites))
             }
         }
     }

@@ -13,6 +13,8 @@ import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.firegallery.navigation.HomeDestinations
+import com.artemissoftware.firegallery.navigation.routes.destinations.Destination
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -27,15 +29,7 @@ class MainViewModel @Inject constructor(
     val scaffoldState by lazy { FGScaffoldState(viewModelScope) }
 
     init {
-        onTriggerEvent(MainEvents.GetUser)
-    }
-
-    override fun onTriggerEvent(event: MainEvents) {
-        when(event){
-            is MainEvents.GetUser ->{
-                getUser()
-            }
-        }
+        getUser()
     }
 
     private fun getUser(){
@@ -44,24 +38,27 @@ class MainViewModel @Inject constructor(
 
             getUserUseCase.invoke().collectLatest { result ->
 
-                val bottomBarItems = result?.let {
+                with(DestinationRoutes.Home){
 
-                    listOf(
-                        HomeDestinations.Gallery,
-                        HomeDestinations.Favorites,
-                        HomeDestinations.Profile,
-                        HomeDestinations.Tinder
-                    )
+                    val bottomBarItems = result?.let {
 
-                } ?: kotlin.run {
-                    listOf(
-                        HomeDestinations.Gallery,
-                        HomeDestinations.Profile,
-                        HomeDestinations.Tinder
-                    )
+                        listOf(
+                            gallery,
+                            favorites,
+                            tinderGallery,
+                            profile
+                        )
+
+                    } ?: kotlin.run {
+                        listOf(
+                            gallery,
+                            tinderGallery,
+                            profile
+                        )
+                    }
+
+                    setBottomBarItems(bottomBarItems)
                 }
-
-                setBottomBarItems(bottomBarItems)
             }
         }
     }
@@ -71,52 +68,58 @@ class MainViewModel @Inject constructor(
 
         val bottomBarItems = mutableListOf<BottomBarItem>()
 
-        items.forEach {
+        with(DestinationRoutes.Home) {
 
-            when(it){
+            items.forEach {
 
-                HomeDestinations.Gallery->{
-                    bottomBarItems.add(
-                        HomeDestinations.Gallery.toBottomBarItem(
-                            title = R.string.gallery,
-                            activeIcon = Icons.Default.Place,
-                            inactiveIcon = Icons.Outlined.Place
-                        )
-                    )
-                }
-                HomeDestinations.Favorites->{
-                    bottomBarItems.add(
-                        HomeDestinations.Favorites.toBottomBarItem(
-                            title = R.string.favorite,
-                            activeIcon = Icons.Default.Favorite,
-                            inactiveIcon = Icons.Outlined.Favorite
-                        )
-                    )
-                }
-                HomeDestinations.Profile->{
-                    bottomBarItems.add(
-                        HomeDestinations.Profile.toBottomBarItem(
-                            title = R.string.profile,
-                            activeIcon = Icons.Default.Person,
-                            inactiveIcon = Icons.Outlined.Person
-                        )
-                    )
-                }
+                when (it) {
 
-                HomeDestinations.Tinder -> {
-                    bottomBarItems.add(
-                        HomeDestinations.Tinder.toBottomBarItem(
-                            title = R.string.tinder,
-                            activeIcon = Icons.Default.Search,
-                            inactiveIcon = Icons.Outlined.Search
+                    gallery -> {
+                        bottomBarItems.add(
+                            gallery.toBottomBarItem(
+                                title = R.string.gallery,
+                                activeIcon = Icons.Default.Place,
+                                inactiveIcon = Icons.Outlined.Place
+                            )
                         )
-                    )
+                    }
+                    favorites -> {
+                        bottomBarItems.add(
+                            favorites.toBottomBarItem(
+                                title = R.string.favorite,
+                                activeIcon = Icons.Default.Favorite,
+                                inactiveIcon = Icons.Outlined.Favorite
+                            )
+                        )
+                    }
+
+                    tinderGallery -> {
+                        bottomBarItems.add(
+                            tinderGallery.toBottomBarItem(
+                                title = R.string.tinder,
+                                activeIcon = Icons.Default.Search,
+                                inactiveIcon = Icons.Outlined.Search
+                            )
+                        )
+                    }
+
+                    profile -> {
+                        bottomBarItems.add(
+                            profile.toBottomBarItem(
+                                title = R.string.profile,
+                                activeIcon = Icons.Default.Person,
+                                inactiveIcon = Icons.Outlined.Person
+                            )
+                        )
+                    }
+
+
+                    else -> {}
                 }
-                else -> {}
             }
-        }
 
-        scaffoldState.setBottomBarDestinations(bottomBarItems)
+            scaffoldState.setBottomBarDestinations(bottomBarItems)
+        }
     }
 
 }
