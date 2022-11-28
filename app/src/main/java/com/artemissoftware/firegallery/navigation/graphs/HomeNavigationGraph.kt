@@ -12,6 +12,7 @@ import com.artemissoftware.firegallery.navigation.graphs.profileNavigationGraph
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.profile.ProfileRoute
 import com.artemissoftware.firegallery.screens.favorites.FavoritesScreen
+import com.artemissoftware.firegallery.screens.gallery.GalleryRoute
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
 import com.artemissoftware.firegallery.screens.tindergallery.TinderGalleryScreen
 
@@ -26,14 +27,16 @@ fun HomeNavigationGraph(
         startDestination = HomeDestinations.Gallery.route
     ) {
 
-        composable(route = HomeDestinations.Gallery.route) {
-            GalleryScreen(
-                onNavigate = {
-                    navController.navigate(it.route)
-                },
-                scaffoldState = scaffoldState
-            )
-        }
+        GalleryRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
+
+//        composable(route = HomeDestinations.Gallery.route) {
+//            GalleryScreen(
+//                onNavigate = {
+//                    navController.navigate(it.route)
+//                },
+//                scaffoldState = scaffoldState
+//            )
+//        }
 
         composable(route = HomeDestinations.Favorites.route) {
             FavoritesScreen(

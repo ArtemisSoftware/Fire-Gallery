@@ -3,7 +3,6 @@ package com.artemissoftware.firegallery.navigation.routes.destinations
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.firegallery.navigation.NavigationArguments
-import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 
 sealed class Destination(
@@ -16,5 +15,6 @@ sealed class Destination(
     object RegisterUser : Destination(route = "REGISTER_USER")
     object LogInUser : Destination(route = "LOG_IN_USER")
     object Pictures : Destination(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType())))
+    object Gallery : Destination(route = "GALLERY")
 
 }

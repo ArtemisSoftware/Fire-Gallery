@@ -5,6 +5,7 @@ class DestinationRoutes {
     object Home {
 
         val profile = Destination.Profile
+        val gallery = Destination.Gallery
     }
 
     object Profile {
