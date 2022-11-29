@@ -8,6 +8,7 @@ import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase
 import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.INEXISTENT_GALLERY
+import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
 import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.NO_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.NavigationArguments
@@ -53,6 +54,9 @@ class PicturesViewModel @Inject constructor(
             }
             is PictureEvents.GoToPictureDetail -> {
                 sendUiEvent(UiEvent.Navigate(GalleryDestinations.PictureDetail.withArgs(event.pictureId)))
+            }
+            PictureEvents.PopBackStack -> {
+                sendUiEvent(UiEvent.PopBackStack)
             }
         }
     }
@@ -107,7 +111,7 @@ class PicturesViewModel @Inject constructor(
 
         when(message){
 
-            NO_PICTURES_AVAILABLE ->{
+            NO_PICTURES_AVAILABLE, NO_FAVORITE_PICTURES_AVAILABLE ->{
 
                 sendUiEvent(UiEvent.ShowDialog(
                         DialogType.Info(

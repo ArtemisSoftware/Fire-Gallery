@@ -3,14 +3,12 @@ package com.artemissoftware.firegallery.navigation.graphs
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.artemissoftware.common.composables.navigation.models.BaseDestinations
-import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.firegallery.navigation.models.Graph
-import com.artemissoftware.firegallery.screens.login.LogInScreen
-import com.artemissoftware.firegallery.screens.register.RegisterScreen
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.*
+import com.artemissoftware.firegallery.screens.login.LogInRoute
+import com.artemissoftware.firegallery.screens.register.RegisterRoute
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.profileNavigationGraph(
@@ -18,45 +16,14 @@ fun NavGraphBuilder.profileNavigationGraph(
     scaffoldState: FGScaffoldState
 ) {
 
-
     navigation(
-        route = Graph.PROFILE,
-        startDestination = ProfileDestinations.RegisterUser.route
+        route = ProfileGraph.graph,
+        startDestination = ProfileGraph.startDestination
     ) {
 
-        composable(
-            route = ProfileDestinations.RegisterUser.route,
-            arguments = ProfileDestinations.RegisterUser.arguments,
-        ){
+        RegisterRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
 
-            RegisterScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                scaffoldState = scaffoldState
-            )
-        }
+        LogInRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
 
-        composable(
-            route = ProfileDestinations.LogInUser.route,
-            arguments = ProfileDestinations.LogInUser.arguments,
-        ){
-
-            LogInScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                scaffoldState = scaffoldState
-            )
-        }
     }
-}
-
-sealed class ProfileDestinations(
-    route: String,
-    customArguments: List<CustomArguments> = emptyList()
-) : BaseDestinations(route = route, customArguments = customArguments){
-
-    object RegisterUser : ProfileDestinations(route = "REGISTER_USER")
-    object LogInUser : ProfileDestinations(route = "LOG_IN_USER")
 }

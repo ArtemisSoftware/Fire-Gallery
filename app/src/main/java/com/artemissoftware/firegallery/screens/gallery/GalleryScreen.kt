@@ -21,18 +21,10 @@ import com.artemissoftware.firegallery.ui.UiEvent
 
 @Composable
 fun GalleryScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
-    scaffoldState: FGScaffoldState,
-    viewModel: GalleryViewModel = hiltViewModel()
+    viewModel: GalleryViewModel
 ) {
 
     val state = viewModel.state.collectAsState()
-
-    ManageUIEvents(
-        uiEvent = viewModel.uiEvent,
-        scaffoldState = scaffoldState,
-        onNavigate = onNavigate
-    )
 
     BuildGalleryScreen(state = state.value, events = viewModel::onTriggerEvent)
 }

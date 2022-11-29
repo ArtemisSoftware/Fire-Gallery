@@ -31,21 +31,12 @@ import com.artemissoftware.firegallery.ui.UiEvent
 
 @Composable
 fun ProfileScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
-    scaffoldState: FGScaffoldState
+    viewModel: ProfileViewModel
 ) {
 
-    val viewModel: ProfileViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState().value
 
-    ManageUIEvents(
-        uiEvent = viewModel.uiEvent,
-        scaffoldState = scaffoldState,
-        onNavigate = onNavigate
-    )
-
     BuildProfileScreen(
-        scaffoldState = scaffoldState,
         state = state,
         events = viewModel::onTriggerEvent
     )
@@ -53,7 +44,6 @@ fun ProfileScreen(
 
 @Composable
 private fun BuildProfileScreen(
-    scaffoldState: FGScaffoldState? = null,
     state: ProfileState,
     events: ((ProfileEvents) -> Unit)? = null,
 ) {
@@ -107,11 +97,7 @@ private fun BuildProfileScreen(
                             title = it.favorites.size.toString(),
                             description = stringResource(R.string.number_favorite_pictures),
                             onClick = {
-
-//                                scaffoldState?.changeCurrentPositionBottomBar(
-//                                    destination = HomeDestinations.Favorites,
-//                                    navController
-//                                )
+                                events?.invoke(ProfileEvents.GoToFavorites)
                             }
                         )
                     }

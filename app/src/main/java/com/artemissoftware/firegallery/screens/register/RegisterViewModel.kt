@@ -54,15 +54,18 @@ class RegisterViewModel @Inject constructor(
             }
 
             is RegisterEvents.ValidateRegister ->{
-                email = event.email ?: ""
-                username = event.username ?: ""
-                password = event.password ?: ""
-                confirmPassword = event.passwordConfirm ?: ""
+                email = event.email.orEmpty()
+                username = event.username.orEmpty()
+                password = event.password.orEmpty()
+                confirmPassword = event.passwordConfirm.orEmpty()
                 validateRegister(email = email, password = password, passwordConfirm = confirmPassword, username = username)
             }
 
             is RegisterEvents.Register ->{
                 registerUser()
+            }
+            RegisterEvents.PopBackStack -> {
+                sendUiEvent(UiEvent.PopBackStack)
             }
         }
     }

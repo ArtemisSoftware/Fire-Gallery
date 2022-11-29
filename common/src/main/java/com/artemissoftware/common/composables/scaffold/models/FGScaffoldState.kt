@@ -15,7 +15,7 @@ import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
 import kotlinx.coroutines.CoroutineScope
 
 class FGScaffoldState(
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope? = null
 ) {
 
 

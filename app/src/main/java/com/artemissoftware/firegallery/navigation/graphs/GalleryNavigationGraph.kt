@@ -9,8 +9,10 @@ import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.*
+import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailRoute
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
-import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
+import com.artemissoftware.firegallery.screens.pictures.PicturesRoute
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.galleryNavigationGraph(
@@ -21,8 +23,8 @@ fun NavGraphBuilder.galleryNavigationGraph(
 
 
     navigation(
-        route = Graph.GALLERY,
-        startDestination = GalleryDestinations.Pictures.route
+        route = GalleryGraph.graph,
+        startDestination = GalleryGraph.startDestination
     ) {
 
 
@@ -59,34 +61,55 @@ fun NavGraphBuilder.galleryNavigationGraph(
 
 
 
-        composable(
-            route = GalleryDestinations.Pictures.fullRoute,
-            arguments = GalleryDestinations.Pictures.arguments,
-        ){
+        //TODO: verificar se precisa de ser full route
+        PicturesRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
 
-            PicturesScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                scaffoldState = scaffoldState,
-                onNavigate = {
-                    navController.navigate(it.route)
-                }
-            )
-        }
 
-        composable(
-            route = GalleryDestinations.PictureDetail.fullRoute,
-            arguments = GalleryDestinations.PictureDetail.arguments,
-            deepLinks = GalleryDestinations.PictureDetail.deepLink
-        ) {
-            PictureDetailScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                scaffoldState = scaffoldState
-            )
-        }
+//        composable(
+//            route = GalleryDestinations.Pictures.fullRoute,
+//            arguments = GalleryDestinations.Pictures.arguments,
+//        ){
+//
+//
+//            PicturesScreen(
+//                onPopBackStack = {
+//                    navController.popBackStack()
+//                },
+//                scaffoldState = scaffoldState,
+//                onNavigate = {
+//                    navController.navigate(it.route)
+//                }
+//            )
+//        }
+
+        //TODO: verificar os argumentos
+        PictureDetailRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
+
+//        composable(
+//            route = GalleryDestinations.PictureDetail.fullRoute,
+//            arguments = GalleryDestinations.PictureDetail.arguments,
+//            deepLinks = GalleryDestinations.PictureDetail.deepLink
+//        ) {
+//            PictureDetailScreen(
+//                onPopBackStack = {
+//                    navController.popBackStack()
+//                },
+//                scaffoldState = scaffoldState
+//            )
+//        }
+
+
+//        composable(
+//            route = GalleryDestinations.PictureDetail.fullRoute,
+//            arguments = GalleryDestinations.Pictures.arguments
+//        ) {
+//            PictureDetailScreen(
+//                onPopBackStack = {
+//                    navController.popBackStack()
+//                },
+//                scaffoldState = scaffoldState
+//            )
+//        }
     }
 }
 

@@ -9,43 +9,28 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.grid.FGStaggeredVerticalGrid
 import com.artemissoftware.common.composables.scaffold.FGScaffold
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
-import com.artemissoftware.firegallery.ui.ManageUIEvents
-import com.artemissoftware.firegallery.ui.UiEvent
 
 @Composable
 fun PicturesScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
-    onPopBackStack: () -> Unit,
-    scaffoldState: FGScaffoldState,
-    viewModel: PicturesViewModel = hiltViewModel()
+    viewModel: PicturesViewModel
 ) {
 
     val state = viewModel.state.collectAsState()
 
-    ManageUIEvents(
-        uiEvent = viewModel.uiEvent,
-        scaffoldState = scaffoldState,
-        onPopBackStack = onPopBackStack,
-        onNavigate = onNavigate
-    )
 
     BuildPicturesScreen(
         state = state.value,
-        events = viewModel::onTriggerEvent,
-        onPopBackStack = onPopBackStack
+        events = viewModel::onTriggerEvent
     )
 
 }
 
 @Composable
 private fun BuildPicturesScreen(
-    onPopBackStack: () -> Unit,
     state: PictureState,
     events: ((PictureEvents) -> Unit)? = null
 ) {
@@ -55,7 +40,7 @@ private fun BuildPicturesScreen(
         showTopBar = state.showOptions,
         title = state.galleryName,
         onNavigationClick = {
-            onPopBackStack.invoke()
+            events?.invoke(PictureEvents.PopBackStack)
         },
     ) {
 
@@ -92,5 +77,5 @@ private fun BuildPicturesScreen(
 @Composable
 private fun GalleryScreenPreview() {
 
-    BuildPicturesScreen(state = PictureState(pictures = Picture.picturesMockList), onPopBackStack = {})
+    BuildPicturesScreen(state = PictureState(pictures = Picture.picturesMockList))
 }

@@ -24,21 +24,12 @@ import com.artemissoftware.firegallery.ui.ManageUIEvents
 
 @Composable
 fun RegisterScreen(
-    onPopBackStack: () -> Unit,
-    scaffoldState: FGScaffoldState,
-    viewModel: RegisterViewModel = hiltViewModel()
+    viewModel: RegisterViewModel
 ) {
 
     val state = viewModel.state.collectAsState()
 
-    ManageUIEvents(
-        uiEvent = viewModel.uiEvent,
-        onPopBackStack = onPopBackStack,
-        scaffoldState = scaffoldState
-    )
-
     BuildRegisterScreen(
-        onPopBackStack = onPopBackStack,
         state = state.value,
         events = viewModel::onTriggerEvent,
         email = viewModel.email,
@@ -52,7 +43,6 @@ fun RegisterScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BuildRegisterScreen(
-    onPopBackStack: () -> Unit,
     state: RegisterState,
     events: ((RegisterEvents) -> Unit)? = null,
     email: String,
@@ -66,7 +56,7 @@ private fun BuildRegisterScreen(
         isLoading = state.isLoading,
         showTopBar = true,
         onNavigationClick = {
-            onPopBackStack.invoke()
+            events?.invoke(RegisterEvents.PopBackStack)
         }
     ) {
 
@@ -172,7 +162,7 @@ private fun RegisterScreenPreview() {
 
     val state = RegisterState()
 
-    BuildRegisterScreen(onPopBackStack = {}, state = state, email = "email", username = "username",
+    BuildRegisterScreen(state = state, email = "email", username = "username",
         password = "password",
         confirmPassword = "confirmPassword")
 }

@@ -22,21 +22,10 @@ import com.artemissoftware.firegallery.ui.UiEvent
 
 @Composable
 fun FavoritesScreen(
-    onChangeCurrentPositionBottomBar: (UiEvent.ChangeCurrentPositionBottomBar) -> Unit,
-    onNavigate: (UiEvent.Navigate) -> Unit,
-    scaffoldState: FGScaffoldState,
-    viewModel: FavoritesViewModel = hiltViewModel()
+    viewModel: FavoritesViewModel
 ){
 
     val state = viewModel.state.collectAsState()
-
-    ManageUIEvents(
-        onChangeCurrentPositionBottomBar = onChangeCurrentPositionBottomBar,
-        uiEvent = viewModel.uiEvent,
-        scaffoldState = scaffoldState,
-        onNavigate = onNavigate
-    )
-
 
     BuildFavoritesScreen(state = state.value, events = viewModel::onTriggerEvent)
 

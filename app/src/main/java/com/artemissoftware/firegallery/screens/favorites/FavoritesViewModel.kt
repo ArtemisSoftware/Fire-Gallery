@@ -9,8 +9,8 @@ import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase
 import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
@@ -123,7 +123,8 @@ class FavoritesViewModel @Inject constructor(
                             dialogOptions = DialogOptions(
                                 confirmationTextId = R.string.accept,
                                 confirmation = {
-                                    sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(HomeDestinations.Gallery))
+                                    sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(
+                                        DestinationRoutes.HomeGraph.gallery))
                                 }
                             )
                         )
@@ -139,7 +140,7 @@ class FavoritesViewModel @Inject constructor(
                             dialogOptions = DialogOptions(
                                 confirmationTextId = R.string.accept,
                                 confirmation = {
-                                    sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(HomeDestinations.Gallery))
+                                    sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(DestinationRoutes.HomeGraph.gallery))
                                 }
                             )
                         )

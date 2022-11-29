@@ -12,7 +12,7 @@ fun BaseDestinations.toBottomBarItem(
 ): BottomBarItem{
 
     return BottomBarItem(
-        route = this.route,
+        route = this.getRoutel(),
         title = title,
         activeIcon = activeIcon,
         inactiveIcon = inactiveIcon

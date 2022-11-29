@@ -5,6 +5,10 @@ import android.content.Intent
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
@@ -12,6 +16,9 @@ import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.MainActivity
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.SplashScreen
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.RootGraph
+import com.artemissoftware.firegallery.screens.home.HomeScreen
+import com.artemissoftware.firegallery.screens.splash.SplashRoute
 
 
 //@OptIn(ExperimentalAnimationApi::class)
@@ -78,33 +85,51 @@ fun RootNavigationGraph(
     scaffoldState: FGScaffoldState
 ) {
 
-    //val startDestination = remember { mutableStateOf(RootDestinations.Splash.route) }
-    val context = LocalContext.current
+    val startDestination = remember { mutableStateOf(RootDestinations.Splash.route) }
+
     NavHost(
         navController = navController,
-        route = Graph.ROOT,
-        startDestination = RootDestinations.Splash.route
+        route = RootGraph.graph,
+        startDestination = RootGraph.startDestination
     ) {
 
-        composable(route = RootDestinations.Splash.route) {
-            SplashScreen(
-                scaffoldState = scaffoldState,
-                onFinishAndStartActivity = {
-                    val intent = Intent(context, it.activity)
+        SplashRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
 
-                    context.startActivity(scaffoldState.updateIntent(intent))
-                    (context as? Activity)?.finish()
-                },
-                onNavigatePopUpTo = {
-                    navController.navigate(it.destinationRoute) {
-                        popUpTo(it.currentRoute) {
-                            inclusive = true
-                        }
-                    }
-                },
 
-            )
-        }
+//        composable(route = RootDestinations.Splash.route) {
+//            SplashScreen(
+//                scaffoldState = scaffoldState,
+//                onFinishAndStartActivity = {
+//                    val intent = Intent(context, it.activity)
+//
+//                    context.startActivity(scaffoldState.updateIntent(intent))
+//                    (context as? Activity)?.finish()
+//                },
+//                onNavigatePopUpTo = {
+//                    navController.navigate(it.destinationRoute) {
+//                        popUpTo(it.currentRoute) {
+//                            inclusive = true
+//                        }
+//                    }
+//                },
+//
+//                )
+//        }
+
+
+//        composable(route = RootDestinations.Splash.route) {
+//            SplashScreen(
+//                scaffoldState = scaffoldState,
+//                onNavigatePopUpTo = {
+//                    navController.navigate(it.destinationRoute) {
+//                        popUpTo(it.currentRoute) {
+//                            inclusive = true
+//                        }
+//                    }
+//                },
+//
+//            )
+//        }
 
 //        composable(route = RootDestinations.Home.route) {
 //            HomeScreen(scaffoldState = scaffoldState)

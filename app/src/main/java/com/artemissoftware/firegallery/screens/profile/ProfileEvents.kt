@@ -7,4 +7,5 @@ sealed class ProfileEvents: FGBaseEvents() {
     object LogOut: ProfileEvents()
     object GoToLogin : ProfileEvents()
     object GoToRegister : ProfileEvents()
+    object GoToFavorites : ProfileEvents()
 }

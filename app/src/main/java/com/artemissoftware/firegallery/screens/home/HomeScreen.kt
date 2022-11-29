@@ -20,10 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.artemissoftware.common.composables.navigation.mapper.toBottomBarItem
-import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.firegallery.navigation.graphs.HomeNavigationGraph
 import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.navigation.HomeNavigationGraph
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
@@ -40,8 +39,6 @@ fun HomeScreen(
         bottomBarItems = scaffoldState.bottomBarItems.value,
         navController = navController
     ) {
-
-
         HomeNavigationGraph(navController = navController, scaffoldState = scaffoldState)
 
         scaffoldState.executeDeepLink(navController)

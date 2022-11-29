@@ -6,7 +6,7 @@ import com.artemissoftware.domain.models.profile.AppConfig
 import com.artemissoftware.domain.usecases.authentication.LogOutUseCase
 import com.artemissoftware.domain.usecases.profile.GetProfileUseCase
 import com.artemissoftware.domain.usecases.profile.UpdateProfileUseCase
-import com.artemissoftware.firegallery.navigation.graphs.ProfileDestinations
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.screens.profile.ProfileEvents.UpdateProfile
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
@@ -41,10 +41,13 @@ class ProfileViewModel @Inject constructor(
                 logOut()
             }
             ProfileEvents.GoToLogin -> {
-                sendUiEvent(UiEvent.Navigate(ProfileDestinations.LogInUser.route))
+                sendUiEvent(UiEvent.Navigate(DestinationRoutes.ProfileGraph.login.route))
             }
             ProfileEvents.GoToRegister -> {
-                sendUiEvent(UiEvent.Navigate(ProfileDestinations.RegisterUser.route))
+                sendUiEvent(UiEvent.Navigate(DestinationRoutes.ProfileGraph.register.route))
+            }
+            ProfileEvents.GoToFavorites -> {
+                sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(DestinationRoutes.HomeGraph.favorites))
             }
         }
     }

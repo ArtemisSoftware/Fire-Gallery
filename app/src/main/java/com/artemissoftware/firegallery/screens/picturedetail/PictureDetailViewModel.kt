@@ -49,6 +49,9 @@ class PictureDetailViewModel @Inject constructor(
             is PictureDetailEvents.FavoritePicture -> {
                 saveFavorite(pictureId = event.id, isFavorite = event.isFavorite)
             }
+            PictureDetailEvents.PopBackStack -> {
+                sendUiEvent(UiEvent.PopBackStack)
+            }
         }
     }
 
