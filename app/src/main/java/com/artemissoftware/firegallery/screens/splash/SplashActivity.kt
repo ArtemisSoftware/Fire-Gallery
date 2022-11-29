@@ -1,7 +1,6 @@
 package com.artemissoftware.firegallery.screens.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,8 +12,6 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
 import com.artemissoftware.firegallery.MainActivity
-import com.artemissoftware.firegallery.MainViewModel
-import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.graphs.RootNavigationGraph
 import com.artemissoftware.firegallery.screens.splash.activity.SplashActivityViewModel
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme

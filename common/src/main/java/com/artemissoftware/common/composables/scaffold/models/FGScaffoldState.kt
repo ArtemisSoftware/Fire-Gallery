@@ -250,7 +250,13 @@ class FGScaffoldState(
 
     fun executeDeepLink(navController: NavHostController){
         deepLink.value?.let{
-            navController.navigate(it)
+            try {
+                navController.navigate(it)
+            }
+            catch(e: IllegalArgumentException){
+                //TODO: solucao mais bonita, mas a que está é boa
+                //navController.navigate(it)
+            }
         }
 
         deepLink.value = null

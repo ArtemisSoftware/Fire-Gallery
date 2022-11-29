@@ -9,7 +9,7 @@ import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 sealed class Destination(
     route: String,
     customArguments: List<CustomArguments> = emptyList(),
-    baseDeepLink: String = NavigationArguments.ARTEMIS_SOFTWARE_URI
+    baseDeepLink: String = NavigationArguments.FIRE_GALLERY_URI
 ) : BaseDestinations(route = route, customArguments = customArguments, baseDeepLink = baseDeepLink){
 
     object Profile : Destination(route = "PROFILE")
@@ -17,7 +17,7 @@ sealed class Destination(
     object LogInUser : Destination(route = "LOG_IN_USER")
     object Pictures : Destination(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType())))
     object Gallery : Destination(route = "GALLERY")
-    object PictureDetail : Destination(route = "PICTURE_DETAIL", listOf(CustomArguments(NavigationArguments.PICTURE_ID)))
+    object PictureDetail : Destination(route = "PICTURE_DETAIL", customArguments = listOf(CustomArguments(NavigationArguments.PICTURE_ID)))
     object Favorites : Destination(route = "FAVORITES")
     object Tinder : Destination(route = "TINDER")
     object Splash : Destination(route = "SPLASH")

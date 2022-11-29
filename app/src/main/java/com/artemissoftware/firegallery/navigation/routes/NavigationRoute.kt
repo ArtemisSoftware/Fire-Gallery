@@ -1,6 +1,9 @@
 package com.artemissoftware.firegallery.navigation.routes
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -40,8 +43,11 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
     ) {
         navGraphBuilder.composable(
             route = getDestination().getRoutel(),
-            arguments = getDestination().arguments
+            arguments = getDestination().arguments,
+            deepLinks = getDestination().deepLink
         ) {
+
+            val context = LocalContext.current
 
             val viewModel = viewModel()
 
@@ -63,7 +69,14 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
                 },
                 onChangeCurrentPositionBottomBar = {
                     scaffoldState.changeCurrentPositionBottomBar(it.destination, navController = navController)
-                }
+                },
+                onFinishAndStartActivity = {
+
+                    val intent = Intent(context, it.activity)
+
+                    context.startActivity(scaffoldState.updateIntent(intent))
+                    (context as? Activity)?.finish()
+                },
             )
 
             Content(viewModel)

@@ -1,23 +1,13 @@
 package com.artemissoftware.firegallery.navigation.graphs
 
-import android.app.Activity
-import android.content.Intent
-import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.firegallery.MainActivity
-import com.artemissoftware.firegallery.navigation.models.Graph
-import com.artemissoftware.firegallery.screens.SplashScreen
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.RootGraph
-import com.artemissoftware.firegallery.screens.home.HomeScreen
 import com.artemissoftware.firegallery.screens.splash.SplashRoute
 
 
