@@ -7,7 +7,7 @@ import com.artemissoftware.firegallery.navigation.routes.destinations.Destinatio
 
 object LogInRoute : NavigationRoute<LogInEvents, LogInViewModel> {
 
-    override fun getDestination() = DestinationRoutes.Profile.login
+    override fun getDestination() = DestinationRoutes.ProfileGraph.login
 
     @Composable
     override fun viewModel(): LogInViewModel = hiltViewModel()

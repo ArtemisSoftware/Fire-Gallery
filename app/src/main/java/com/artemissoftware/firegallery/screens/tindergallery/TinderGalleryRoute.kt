@@ -7,7 +7,7 @@ import com.artemissoftware.firegallery.navigation.routes.destinations.Destinatio
 
 object TinderGalleryRoute : NavigationRoute<TinderGalleryEvents, TinderGalleryViewModel> {
 
-    override fun getDestination() = DestinationRoutes.Home.tinderGallery
+    override fun getDestination() = DestinationRoutes.HomeGraph.tinderGallery
 
     @Composable
     override fun viewModel(): TinderGalleryViewModel = hiltViewModel()

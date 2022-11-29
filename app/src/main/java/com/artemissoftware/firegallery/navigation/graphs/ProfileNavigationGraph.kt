@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.*
 import com.artemissoftware.firegallery.screens.login.LogInRoute
 import com.artemissoftware.firegallery.screens.register.RegisterRoute
 
@@ -17,8 +17,8 @@ fun NavGraphBuilder.profileNavigationGraph(
 ) {
 
     navigation(
-        route = Graph.PROFILE,
-        startDestination = DestinationRoutes.Profile.register.route
+        route = ProfileGraph.graph,
+        startDestination = ProfileGraph.startDestination
     ) {
 
         RegisterRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)

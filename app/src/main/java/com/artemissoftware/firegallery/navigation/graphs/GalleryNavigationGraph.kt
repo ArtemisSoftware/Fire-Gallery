@@ -13,6 +13,8 @@ import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.NavigationArguments.ARTEMIS_SOFTWARE_URI
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.*
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailRoute
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 import com.artemissoftware.firegallery.screens.pictures.PicturesRoute
@@ -27,8 +29,8 @@ fun NavGraphBuilder.galleryNavigationGraph(
 
 
     navigation(
-        route = Graph.GALLERY,
-        startDestination = GalleryDestinations.Pictures.route
+        route = GalleryGraph.graph,
+        startDestination = GalleryGraph.startDestination
     ) {
 
 

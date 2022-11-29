@@ -8,7 +8,7 @@ import com.artemissoftware.firegallery.navigation.routes.destinations.Destinatio
 
 object ProfileRoute : NavigationRoute<ProfileEvents, ProfileViewModel> {
 
-    override fun getDestination() = DestinationRoutes.Home.profile
+    override fun getDestination() = DestinationRoutes.HomeGraph.profile
 
     @Composable
     override fun viewModel(): ProfileViewModel = hiltViewModel()

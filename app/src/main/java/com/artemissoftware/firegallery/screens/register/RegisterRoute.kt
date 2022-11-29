@@ -7,7 +7,7 @@ import com.artemissoftware.firegallery.navigation.routes.destinations.Destinatio
 
 object RegisterRoute : NavigationRoute<RegisterEvents, RegisterViewModel> {
 
-    override fun getDestination() = DestinationRoutes.Profile.register
+    override fun getDestination() = DestinationRoutes.ProfileGraph.register
 
     @Composable
     override fun viewModel(): RegisterViewModel = hiltViewModel()

@@ -124,7 +124,7 @@ class FavoritesViewModel @Inject constructor(
                                 confirmationTextId = R.string.accept,
                                 confirmation = {
                                     sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(
-                                        DestinationRoutes.Home.gallery))
+                                        DestinationRoutes.HomeGraph.gallery))
                                 }
                             )
                         )
@@ -140,7 +140,7 @@ class FavoritesViewModel @Inject constructor(
                             dialogOptions = DialogOptions(
                                 confirmationTextId = R.string.accept,
                                 confirmation = {
-                                    sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(DestinationRoutes.Home.gallery))
+                                    sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(DestinationRoutes.HomeGraph.gallery))
                                 }
                             )
                         )

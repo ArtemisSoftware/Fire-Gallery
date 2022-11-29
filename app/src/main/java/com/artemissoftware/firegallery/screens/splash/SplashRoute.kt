@@ -8,7 +8,7 @@ import com.artemissoftware.firegallery.screens.SplashScreen
 
 object SplashRoute : NavigationRoute<SplashEvents, SplashViewModel> {
 
-    override fun getDestination() = DestinationRoutes.Root.splash
+    override fun getDestination() = DestinationRoutes.RootGraph.splash
 
     @Composable
     override fun viewModel(): SplashViewModel = hiltViewModel()

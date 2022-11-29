@@ -12,8 +12,6 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.usecases.GetUserUseCase
-import com.artemissoftware.firegallery.navigation.HomeDestinations
-import com.artemissoftware.firegallery.navigation.routes.destinations.Destination
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +36,7 @@ class MainViewModel @Inject constructor(
 
             getUserUseCase.invoke().collectLatest { result ->
 
-                with(DestinationRoutes.Home){
+                with(DestinationRoutes.HomeGraph){
 
                     val bottomBarItems = result?.let {
 
@@ -68,7 +66,7 @@ class MainViewModel @Inject constructor(
 
         val bottomBarItems = mutableListOf<BottomBarItem>()
 
-        with(DestinationRoutes.Home) {
+        with(DestinationRoutes.HomeGraph) {
 
             items.forEach {
 

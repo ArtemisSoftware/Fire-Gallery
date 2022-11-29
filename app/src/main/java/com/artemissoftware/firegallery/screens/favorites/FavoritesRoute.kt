@@ -7,7 +7,7 @@ import com.artemissoftware.firegallery.navigation.routes.destinations.Destinatio
 
 object FavoritesRoute : NavigationRoute<FavoriteEvents, FavoritesViewModel> {
 
-    override fun getDestination() = DestinationRoutes.Home.favorites
+    override fun getDestination() = DestinationRoutes.HomeGraph.favorites
 
     @Composable
     override fun viewModel(): FavoritesViewModel = hiltViewModel()

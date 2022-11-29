@@ -7,7 +7,7 @@ import com.artemissoftware.firegallery.navigation.routes.destinations.Destinatio
 
 object GalleryRoute: NavigationRoute<GalleryEvents, GalleryViewModel> {
 
-    override fun getDestination() = DestinationRoutes.Home.gallery
+    override fun getDestination() = DestinationRoutes.HomeGraph.gallery
 
     @Composable
     override fun viewModel(): GalleryViewModel = hiltViewModel()

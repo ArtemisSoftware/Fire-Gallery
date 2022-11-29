@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.*
 import com.artemissoftware.firegallery.screens.home.HomeScreen
 import com.artemissoftware.firegallery.screens.SplashScreen
 import com.artemissoftware.firegallery.screens.splash.SplashRoute
@@ -80,8 +82,8 @@ fun RootNavigationGraph(
 
     NavHost(
         navController = navController,
-        route = Graph.ROOT,
-        startDestination = startDestination.value
+        route = RootGraph.graph,
+        startDestination = RootGraph.startDestination
     ) {
 
         SplashRoute.composable(navGraphBuilder = this, scaffoldState = scaffoldState, navController = navController)
