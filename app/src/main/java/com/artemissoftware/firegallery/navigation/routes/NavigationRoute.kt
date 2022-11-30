@@ -9,6 +9,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.routes.destinations.Destination
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
+import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailRoute
+import com.artemissoftware.firegallery.ui.AuthenticationChecker
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.FGBaseEvents
 import com.artemissoftware.firegallery.ui.ManageUIEvents
@@ -51,6 +54,12 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
 
             val viewModel = viewModel()
 
+            if(this is PictureDetailRoute) { //TODO for testing forcing authentication ....
+                AuthenticationChecker(
+                    scaffoldState = scaffoldState
+                ) { navController.navigate(DestinationRoutes.HomeGraph.profile.route) }
+            }
+
             ManageUIEvents(
                 uiEvent = viewModel.uiEvent,
                 scaffoldState = scaffoldState,
@@ -73,7 +82,6 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
                 onFinishAndStartActivity = {
 
                     val intent = Intent(context, it.activity)
-
                     context.startActivity(scaffoldState.updateIntent(intent))
                     (context as? Activity)?.finish()
                 },

@@ -18,22 +18,16 @@ fun SplashScreen(
     viewModel: SplashViewModel
 ) {
 
-    val scaffoldState = remember { FGScaffoldState() }
-
     BuildSplashScreen(
-        scaffoldState = scaffoldState,
         events = viewModel::onTriggerEvent
     )
 }
 
 @Composable
 private fun BuildSplashScreen(
-    events: ((SplashEvents) -> Unit)? = null,
-    scaffoldState: FGScaffoldState
+    events: ((SplashEvents) -> Unit)? = null
 ) {
-    FGScaffold(
-        fgScaffoldState = scaffoldState
-    ) {
+    FGScaffold {
 
         Box(
             modifier = Modifier.fillMaxSize(),

@@ -9,7 +9,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
 import com.artemissoftware.firegallery.MainActivity
 import com.artemissoftware.firegallery.navigation.graphs.RootNavigationGraph
@@ -18,12 +20,12 @@ import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
+@OptIn(ExperimentalAnimationApi::class)
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
 
     private val viewModel: SplashActivityViewModel by viewModels()
 
-    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,7 +38,7 @@ class SplashActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    RootNavigationGraph(navController = rememberAnimatedNavController(), viewModel.scaffoldState)
+                    Splash()
                 }
             }
         }
@@ -45,6 +47,18 @@ class SplashActivity : ComponentActivity() {
     }
 
 
+    @Composable
+    private fun Splash() {
+        FGScaffold(
+            fgScaffoldState = viewModel.scaffoldState
+        ) {
+
+            RootNavigationGraph(
+                navController = rememberAnimatedNavController(),
+                viewModel.scaffoldState
+            )
+        }
+    }
 
     fun startNextAndFinish(){
 

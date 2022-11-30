@@ -2,6 +2,7 @@ package com.artemissoftware.data.firebase
 
 import com.artemissoftware.data.errors.FireGalleryException
 import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -54,6 +55,13 @@ object HandleFirebase {
                 }
 
                 is FirebaseRemoteConfigException ->{
+                    throw FireGalleryException(
+                        message = "",
+                        description = ex.message
+                    )
+                }
+
+                is FirebaseNetworkException ->{
                     throw FireGalleryException(
                         message = "",
                         description = ex.message
