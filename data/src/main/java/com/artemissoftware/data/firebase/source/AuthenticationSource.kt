@@ -76,6 +76,10 @@ class AuthenticationSource @Inject constructor(private val firebaseAuth: Firebas
             }
         }
 
+    fun isLoggedIn() : Boolean {
+        return firebaseAuth.currentUser != null
+    }
+
     fun logOut() {
         return firebaseAuth.signOut()
     }
