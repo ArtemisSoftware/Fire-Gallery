@@ -1,6 +1,6 @@
 package com.artemissoftware.data.firebase.remoteconfig.models
 
-data class UserValidationFrc(
+data class UserValidationRco(
     val emailRegex: String,
     val usernameRegex: String,
     val passwordMaxLength: Int,

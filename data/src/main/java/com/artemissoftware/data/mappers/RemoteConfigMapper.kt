@@ -1,10 +1,10 @@
 package com.artemissoftware.data.mappers
 
 import com.artemissoftware.data.firebase.remoteconfig.RemoteConfigContants
-import com.artemissoftware.data.firebase.remoteconfig.models.ChipColorFrc
-import com.artemissoftware.data.firebase.remoteconfig.models.SeasonDetailFrc
-import com.artemissoftware.data.firebase.remoteconfig.models.SeasonFrc
-import com.artemissoftware.data.firebase.remoteconfig.models.UserValidationFrc
+import com.artemissoftware.data.firebase.remoteconfig.models.ChipColorRco
+import com.artemissoftware.data.firebase.remoteconfig.models.SeasonDetailRco
+import com.artemissoftware.data.firebase.remoteconfig.models.SeasonRco
+import com.artemissoftware.data.firebase.remoteconfig.models.UserValidationRco
 import com.artemissoftware.domain.models.configurations.ChipColorConfig
 import com.artemissoftware.domain.models.configurations.SeasonConfig
 import com.artemissoftware.domain.models.configurations.SeasonDetailConfig
@@ -14,33 +14,33 @@ import com.google.common.reflect.TypeToken
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.Gson
 
-fun FirebaseRemoteConfig.toSeasonConfig() : SeasonFrc{
-    return Gson().fromJson(this.getString(RemoteConfigContants.SEASON_CONFIG), object: TypeToken<SeasonFrc>(){}.type)
+fun FirebaseRemoteConfig.toSeasonConfig() : SeasonRco{
+    return Gson().fromJson(this.getString(RemoteConfigContants.SEASON_CONFIG), object: TypeToken<SeasonRco>(){}.type)
 }
 
-fun FirebaseRemoteConfig.toUserValidationConfig() : UserValidationFrc{
-    return Gson().fromJson(this.getString(RemoteConfigContants.VALIDATION_CONFIG), object: TypeToken<UserValidationFrc>(){}.type)
+fun FirebaseRemoteConfig.toUserValidationConfig() : UserValidationRco{
+    return Gson().fromJson(this.getString(RemoteConfigContants.VALIDATION_CONFIG), object: TypeToken<UserValidationRco>(){}.type)
 }
 
-fun SeasonDetailFrc.toSeasonDetailConfig(): SeasonDetailConfig {
+fun SeasonDetailRco.toSeasonDetailConfig(): SeasonDetailConfig {
     return SeasonDetailConfig(this.chipColor.toChipColorConfig())
 }
 
-fun SeasonFrc.toSeasonConfig(): SeasonConfig {
+fun SeasonRco.toSeasonConfig(): SeasonConfig {
     return SeasonConfig(chipColor = this.chipColor.toChipColorConfig())
 }
 
-fun SeasonFrc.toSeasonDetailConfig(seasonType: SeasonType): SeasonDetailConfig {
+fun SeasonRco.toSeasonDetailConfig(seasonType: SeasonType): SeasonDetailConfig {
     return this.getSeason(seasonType).toSeasonDetailConfig()
 }
 
-fun ChipColorFrc.toChipColorConfig(): ChipColorConfig {
+fun ChipColorRco.toChipColorConfig(): ChipColorConfig {
     return ChipColorConfig(this.start, this.end, this.icon)
 }
 
 
 
-fun UserValidationFrc.toUserValidationConfig(): UserValidationConfig {
+fun UserValidationRco.toUserValidationConfig(): UserValidationConfig {
     return UserValidationConfig(
         emailRegex = this.emailRegex,
         passwordMaxLength = this.passwordMaxLength,

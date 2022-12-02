@@ -3,25 +3,26 @@ package com.artemissoftware.data.firebase.remoteconfig.models
 import com.artemissoftware.domain.util.SeasonType
 import com.google.gson.annotations.SerializedName
 
-data class SeasonFrc(
+data class SeasonRco(
     @SerializedName("backgroundColor")
     val backgroundColor: String,
     @SerializedName("chipColor")
-    val chipColor: ChipColorFrc,
+    val chipColor: ChipColorRco,
     @SerializedName("seasonMessage")
     val seasonMessage: String,
 
     @SerializedName("spring")
-    val spring: SeasonDetailFrc,
+    val spring: SeasonDetailRco,
     @SerializedName("summer")
-    val summer: SeasonDetailFrc,
+    val summer: SeasonDetailRco,
     @SerializedName("autumn")
-    val autumn: SeasonDetailFrc,
+    val autumn: SeasonDetailRco,
     @SerializedName("winter")
-    val winter: SeasonDetailFrc
+    val winter: SeasonDetailRco
 ){
 
-    fun getSeason(seasonType: SeasonType): SeasonDetailFrc{
+    //TODO tirar isto daqui
+    fun getSeason(seasonType: SeasonType): SeasonDetailRco{
         return when(seasonType){
             SeasonType.SPRING -> spring
             SeasonType.SUMMER -> summer
