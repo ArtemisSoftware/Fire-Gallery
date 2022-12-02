@@ -3,6 +3,7 @@ package com.artemissoftware.firegallery.screens.login
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
@@ -10,6 +11,8 @@ import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.authentication.LogInUseCase
 import com.artemissoftware.domain.usecases.authentication.ValidateLoginUseCase
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.NavigationArguments
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LogInViewModel @Inject constructor(
     private val validateLoginUseCase: ValidateLoginUseCase,
-    private val loginUseCase: LogInUseCase
+    private val loginUseCase: LogInUseCase,
+    savedStateHandle: SavedStateHandle
 ) : FGBaseEventViewModel<LogInEvents>() {
 
     private val _state: MutableStateFlow<LogInState> = MutableStateFlow(LogInState())
@@ -33,6 +37,13 @@ class LogInViewModel @Inject constructor(
 
     var password by mutableStateOf("")
         private set
+
+    private var redirectRoute: String? = null
+
+    init {
+        redirectRoute = savedStateHandle.get<String>(NavigationArguments.REDIRECT_ROUTE)
+
+    }
 
     override fun onTriggerEvent(event: LogInEvents) {
         when(event){
@@ -47,7 +58,16 @@ class LogInViewModel @Inject constructor(
                 logInUser()
             }
             LogInEvents.PopBackStack -> {
-                sendUiEvent(UiEvent.PopBackStack)
+
+                redirectRoute?.let {
+
+                    //sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(DestinationRoutes.HomeGraph.gallery))
+                    sendUiEvent(UiEvent.NavigatePopUpTo(currentRoute = DestinationRoutes.ProfileGraph.login.getRoutel(),  destinationRoute = DestinationRoutes.HomeGraph.gallery.getRoutel()))
+                    redirectRoute = null
+                } ?: kotlin.run {
+                    sendUiEvent(UiEvent.PopBackStack)
+                }
+
             }
         }
     }
@@ -69,7 +89,7 @@ class LogInViewModel @Inject constructor(
                         isLoading = false
                     )
 
-                    sendUiEvent(UiEvent.PopBackStack)
+                    redirect()
                 }
                 is Resource.Error -> {
 
@@ -101,4 +121,15 @@ class LogInViewModel @Inject constructor(
 
         }.launchIn(viewModelScope)
     }
+
+    private fun redirect(){
+
+        redirectRoute?.let {
+            sendUiEvent(UiEvent.PopBackStackInclusive(route = it))
+        } ?: kotlin.run {
+            sendUiEvent(UiEvent.PopBackStack)
+        }
+
+    }
+
 }

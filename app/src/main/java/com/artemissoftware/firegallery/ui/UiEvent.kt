@@ -8,6 +8,7 @@ sealed class UiEvent {
     data class ShowDialog(val dialogType: DialogType): UiEvent()
 
     object PopBackStack: UiEvent()
+    data class PopBackStackInclusive(val route: String): UiEvent()
 
     data class Navigate(val route: String): UiEvent()
     data class NavigatePopUpTo(val currentRoute: String, val destinationRoute: String): UiEvent()

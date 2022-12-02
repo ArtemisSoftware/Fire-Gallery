@@ -14,7 +14,7 @@ sealed class Destination(
 
     object Profile : Destination(route = "PROFILE")
     object RegisterUser : Destination(route = "REGISTER_USER")
-    object LogInUser : Destination(route = "LOG_IN_USER")
+    object LogInUser : Destination(route = "LOG_IN_USER", customArguments = listOf(CustomArguments(NavigationArguments.REDIRECT_ROUTE, nullable = true)))
     object Pictures : Destination(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType())))
     object Gallery : Destination(route = "GALLERY")
     object PictureDetail : Destination(route = "PICTURE_DETAIL", customArguments = listOf(CustomArguments(NavigationArguments.PICTURE_ID)))

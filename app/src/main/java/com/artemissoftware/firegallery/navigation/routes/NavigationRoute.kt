@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.extensions.changeGraph
 import com.artemissoftware.firegallery.navigation.routes.destinations.Destination
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailRoute
@@ -57,21 +58,31 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
             if(this is PictureDetailRoute) { //TODO for testing forcing authentication ....
                 AuthenticationChecker(
                     scaffoldState = scaffoldState
-                ) { navController.navigate(DestinationRoutes.HomeGraph.profile.route) }
+                ) { navController.navigate(DestinationRoutes.ProfileGraph.login.withArgs(this.getDestination().getRoutel())) }
             }
 
             ManageUIEvents(
                 uiEvent = viewModel.uiEvent,
                 scaffoldState = scaffoldState,
                 onNavigatePopUpTo = {
-                    navController.navigate(it.destinationRoute) {
-                        popUpTo(it.currentRoute) {
-                            inclusive = true
-                        }
-                    }
+
+                    navController.popBackStack(it.destinationRoute, inclusive = false, saveState = false)
+
+                                    //navController?.changeGraph(it.destinationRoute)
+                    //--navController.navigate(it.destinationRoute) { popUpToTop(navController) }
+                    //navController.popBackStack(route = it.destinationRoute, inclusive = false)
+//                    navController.navigate(it.destinationRoute) {
+//                        popUpTo(it.currentRoute) {
+//                            inclusive = true
+//                        }
+//                    }
+
                 },
                 onPopBackStack = {
                     navController.popBackStack()
+                },
+                onPopBackStackInclusive = {
+                    navController.popBackStack(route = it.route, inclusive = true)
                 },
                 onNavigate =  {
                     navController.navigate(it.route)
