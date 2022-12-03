@@ -8,18 +8,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.common.extensions.changeGraph
 import com.artemissoftware.firegallery.navigation.routes.destinations.Destination
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
-import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailRoute
-import com.artemissoftware.firegallery.ui.AuthenticationChecker
-import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.FGBaseEvents
-import com.artemissoftware.firegallery.ui.ManageUIEvents
+import com.artemissoftware.firegallery.ui.*
 
 interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
 
     fun getDestination(): Destination
+
+    fun requiresAuthentication(): Boolean = false
 
     /**
      * Returns the screen's ViewModel. Needs to be overridden so that Hilt can generate code for the factory for the ViewModel class.
@@ -42,7 +39,7 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
      */
     fun composable(
         navGraphBuilder: NavGraphBuilder,
-        scaffoldState: FGScaffoldState,
+        scaffoldState: FG_ScaffoldState,
         navController: NavHostController
     ) {
         navGraphBuilder.composable(
@@ -55,11 +52,13 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
 
             val viewModel = viewModel()
 
-            if(this is PictureDetailRoute) { //TODO for testing forcing authentication ....
-                AuthenticationChecker(
-                    scaffoldState = scaffoldState
-                ) { navController.navigate(DestinationRoutes.ProfileGraph.login.withArgs(this.getDestination().getRoutel())) }
-            }
+            AuthenticationChecker(
+                scaffoldState = scaffoldState,
+                required = requiresAuthentication(),
+                redirect = {
+                    navController.navigate(DestinationRoutes.ProfileGraph.login.withArgs(this.getDestination().getRoutel()))
+                }
+            )
 
             ManageUIEvents(
                 uiEvent = viewModel.uiEvent,

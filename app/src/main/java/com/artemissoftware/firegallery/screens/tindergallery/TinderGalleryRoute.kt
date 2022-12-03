@@ -9,6 +9,8 @@ object TinderGalleryRoute : NavigationRoute<TinderGalleryEvents, TinderGalleryVi
 
     override fun getDestination() = DestinationRoutes.HomeGraph.tinderGallery
 
+    override fun requiresAuthentication() = true
+
     @Composable
     override fun viewModel(): TinderGalleryViewModel = hiltViewModel()
 

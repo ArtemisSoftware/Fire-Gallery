@@ -3,17 +3,17 @@ package com.artemissoftware.firegallery.navigation.graphs
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.HomeGraph
 import com.artemissoftware.firegallery.screens.favorites.FavoritesRoute
 import com.artemissoftware.firegallery.screens.gallery.GalleryRoute
 import com.artemissoftware.firegallery.screens.profile.ProfileRoute
 import com.artemissoftware.firegallery.screens.tindergallery.TinderGalleryRoute
+import com.artemissoftware.firegallery.ui.FG_ScaffoldState
 
 @Composable
 fun HomeNavigationGraph(
     navController: NavHostController,
-    scaffoldState: FGScaffoldState
+    scaffoldState: FG_ScaffoldState
 ) {
 
     NavHost(

@@ -3,15 +3,12 @@ package com.artemissoftware.firegallery.services
 import com.artemissoftware.domain.models.LocalNotification
 import com.artemissoftware.domain.usecases.notifications.UpdateFirebaseTokenUseCase
 import com.artemissoftware.domain.usecases.notifications.GenerateLocalNotificationUseCase
-import com.artemissoftware.firegallery.MainActivity
-import com.artemissoftware.firegallery.screens.splash.SplashActivity
+import com.artemissoftware.firegallery.screens.splash.activity.SplashActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

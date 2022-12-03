@@ -3,12 +3,14 @@ package com.artemissoftware.firegallery.screens.tindergallery
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.models.SwipeResult
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.domain.usecases.tinder.GetPicturesForTinderUseCase
+import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TinderGalleryViewModel @Inject constructor(
     private val getPicturesForTinderUseCase: GetPicturesForTinderUseCase,
-    private val updateFavoriteUseCase: UpdateFavoriteUseCase
+    private val updateFavoriteUseCase: UpdateFavoriteUseCase,
+    savedStateHandle: SavedStateHandle
 ) : FGBaseEventViewModel<TinderGalleryEvents>() {
 
 
@@ -31,6 +34,7 @@ class TinderGalleryViewModel @Inject constructor(
 
 
     init {
+        val pictureId = savedStateHandle.get<String>(NavigationArguments.SEASON).orEmpty()
         onTriggerEvent(TinderGalleryEvents.FetchMorePictures)
     }
 

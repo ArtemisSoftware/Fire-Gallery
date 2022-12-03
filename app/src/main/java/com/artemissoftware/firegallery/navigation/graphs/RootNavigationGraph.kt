@@ -9,6 +9,7 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.RootGraph
 import com.artemissoftware.firegallery.screens.splash.SplashRoute
+import com.artemissoftware.firegallery.ui.FG_ScaffoldState
 
 
 //@OptIn(ExperimentalAnimationApi::class)
@@ -72,7 +73,7 @@ import com.artemissoftware.firegallery.screens.splash.SplashRoute
 @Composable
 fun RootNavigationGraph(
     navController: NavHostController,
-    scaffoldState: FGScaffoldState
+    scaffoldState: FG_ScaffoldState
 ) {
 
     val startDestination = remember { mutableStateOf(RootDestinations.Splash.route) }

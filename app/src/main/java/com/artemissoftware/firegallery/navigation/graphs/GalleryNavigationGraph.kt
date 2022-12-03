@@ -4,18 +4,17 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.*
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes.*
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailRoute
 import com.artemissoftware.firegallery.screens.pictures.PicturesRoute
+import com.artemissoftware.firegallery.ui.FG_ScaffoldState
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.galleryNavigationGraph(
     navController: NavHostController,
-    scaffoldState: FGScaffoldState,
-    dplink: Boolean = false
+    scaffoldState: FG_ScaffoldState
 ) {
 
 

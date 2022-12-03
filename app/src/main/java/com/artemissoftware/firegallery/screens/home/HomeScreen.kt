@@ -5,14 +5,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.scaffold.FGScaffold
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.graphs.HomeNavigationGraph
+import com.artemissoftware.firegallery.ui.FG_ScaffoldState
 
 
 @Composable
 fun HomeScreen(
     navController: NavHostController = rememberNavController(),
-    scaffoldState: FGScaffoldState
+    scaffoldState: FG_ScaffoldState
 ) {
 
     FGScaffold(

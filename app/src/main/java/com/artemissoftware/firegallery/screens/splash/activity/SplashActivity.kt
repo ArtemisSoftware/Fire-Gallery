@@ -1,4 +1,4 @@
-package com.artemissoftware.firegallery.screens.splash
+package com.artemissoftware.firegallery.screens.splash.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,6 @@ import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
 import com.artemissoftware.firegallery.MainActivity
 import com.artemissoftware.firegallery.navigation.graphs.RootNavigationGraph
-import com.artemissoftware.firegallery.screens.splash.activity.SplashActivityViewModel
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
