@@ -9,6 +9,7 @@ import com.google.gson.Gson
 
 abstract class BaseDestinations(
     val route: String,
+    val host: String? = null,
     private val baseDeepLink: String? = null,
     private val customArguments: List<CustomArguments> = emptyList()
 ) {
@@ -25,7 +26,7 @@ abstract class BaseDestinations(
         }
     }
 
-    private val link: String = buildString {
+    val link: String = buildString {
         append(baseDeepLink)
         customArguments.forEachIndexed { index, custom ->
             val symbol = if (index == 0) "/" else "&"

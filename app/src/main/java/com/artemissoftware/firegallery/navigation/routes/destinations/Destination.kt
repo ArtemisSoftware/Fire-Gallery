@@ -9,8 +9,9 @@ import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 sealed class Destination(
     route: String,
     customArguments: List<CustomArguments> = emptyList(),
+    host: String = NavigationArguments.FIRE_GALLERY_HOST,
     baseDeepLink: String = NavigationArguments.FIRE_GALLERY_URI
-) : BaseDestinations(route = route, customArguments = customArguments, baseDeepLink = baseDeepLink){
+) : BaseDestinations(route = route, customArguments = customArguments, host = host, baseDeepLink = baseDeepLink){
 
     object Profile : Destination(route = "PROFILE")
     object RegisterUser : Destination(route = "REGISTER_USER")

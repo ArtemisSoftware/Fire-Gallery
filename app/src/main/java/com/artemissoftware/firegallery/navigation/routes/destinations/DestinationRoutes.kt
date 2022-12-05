@@ -1,5 +1,8 @@
 package com.artemissoftware.firegallery.navigation.routes.destinations
 
+import android.net.Uri
+import com.artemissoftware.common.composables.navigation.models.CustomArguments
+import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.routes.NavigationGraph
 
 class DestinationRoutes {
@@ -21,6 +24,8 @@ class DestinationRoutes {
         val gallery = Destination.Gallery
         val favorites = Destination.Favorites
         val tinderGallery = Destination.Tinder
+
+        fun getRoutes() = listOf(Destination.Profile, Destination.Gallery, Destination.Favorites, Destination.Tinder)
     }
 
     object ProfileGraph : NavigationGraph {
@@ -40,6 +45,46 @@ class DestinationRoutes {
         val pictures = Destination.Pictures
         val pictureDetail = Destination.PictureDetail
     }
+
+
+    private fun getDestination(destinations: List<Destination>, path: String) = destinations.find { path.contains(it.route.toLowerCase()) }
+
+
+    fun findRoute(uri: Uri): Destination?{
+
+        val args = uri.queryParameterNames.toList()
+
+        uri.path?.let {
+
+            getDestination(HomeGraph.getRoutes(), it)?.let { destination->
+
+                return  when (destination) {
+
+                    is Destination.Tinder -> {
+                        val season = uri.getQueryParameter(args[0])
+                        destination.withArgs(season)
+                        destination
+                    }
+                    else ->{
+                        null
+                    }
+                }
+            }
+        }
+
+        return null
+
+    }
+
+
+//    Uri uri = Uri.parse("http://www.chalklit.in/post.html?chapter=V-Maths-Addition%20&%20Subtraction&post=394");
+//    String server = uri.getAuthority();
+//    String path = uri.getPath();
+//    String protocol = uri.getScheme();
+//    Set<String> args = uri.getQueryParameterNames();
+//    Then you can even get a specific element from the query parameters as such;
+//
+//    String chapter = uri.getQueryParameter("chapter");  //will return "V-Maths-Addition "
 }
 
 
