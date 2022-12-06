@@ -4,4 +4,5 @@ interface NavigationGraph {
 
     val graph : String
     val startDestination : String
+
 }

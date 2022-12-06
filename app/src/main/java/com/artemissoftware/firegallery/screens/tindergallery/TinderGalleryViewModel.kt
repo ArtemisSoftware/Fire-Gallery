@@ -34,6 +34,7 @@ class TinderGalleryViewModel @Inject constructor(
 
 
     init {
+        //TODO: mudar o nome da variável
         val pictureId = savedStateHandle.get<String>(NavigationArguments.SEASON).orEmpty()
         onTriggerEvent(TinderGalleryEvents.FetchMorePictures)
     }

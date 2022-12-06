@@ -1,7 +1,6 @@
 package com.artemissoftware.firegallery.navigation.routes.destinations
 
 import android.net.Uri
-import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.routes.NavigationGraph
 
@@ -50,19 +49,17 @@ class DestinationRoutes {
     private fun getDestination(destinations: List<Destination>, path: String) = destinations.find { path.contains(it.route.toLowerCase()) }
 
 
-    fun findRoute(uri: Uri): Destination?{
-
-        val args = uri.queryParameterNames.toList()
+    private fun getHomeGraphDestination(uri: Uri): Destination?{
 
         uri.path?.let {
 
             getDestination(HomeGraph.getRoutes(), it)?.let { destination->
 
-                return  when (destination) {
+                return when (destination) {
 
                     is Destination.Tinder -> {
-                        val season = uri.getQueryParameter(args[0])
-                        destination.withArgs(season)
+                        val season = uri.getQueryParameter(NavigationArguments.SEASON)
+                        destination.withArgs(season) //TODO: não grava os argumentos é preciso gravar
                         destination
                     }
                     else ->{
@@ -70,6 +67,17 @@ class DestinationRoutes {
                     }
                 }
             }
+        }
+
+        return null
+    }
+
+
+    //TODO o que fazer  quando devolver null????
+    fun findDestination(uri: Uri): Destination?{
+
+        getHomeGraphDestination(uri)?.let { destination->
+            return destination
         }
 
         return null
