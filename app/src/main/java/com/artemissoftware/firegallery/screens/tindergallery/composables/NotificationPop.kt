@@ -26,6 +26,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.text.FGText
+import com.artemissoftware.common.composables.topbar.FGCollapsedState
 import com.artemissoftware.common.theme.Purple200
 import com.artemissoftware.common.theme.RedOrange
 import com.artemissoftware.firegallery.R
@@ -75,21 +76,21 @@ fun SwipeableNotification_final(
         animationSpec = TweenSpec(3500, 0)
     )
 
-    LaunchedEffect(key1 = true){
+//    LaunchedEffect(key1 = true){
+//
+//        delay(700)
+//
+//        isAnimating = true
+//
+//        delay(5000)
+//        squareSize = widthText.value - 8.dp
+//        isAnimating = false
+//
+//    }
 
-        delay(700)
-
-        isAnimating = true
-
-        delay(5000)
-        squareSize = widthText.value - 8.dp
-        isAnimating = false
-
-    }
 
 
-
-    if(isAnimating) {
+//    if(isAnimating) {
 
         TutorialNotificationCard(
             text = text,
@@ -99,17 +100,17 @@ fun SwipeableNotification_final(
             shape = shape
         )
 
-    }
-    else {
-
-        SwipeableNotificationCard(
-            text = text,
-            imageUrl = imageUrl,
-            widthIcon = widthIcon,
-            widthText = widthText
-        )
-
-    }
+//    }
+//    else {
+//
+//        SwipeableNotificationCard(
+//            text = text,
+//            imageUrl = imageUrl,
+//            widthIcon = widthIcon,
+//            widthText = widthText
+//        )
+//
+//    }
 
 }
 
@@ -190,7 +191,10 @@ private fun SwipeableNotificationCardPreview() {
 
 
 
-
+enum class Tutot {
+    EXPAND,
+    RETRACT
+}
 
 
 @Composable
@@ -205,12 +209,42 @@ private fun TutorialNotificationCard(
     shape: State<Int>
 ) {
 
+    var start = remember { mutableStateOf(true) }
+    var currentState = remember { mutableStateOf(Tutot.RETRACT) }
+
+    LaunchedEffect(key1 = start.value) {
+        currentState.value =
+            if (start.value) Tutot.EXPAND else Tutot.RETRACT
+    }
+    val transition = updateTransition(currentState.value, label = "")
+
+
+    var squareSize = widthText.value - 8.dp
+    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
+
+
+    val optionHeight by animateIntAsState(
+        targetValue = if (currentState.value == Tutot.RETRACT) -sizePx.toInt() else 0,
+        animationSpec = tween(
+            durationMillis = 2000, // duration
+            delayMillis = 2000, // delay before start animation
+            easing = FastOutSlowInEasing
+        ),
+        finishedListener = {
+            //currentState.value = Tutot.RETRACT
+            start.value = false
+        }
+
+    )
+
+
     Box(
         modifier = modifier
             .offset {
 
                 IntOffset(
-                    shape.value,
+                    optionHeight,
+                    //shape.value,
                     0
                 )
             }
