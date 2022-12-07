@@ -1,357 +1,902 @@
 package com.artemissoftware.firegallery.screens.tindergallery.composables
 
 import android.annotation.SuppressLint
-import android.view.FrameMetrics.ANIMATION_DURATION
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
+import com.artemissoftware.common.composables.text.FGText
+import com.artemissoftware.common.theme.Purple200
+import com.artemissoftware.common.theme.RedOrange
 import com.artemissoftware.firegallery.R
-import com.google.common.io.Files.append
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
-//@SuppressLint("UnusedTransitionTargetStateParameter")
-//@Composable
-//fun NotificationPop( isRevealed: Boolean,
-//                     cardOffset: Float,
-//                     onExpand: () -> Unit,
-//                     onCollapse: () -> Unit,
-//) {
-//    val offsetX by remember { mutableStateOf(0f) }
-//    val transitionState = remember {
-//        MutableTransitionState(isRevealed).apply {
-//            targetState = !isRevealed
-//        }
-//    }
-//    val transition = updateTransition(transitionState)
-//    val offsetTransition by transition.animateFloat(
-//        label = "cardOffsetTransition",
-//        transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
-//        targetValueByState = { if (isRevealed) cardOffset - offsetX else -offsetX },
-//    )
-//
-//    Card(
-//        modifier = Modifier
-//            .offset { IntOffset((offsetX + offsetTransition).roundToInt(), 0) }
-//            .pointerInput(Unit) {
-//                detectHorizontalDragGestures { change, dragAmount ->
-//
-//                }
-//            },
-//        content = { CardDemo() }
-//    )
-//}
-
-@Composable
-fun CardDemo() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-            .clickable { },
-        elevation = 10.dp
-    ) {
-        Column(
-            modifier = Modifier.padding(15.dp)
-        ) {
-            Text(
-                buildAnnotatedString {
-                    append("welcome to ")
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.W900, color = Color(0xFF4552B8))
-                    ) {
-                        append("Jetpack Compose Playground")
-                    }
-                }
-            )
-            Text(
-                buildAnnotatedString {
-                    append("Now you are in the ")
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.W900)) {
-                        append("Card")
-                    }
-                    append(" section")
-                }
-            )
-        }
-    }
-}
 
 
 
 @OptIn(ExperimentalMaterialApi::class)
-@ExperimentalMaterialApi
 @Composable
-fun swipeToDismiss() {
-    val dismissState = rememberDismissState(initialValue = DismissValue.Default)
+fun SwipeableNotification_final(
+    modifier: Modifier = Modifier,
+    text: String,
+    imageUrl: String,
+    endBorderColor: Color = RedOrange,
+    startBorderColor: Color = Purple200,
+){
+
+    val density: Density = LocalDensity.current
+
+    var widthText = remember { mutableStateOf(0.dp) }
+    var widthIcon = remember { mutableStateOf(0.dp) }
+
+    //var squareSize by remember { mutableStateOf(widthText) }
+    var squareSize = widthText.value - 8.dp
+
+    val swipeableState = rememberSwipeableState(0)
+    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
+    //val anchors = mapOf(0f to 0, -sizePx to -1)
+    val anchors = mapOf(-sizePx to 0, 0f to -1)
+    //val anchors = mapOf(0f to 0, -1f to -sizePx.toInt() )
 
 
-    SwipeToDismiss(
-        state = dismissState,
-        /***  create dismiss alert Background */
-        background = {
-            val color = when (dismissState.dismissDirection) {
-                DismissDirection.StartToEnd -> Color.Green
-                DismissDirection.EndToStart -> Color.Red
-                null -> Color.Transparent
-            }
-            val direction = dismissState.dismissDirection
+    val corners =  RoundedCornerShape(
+        topStart = 0.dp,
+        topEnd = 30.dp,
+        bottomEnd = 30.dp,
+        bottomStart = 0.dp,
+    )
 
-            if (direction == DismissDirection.StartToEnd) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color)
-                        .padding(8.dp)
-                ) {
-                    Column(modifier = Modifier.align(Alignment.CenterStart)) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowForward,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-                        Text(
-                            text = "Move to Archive", fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            color = Color.White
-                        )
-                    }
 
-                }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color)
-                        .padding(8.dp)
-                ) {
-                    Column(modifier = Modifier.align(Alignment.CenterEnd)) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-                        Spacer(modifier = Modifier.heightIn(5.dp))
-                        Text(
-                            text = "Move to Bin",
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.LightGray
-                        )
+    var isAnimating by remember { mutableStateOf(true)}
 
-                    }
-                }
-            }
-        },
-        /**** Dismiss Content */
-        dismissContent = {
-            CardDemo()
-        },
-        /*** Set Direction to dismiss */
-        directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
+    val shape = animateIntAsState(
+        if (isAnimating) 0 else -sizePx.toInt(),
+        animationSpec = TweenSpec(3500, 0)
+    )
+
+    LaunchedEffect(key1 = true){
+
+        delay(700)
+
+        isAnimating = true
+
+        delay(5000)
+        squareSize = widthText.value - 8.dp
+        isAnimating = false
+
+    }
+
+
+
+    if(isAnimating) {
+
+        TutorialNotificationCard(
+            text = text,
+            imageUrl = imageUrl,
+            widthIcon = widthIcon,
+            widthText = widthText,
+            shape = shape
+        )
+
+    }
+    else {
+
+        SwipeableNotificationCard(
+            text = text,
+            imageUrl = imageUrl,
+            widthIcon = widthIcon,
+            widthText = widthText
+        )
+
+    }
+
+}
+
+
+@Preview
+@Composable
+private fun SwipeableNotification_finalPreview() {
+    SwipeableNotification_final(
+        text = "Winter season pictures",
+        imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png"
     )
 }
 
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun ExpandableFabAnimateColorSizePosition(modifier: Modifier = Modifier,) {
+private fun SwipeableNotificationCard(
+    modifier: Modifier = Modifier,
+    text: String,
+    imageUrl: String,
+    endBorderColor: Color = RedOrange,
+    startBorderColor: Color = Purple200,
+    widthIcon: MutableState<Dp>,
+    widthText: MutableState<Dp>
+) {
 
-    val localDensity = LocalDensity.current
+    var squareSize = widthText.value - 8.dp
 
-    var columnHeightDp by remember {
-        mutableStateOf(0f)
-    }
+    val swipeableState = rememberSwipeableState(0)
+    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
+    //val anchors = mapOf(0f to 0, -sizePx to -1)
+    val anchors = mapOf(-sizePx to 0, 0f to -1)
+    //val anchors = mapOf(0f to 0, -1f to -sizePx.toInt() )
 
-    val expand = remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier
-        .background(Color.Blue)
-        .animateContentSize()
-        .clickable { expand.value = expand.value.not() }) {
-        Text(
-            modifier = Modifier.padding(10.dp),
-            text = if (expand.value)
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            else
-                "Click Me!",
+    Box(
+        modifier = modifier
+            .offset {
+                IntOffset(
+                    swipeableState.offset.value.roundToInt(),
+                    0
+                )
+            }
+            .swipeable(
+                state = swipeableState,
+                anchors = anchors,
+                thresholds = { _, _ -> FractionalThreshold(0.6f) },
+                orientation = Orientation.Horizontal
+            )
+
+    ) {
+        NotificationCard(
+            text = text,
+            imageUrl = imageUrl,
+            widthIcon = widthIcon,
+            widthText = widthText,
+            endBorderColor = endBorderColor,
+            startBorderColor = startBorderColor
         )
     }
 
-//    val transition = updateTransition(expand.value, label = "")
-//
-//    val contentColor = transition.animateColor(label = "") { expanded ->
-//        when (expanded) {
-//            true -> Color.Green
-//            false -> Color.Blue
-//        }
-//    }
-//    val contentSize = transition.animateIntSize(label = "") { expanded ->
-//        when (expanded) {
-//            true -> IntSize(columnHeightDp.toInt(), 20)
-//            false -> IntSize.Zero
-//        }
-//    }
-//
-//
-//
-//    Row(
-//        Modifier
-//            .background(color = contentColor.value).animateContentSize()
-//            .padding(8.dp)
-//            .clickable {
-//                expand.value = expand.value.not()
-//            },
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//
-//        Icon(Icons.Filled.Menu, "menu")
-//
-//        Text(
-//            text =  if (expand.value)
-//                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-//            else
-//                "Click Me!",
-//            modifier = Modifier
-////                .padding(start = 4.dp)
-////                .absoluteOffset(x = contentPosition.value)
-//
-//        )
-//    }
 
-
-//    val expand = remember { mutableStateOf(false) }
-//    val transition = updateTransition(expand.value)
-//    val contentColor = transition.animateColor() { expanded ->
-//        when (expanded) {
-//            true -> Color.Green
-//            false -> Color.Blue
-//        }
-//    }
-//    val contentSize = transition.animateIntSize { expanded ->
-//        when (expanded) {
-//            true -> IntSize(100, 20)
-//            false -> IntSize.Zero
-//        }
-//    }
-//    val contentPosition = transition.animateDp { expanded ->
-//        when (expanded) {
-//            true -> 20.dp
-//            false -> 0.dp
-//        }
-//    }
-//    val iconColor = transition.animateColor { expanded ->
-//        when (expanded) {
-//            true -> Color.Black
-//            false -> Color.White
-//        }
-//    }
-//
-//    FloatingActionButton(
-//        modifier = modifier,
-//        onClick = { expand.value = expand.value.not() },
-//        content = {
-//            Row(
-//                modifier = Modifier.padding(horizontal = 16.dp),
-//                horizontalArrangement = Arrangement.Center,
-//                verticalAlignment = Alignment.CenterVertically,
-//            ) {
-//                Icon(
-//                    Icons.Default.Add,
-//                    contentDescription = null,
-//                    tint = iconColor.value
-//                )
-//                Text(
-//                    text = "getString",
-//                    modifier = Modifier
-//                        .padding(start = 4.dp)
-//                        .absoluteOffset(x = contentPosition.value)
-//                        .size(
-//                            height = contentSize.value.height.dp,
-//                            width = contentSize.value.width.dp
-//                        )
-//                )
-//            }
-//        },
-//        backgroundColor = contentColor.value
-//    )
 }
 
 
 
+@SuppressLint("UnrememberedMutableState")
+@Preview
 @Composable
-private fun AnimatedContentSizeExample() {
-    val expand = remember { mutableStateOf(false) }
-
-    val surfaceColor: Color by animateColorAsState(
-        if (expand.value) MaterialTheme.colors.primary else MaterialTheme.colors.surface
+private fun SwipeableNotificationCardPreview() {
+    SwipeableNotificationCard(
+        text = "Winter season pictures",
+        imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png",
+        widthText = mutableStateOf(100.dp),
+        widthIcon = mutableStateOf(100.dp),
     )
+}
 
-    Card(elevation = 10.dp) {
-        Box(modifier = Modifier
-            .background(Color.Blue)
-            .animateContentSize()
-            .clickable { expand.value = expand.value.not() }) {
 
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
 
-                Icon(
-                    Icons.Default.Add,
-                    contentDescription = null,
-                    tint = surfaceColor
+
+
+
+@Composable
+private fun TutorialNotificationCard(
+    modifier: Modifier = Modifier,
+    text: String,
+    imageUrl: String,
+    endBorderColor: Color = RedOrange,
+    startBorderColor: Color = Purple200,
+    widthIcon: MutableState<Dp>,
+    widthText: MutableState<Dp>,
+    shape: State<Int>
+) {
+
+    Box(
+        modifier = modifier
+            .offset {
+
+                IntOffset(
+                    shape.value,
+                    0
                 )
-
-                if (expand.value) {
-                    Text(
-                        modifier = Modifier.padding(start =  8.dp),
-                        text =
-                        "Winter season pictures",
-                        style = TextStyle(color = Color.White)
-                    )
-                }
             }
 
+    ) {
 
-        }
+        NotificationCard(
+            text = text,
+            imageUrl = imageUrl,
+            widthIcon = widthIcon,
+            widthText = widthText,
+            endBorderColor = endBorderColor,
+            startBorderColor = startBorderColor
+        )
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
+
+
+
+@SuppressLint("UnrememberedMutableState")
 @Preview
 @Composable
-fun ppp() {
-    AnimatedContentSizeExample()
-
+private fun TutorialNotificationCardPreview() {
+    TutorialNotificationCard(
+        text = "Winter season pictures",
+        imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png",
+        widthText = mutableStateOf(100.dp),
+        widthIcon = mutableStateOf(100.dp),
+        shape = mutableStateOf(0),
+    )
 }
+
+
+
+
+@Composable
+private fun NotificationCard(
+    text: String,
+    imageUrl: String,
+    endBorderColor: Color = RedOrange,
+    startBorderColor: Color = Purple200,
+    density: Density = LocalDensity.current,
+    widthIcon: MutableState<Dp>,
+    widthText: MutableState<Dp>
+){
+
+    val corners =  RoundedCornerShape(
+        topStart = 0.dp,
+        topEnd = 30.dp,
+        bottomEnd = 30.dp,
+        bottomStart = 0.dp,
+    )
+
+    Card(
+        modifier = Modifier
+            .border(
+                width = (0.1).dp,
+                brush = Brush.linearGradient(colors = listOf(startBorderColor, endBorderColor)),
+                shape = corners
+            )
+            .shadow(clip = true, shape = corners, elevation = 3.dp),
+        elevation = 24.dp,
+        shape = corners
+    ) {
+
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .onGloballyPositioned { coordinates ->
+                        widthText.value = with(density) { coordinates.size.width.toDp() }
+                    }
+            ) {
+
+                FGText(
+                    modifier = Modifier.padding(8.dp),
+                    text = text
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .onGloballyPositioned { coordinates ->
+                        widthIcon.value = with(density) { coordinates.size.width.toDp() }
+                    }
+                    .padding(end = 16.dp)
+            ) {
+
+                val painter = rememberAsyncImagePainter(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(imageUrl)
+                        .placeholder(R.drawable.ic_flame)
+                        .size(Size.ORIGINAL)
+                        .crossfade(500)
+                        .build()
+                )
+
+                Image(
+                    painter = painter,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                        .border(
+                            width = (0.1).dp,
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    startBorderColor,
+                                    endBorderColor
+                                )
+                            ),
+                            shape = CircleShape
+                        ),
+                    contentScale = ContentScale.Crop,
+                )
+
+            }
+        }
+
+    }
+}
+
+
+
+@SuppressLint("UnrememberedMutableState")
+@Preview
+@Composable
+private fun NotificationCardPreview() {
+    NotificationCard(
+        text = "Winter season pictures",
+        imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png",
+        widthText = mutableStateOf(100.dp),
+        widthIcon = mutableStateOf(100.dp)
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+//
+//@OptIn(ExperimentalMaterialApi::class)
+//@Composable
+//fun SwipeableNotification(
+//    modifier: Modifier = Modifier,
+//    text: String,
+//    imageUrl: String,
+//    endBorderColor: Color = RedOrange,
+//    startBorderColor: Color = Purple200,
+//){
+//
+//    val density: Density = LocalDensity.current
+//
+//    var widthText by remember { mutableStateOf(0.dp) }
+//    var widthIcon by remember { mutableStateOf(0.dp) }
+//
+//    //var squareSize by remember { mutableStateOf(widthText) }
+//    var squareSize = widthText - 8.dp
+//
+//    val swipeableState = rememberSwipeableState(0)
+//    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
+//    //val anchors = mapOf(0f to 0, -sizePx to -1)
+//    val anchors = mapOf(-sizePx to 0, 0f to -1)
+//    //val anchors = mapOf(0f to 0, -1f to -sizePx.toInt() )
+//
+//
+//    val corners =  RoundedCornerShape(
+//        topStart = 0.dp,
+//        topEnd = 30.dp,
+//        bottomEnd = 30.dp,
+//        bottomStart = 0.dp,
+//    )
+//
+//
+//    var isAnimating by remember { mutableStateOf(true)}
+//
+//    val shape = animateIntAsState(
+//        if (isAnimating) 0 else -sizePx.toInt(),
+//        animationSpec = TweenSpec(150, 0)
+//    )
+//
+//    LaunchedEffect(key1 = true){
+//
+//        delay(700)
+//
+//        isAnimating = true
+//
+//        delay(1500)
+//        squareSize = widthText - 8.dp
+//        isAnimating = false
+//
+//    }
+//
+//
+//
+//    if(isAnimating == false) {
+//        Box(
+//            modifier = modifier
+//                .offset {
+//
+//                    IntOffset(
+//                        swipeableState.offset.value.roundToInt(),
+//                        0
+//                    )
+//                }
+//                .swipeable(
+//                    state = swipeableState,
+//                    anchors = anchors,
+//                    thresholds = { _, _ -> FractionalThreshold(0.6f) },
+//                    orientation = Orientation.Horizontal
+//                )
+//
+//        ) {
+//
+//            Card(
+//                modifier = Modifier
+//                    .border(
+//                        width = (0.1).dp,
+//                        brush = Brush.linearGradient(
+//                            colors = listOf(
+//                                startBorderColor,
+//                                endBorderColor
+//                            )
+//                        ),
+//                        shape = corners
+//                    ),
+//                elevation = 24.dp,
+//                shape = corners
+//            ) {
+//
+//                Row(
+//                    modifier = Modifier,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//
+//                    Column(
+//                        modifier = Modifier
+//                            .onGloballyPositioned { coordinates ->
+//                                widthText = with(density) { coordinates.size.width.toDp() }
+//                            }
+//                    ) {
+//
+//                        FGText(
+//                            modifier = Modifier.padding(8.dp),
+//                            text = text
+//                        )
+//                    }
+//
+//                    Column(
+//                        modifier = Modifier
+//                            .onGloballyPositioned { coordinates ->
+//                                widthIcon = with(density) { coordinates.size.width.toDp() }
+//                            }
+//                            .padding(end = 16.dp)
+//                    ) {
+//
+//                        val painter = rememberAsyncImagePainter(
+//                            model = ImageRequest.Builder(LocalContext.current)
+//                                .data(imageUrl)
+//                                .placeholder(R.drawable.ic_flame)
+//                                .size(Size.ORIGINAL)
+//                                .crossfade(500)
+//                                .build()
+//                        )
+//
+//                        Image(
+//                            painter = painter,
+//                            contentDescription = "",
+//                            modifier = Modifier
+//                                .size(24.dp)
+//                                .clip(CircleShape)
+//                                .border(
+//                                    width = (0.1).dp,
+//                                    brush = Brush.linearGradient(
+//                                        colors = listOf(
+//                                            startBorderColor,
+//                                            endBorderColor
+//                                        )
+//                                    ),
+//                                    shape = CircleShape
+//                                ),
+//                            contentScale = ContentScale.Crop,
+//                        )
+//
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//    }else {
+//
+//
+//        Box(
+//            modifier = modifier
+//                .offset {
+//
+//                    IntOffset(
+//                        shape.value,
+//                        0
+//                    )
+//                }
+//
+//        ) {
+//
+//            Card(
+//                modifier = Modifier
+//                    .border(
+//                        width = (0.1).dp,
+//                        brush = Brush.linearGradient(
+//                            colors = listOf(
+//                                startBorderColor,
+//                                endBorderColor
+//                            )
+//                        ),
+//                        shape = corners
+//                    )
+//                    .shadow(clip = true, shape = corners, elevation = 3.dp),
+//                elevation = 24.dp,
+//                shape = corners
+//            ) {
+//
+//                Row(
+//                    modifier = Modifier,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//
+//                    Column(
+//                        modifier = Modifier
+//                            .onGloballyPositioned { coordinates ->
+//                                widthText = with(density) { coordinates.size.width.toDp() }
+//                            }
+//                    ) {
+//
+//                        FGText(
+//                            modifier = Modifier.padding(8.dp),
+//                            text = text
+//                        )
+//                    }
+//
+//                    Column(
+//                        modifier = Modifier
+//                            .onGloballyPositioned { coordinates ->
+//                                widthIcon = with(density) { coordinates.size.width.toDp() }
+//                            }
+//                            .padding(end = 16.dp)
+//                    ) {
+//
+//                        val painter = rememberAsyncImagePainter(
+//                            model = ImageRequest.Builder(LocalContext.current)
+//                                .data(imageUrl)
+//                                .placeholder(R.drawable.ic_flame)
+//                                .size(Size.ORIGINAL)
+//                                .crossfade(500)
+//                                .build()
+//                        )
+//
+//                        Image(
+//                            painter = painter,
+//                            contentDescription = "",
+//                            modifier = Modifier
+//                                .size(24.dp)
+//                                .clip(CircleShape)
+//                                .border(
+//                                    width = (0.1).dp,
+//                                    brush = Brush.linearGradient(
+//                                        colors = listOf(
+//                                            startBorderColor,
+//                                            endBorderColor
+//                                        )
+//                                    ),
+//                                    shape = CircleShape
+//                                ),
+//                            contentScale = ContentScale.Crop,
+//                        )
+//
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//    }
+//
+//}
+//
+//
+//
+//@Preview
+//@Composable
+//fun Swipe() {
+//    SwipeableNotification(text = "Winter season pictures", imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png")
+//}
+//
+//
+//@OptIn(ExperimentalMaterialApi::class)
+//@Composable
+//fun SwipeableNotification_Demo(
+//    modifier: Modifier = Modifier,
+//    text: String,
+//    imageUrl: String,
+//    endBorderColor: Color = RedOrange,
+//    startBorderColor: Color = Purple200,
+//){
+//
+//    val density: Density = LocalDensity.current
+//
+//    var widthText by remember { mutableStateOf(0.dp) }
+//    var widthIcon by remember { mutableStateOf(0.dp) }
+//
+//    //var squareSize by remember { mutableStateOf(widthText) }
+//    var squareSize = widthText - 8.dp
+//
+//    val swipeableState = rememberSwipeableState(0)
+//    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
+//    val anchors = mapOf(0f to 0, -sizePx to -1)
+//    //val anchors = mapOf(0f to 0, -1f to -sizePx.toInt() )
+//
+//
+//    val corners =  RoundedCornerShape(
+//        topStart = 0.dp,
+//        topEnd = 30.dp,
+//        bottomEnd = 30.dp,
+//        bottomStart = 0.dp,
+//    )
+//
+//
+//    var isAnimating by remember { mutableStateOf(true)}
+//
+//    val shape = animateIntAsState(
+//        if (isAnimating) 0 else -sizePx.toInt(),
+//        animationSpec = TweenSpec(150, 0)
+//    )
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    LaunchedEffect(key1 = true){
+//
+//        delay(700)
+//
+//        isAnimating = true
+//
+//        delay(1500)
+//        squareSize = widthText - 8.dp
+//        isAnimating = false
+//
+//    }
+//
+//    Box(
+//        modifier = modifier
+//            .offset {
+//
+//                IntOffset(
+//                    shape.value,
+//                    0
+//                )
+//            }
+//
+//    ) {
+//
+//        Card(
+//            modifier = Modifier
+//                .border(
+//                    width = (0.1).dp,
+//                    brush = Brush.linearGradient(colors = listOf(startBorderColor, endBorderColor)),
+//                    shape = corners
+//                ),
+//            elevation = 24.dp,
+//            shape = corners
+//        ) {
+//
+//            Row(
+//                modifier = Modifier,
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//
+//                Column(
+//                    modifier = Modifier
+//                        .onGloballyPositioned { coordinates ->
+//                            widthText = with(density) { coordinates.size.width.toDp() }
+//                        }
+//                ) {
+//
+//                    FGText(
+//                        modifier = Modifier.padding(8.dp),
+//                        text = text
+//                    )
+//                }
+//
+//                Column(
+//                    modifier = Modifier
+//                        .onGloballyPositioned { coordinates ->
+//                            widthIcon = with(density) { coordinates.size.width.toDp() }
+//                        }
+//                        .padding(end = 16.dp)
+//                ) {
+//
+//                    val painter = rememberAsyncImagePainter(
+//                        model = ImageRequest.Builder(LocalContext.current)
+//                            .data(imageUrl)
+//                            .placeholder(R.drawable.ic_flame)
+//                            .size(Size.ORIGINAL)
+//                            .crossfade(500)
+//                            .build()
+//                    )
+//
+//                    Image(
+//                        painter = painter,
+//                        contentDescription = "",
+//                        modifier = Modifier
+//                            .size(24.dp)
+//                            .clip(CircleShape)
+//                            .border(
+//                                width = (0.1).dp,
+//                                brush = Brush.linearGradient(
+//                                    colors = listOf(
+//                                        startBorderColor,
+//                                        endBorderColor
+//                                    )
+//                                ),
+//                                shape = CircleShape
+//                            ),
+//                        contentScale = ContentScale.Crop,
+//                    )
+//
+//                }
+//            }
+//
+//        }
+//    }
+//
+//
+//
+//}
+//
+//
+//
+//@Preview
+//@Composable
+//fun Demo() {
+//    SwipeableNotification_Demo(text = "Winter season pictures", imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png")
+//
+//
+//
+//
+//}
+//
+//
+//
+//
+//
+//@OptIn(ExperimentalMaterialApi::class)
+//@Composable
+//fun SwipeFinal(
+//    modifier: Modifier = Modifier,
+//    text: String,
+//    imageUrl: String,
+//    endBorderColor: Color = RedOrange,
+//    startBorderColor: Color = Purple200,
+//){
+//
+//    val density: Density = LocalDensity.current
+//    var widthText by remember { mutableStateOf(0.dp) }
+//    var widthIcon by remember { mutableStateOf(0.dp) }
+//    var squareSize by remember { mutableStateOf(widthText) }
+//    //val squareSize = widthText //- 8.dp
+//
+//    val swipeableState = rememberSwipeableState(0)
+//    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
+//    val anchors = mapOf(0f to 0, -sizePx to -1)
+//
+//
+//
+//    var isSelected by remember { mutableStateOf(false)}
+//
+//    val shape = animateIntAsState(
+//        if (isSelected) 0 else -sizePx.toInt(),
+//        animationSpec = TweenSpec(150, 0)
+//    )
+//
+//
+//    LaunchedEffect(key1 = true){
+//
+//        delay(700)
+//
+//        isSelected = true
+//
+//        delay(1500)
+//        squareSize = widthText - 8.dp
+//        isSelected = false
+//
+//    }
+//
+//
+//    Box(
+//        modifier = modifier
+//            .offset {
+//
+//                IntOffset(
+//                    shape.value,
+//                    //offSet,
+//                    //if(!isSelected) swipeableState.offset.value.roundToInt() else shape.value,//swipeableState.offset.value.roundToInt(),
+//                    0
+//                )
+//            }
+//            .swipeable(
+//                state = swipeableState,
+//                anchors = anchors,
+//                thresholds = { _, _ -> FractionalThreshold(0.6f) },
+//                orientation = Orientation.Horizontal
+//            )
+//
+//    ) {
+//
+//
+////        NoteCard(
+////            text = text,
+////            imageUrl = imageUrl,
+////            endBorderColor = endBorderColor,
+////            startBorderColor = startBorderColor,
+////            widthIcon = widthIcon,
+////            widthText = widthText
+////        )
+////
+//
+//    }
+//}
+//
+//
+//
+//@Preview
+//@Composable
+//fun ppp() {
+//    SwipeFinal(text = "Winter season pictures", imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png")
+//}
