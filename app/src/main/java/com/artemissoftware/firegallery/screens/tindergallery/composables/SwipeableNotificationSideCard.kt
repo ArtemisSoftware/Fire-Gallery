@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.Purple200
 import com.artemissoftware.common.theme.RedOrange
+import com.artemissoftware.firegallery.screens.tindergallery.types.SwipeNotificationTypes.*
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -31,26 +32,24 @@ fun SwipeableNotification(
     imageUrl: String,
     endBorderColor: Color = RedOrange,
     startBorderColor: Color = Purple200,
+    showTutorial: Boolean = true
 ) {
 
 
-    var currentState = remember { mutableStateOf(Tutot.TUTORIAL) }
+    var currentState = remember { mutableStateOf(if(showTutorial) TUTORIAL else PREVIEW) }
 
-    when(currentState.value){
-        Tutot.EXPAND -> {
-
-        }
-        Tutot.PREVIEW -> {
-
-            SwipeableNotificationSideCard(
-                modifier = modifier,
-                text = text,
-                imageUrl = imageUrl,
-                endBorderColor = endBorderColor,
-                startBorderColor = startBorderColor
-            )
-        }
-        Tutot.TUTORIAL -> {
+//    when(currentState.value){
+//        PREVIEW -> {
+//
+//            SwipeableNotificationSideCard(
+//                modifier = modifier,
+//                text = text,
+//                imageUrl = imageUrl,
+//                endBorderColor = endBorderColor,
+//                startBorderColor = startBorderColor
+//            )
+//        }
+//        TUTORIAL -> {
             TutorialNotificationSideCard(
                 modifier = modifier,
                 text = text,
@@ -59,12 +58,13 @@ fun SwipeableNotification(
                 startBorderColor = startBorderColor,
                 animate = true,
                 onTutorialFinish = {
-                    currentState.value = Tutot.PREVIEW
+                    currentState.value = PREVIEW
                 }
             )
 
-        }
-    }
+//        }
+//        else ->{}
+//    }
 
 }
 
