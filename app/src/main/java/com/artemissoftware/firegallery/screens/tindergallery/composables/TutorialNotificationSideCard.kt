@@ -42,7 +42,7 @@ fun TutorialNotificationSideCard(
 
                 FGText(
                     modifier = Modifier.padding(8.dp),
-                    text = "Winter season pictures"
+                    text = text
                 )
             }
         }
@@ -87,7 +87,7 @@ fun TutorialNotificationSideCard(
 
         ) {
             NotificationSideCard(
-                modifier = modifier,
+                modifier = Modifier,
                 text = text,
                 imageUrl = imageUrl,
                 endBorderColor = endBorderColor,

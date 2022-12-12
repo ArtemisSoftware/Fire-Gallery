@@ -24,7 +24,6 @@ import com.artemissoftware.common.theme.RedOrange
 import com.artemissoftware.firegallery.screens.tindergallery.types.SwipeNotificationTypes.*
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SwipeableNotification(
     modifier: Modifier = Modifier,
@@ -35,21 +34,20 @@ fun SwipeableNotification(
     showTutorial: Boolean = true
 ) {
 
-
     var currentState = remember { mutableStateOf(if(showTutorial) TUTORIAL else PREVIEW) }
 
-//    when(currentState.value){
-//        PREVIEW -> {
-//
-//            SwipeableNotificationSideCard(
-//                modifier = modifier,
-//                text = text,
-//                imageUrl = imageUrl,
-//                endBorderColor = endBorderColor,
-//                startBorderColor = startBorderColor
-//            )
-//        }
-//        TUTORIAL -> {
+    when(currentState.value){
+        PREVIEW -> {
+
+            SwipeableNotificationSideCard(
+                modifier = modifier,
+                text = text,
+                imageUrl = imageUrl,
+                endBorderColor = endBorderColor,
+                startBorderColor = startBorderColor
+            )
+        }
+        TUTORIAL -> {
             TutorialNotificationSideCard(
                 modifier = modifier,
                 text = text,
@@ -62,9 +60,9 @@ fun SwipeableNotification(
                 }
             )
 
-//        }
-//        else ->{}
-//    }
+        }
+        else ->{}
+    }
 
 }
 
@@ -80,7 +78,7 @@ private fun SwipeableNotificationPreview() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun SwipeableNotificationSideCard(
+fun SwipeableNotificationSideCard(
     modifier: Modifier = Modifier,
     text: String,
     imageUrl: String,
@@ -97,7 +95,7 @@ private fun SwipeableNotificationSideCard(
 
                 FGText(
                     modifier = Modifier.padding(8.dp),
-                    text = "Winter season pictures"
+                    text = text
                 )
             }
         }
