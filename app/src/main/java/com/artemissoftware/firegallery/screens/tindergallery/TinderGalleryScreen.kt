@@ -48,9 +48,6 @@ fun BuildTinderGalleryScreen(
 
     Box{
 
-
-
-
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
@@ -161,7 +158,7 @@ fun BuildTinderGalleryScreen(
 
         }
 
-
+        //TODO: alterar visibilidade e dados
         SwipeableNotification(
             modifier = Modifier.padding(top = 188.dp),
             text = "Winter Season pictures",

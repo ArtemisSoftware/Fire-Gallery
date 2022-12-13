@@ -53,6 +53,16 @@ abstract class BaseDestinations(
         }
     }
 
+    fun withArgs(list: List<String>?): String {
+        return buildString {
+            append(route)
+            list?.forEachIndexed { index, arg ->
+                val symbol = if (index == 0) "?" else "&"
+                append("$symbol${customArguments[index].key}=$arg")
+            }
+        }
+    }
+
     fun withCustomArgs(vararg args: Any?): String {
 
         return buildString {

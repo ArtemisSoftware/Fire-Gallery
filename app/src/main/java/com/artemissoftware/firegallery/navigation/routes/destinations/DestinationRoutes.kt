@@ -49,18 +49,22 @@ class DestinationRoutes {
     private fun getDestination(destinations: List<Destination>, path: String) = destinations.find { path.contains(it.route.toLowerCase()) }
 
 
-    private fun getHomeGraphDestination(uri: Uri): Destination?{
+    private fun getHomeGraphDestination(uri: Uri): Pair<Destination, List<String>>? {
 
-        uri.path?.let {
+        uri.path?.let { path->
 
-            getDestination(HomeGraph.getRoutes(), it)?.let { destination->
+            getDestination(HomeGraph.getRoutes(), path)?.let { destination->
 
                 return when (destination) {
 
                     is Destination.Tinder -> {
-                        val season = uri.getQueryParameter(NavigationArguments.SEASON)
-                        destination.withArgs(season) //TODO: não grava os argumentos é preciso gravar
-                        destination
+
+                        val arguments = mutableListOf<String>()
+
+                        uri.getQueryParameter(NavigationArguments.SEASON)?.let { argument-> arguments.add(argument) }
+
+                        Pair(destination as Destination, arguments)
+
                     }
                     else ->{
                         null
@@ -74,7 +78,7 @@ class DestinationRoutes {
 
 
     //TODO o que fazer  quando devolver null????
-    fun findDestination(uri: Uri): Destination?{
+    fun findDestination(uri: Uri): Pair<Destination, List<String>>?{
 
         getHomeGraphDestination(uri)?.let { destination->
             return destination

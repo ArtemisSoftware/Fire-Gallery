@@ -28,9 +28,8 @@ class FG_ScaffoldState(scope: CoroutineScope?) : FGScaffoldState(scope) {
 
                 //TODO o que fazer  quando devolver null????
                 DestinationRoutes().findDestination(it)?.let { destination->
-                    executeDeepLink(navController = navController, destination = destination)
+                    executeDeepLink(navController = navController, destinationWithArguments = destination)
                 }
-
 
 
             }
