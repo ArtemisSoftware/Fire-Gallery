@@ -1,6 +1,5 @@
 package com.artemissoftware.data.firebase.remoteconfig.models
 
-import com.artemissoftware.domain.util.SeasonType
 import com.google.gson.annotations.SerializedName
 
 data class SeasonRco(
@@ -19,17 +18,4 @@ data class SeasonRco(
     val autumn: SeasonDetailRco,
     @SerializedName("winter")
     val winter: SeasonDetailRco
-){
-
-    //TODO tirar isto daqui
-    fun getSeason(seasonType: SeasonType): SeasonDetailRco{
-        return when(seasonType){
-            SeasonType.SPRING -> spring
-            SeasonType.SUMMER -> summer
-            SeasonType.AUTUMN -> autumn
-            SeasonType.WINTER -> winter
-        }
-    }
-
-
-}
+)

@@ -5,5 +5,8 @@ import com.google.gson.annotations.SerializedName
 
 data class SeasonDetailRco(
     @SerializedName("chipColor")
-    val chipColor: ChipColorRco
+    val chipColor: ChipColorRco,
+
+    @SerializedName("icon")
+    val icon: String
 )

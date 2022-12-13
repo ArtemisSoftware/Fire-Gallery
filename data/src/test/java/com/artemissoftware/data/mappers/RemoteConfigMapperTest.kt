@@ -43,7 +43,8 @@ class RemoteConfigMapperTest {
                 "      \"end\": \"#ee6f68\",\n" +
                 "      \"icon\": \"#5e8d5a\"\n" +
                 "    },\n" +
-                "    \"defaultColor\": \"#c6d7b9\"\n" +
+                "    \"defaultColor\": \"#c6d7b9\",\n" +
+                "    \"icon\": \"http://www.icon.com/icon.png\"\n" +
                 "  },\n" +
                 "  \"summer\": {\n" +
                 "    \"chipColor\": {\n" +
@@ -51,7 +52,8 @@ class RemoteConfigMapperTest {
                 "      \"end\": \"#f9d62e\",\n" +
                 "      \"icon\": \"#ff4e50\"\n" +
                 "    },\n" +
-                "    \"defaultColor\": \"#fc913a\"\n" +
+                "    \"defaultColor\": \"#fc913a\",\n" +
+                "    \"icon\": \"http://www.icon.com/icon.png\"\n" +
                 "  },\n" +
                 "  \"autumn\": {\n" +
                 "    \"chipColor\": {\n" +
@@ -59,7 +61,8 @@ class RemoteConfigMapperTest {
                 "      \"end\": \"#f47b20\",\n" +
                 "      \"icon\": \"#ffd200\"\n" +
                 "    },\n" +
-                "    \"defaultColor\": \"#9c5708\"\n" +
+                "    \"defaultColor\": \"#9c5708\",\n" +
+                "    \"icon\": \"http://www.icon.com/icon.png\"\n" +
                 "  },\n" +
                 "  \"winter\": {\n" +
                 "    \"chipColor\": {\n" +
@@ -67,7 +70,8 @@ class RemoteConfigMapperTest {
                 "      \"end\": \"#e3e3ff\",\n" +
                 "      \"icon\": \"#020b36\"\n" +
                 "    },\n" +
-                "    \"defaultColor\": \"#b3e3f4\"\n" +
+                "    \"defaultColor\": \"#b3e3f4\",\n" +
+                "    \"icon\": \"http://www.icon.com/icon.png\"\n" +
                 "  }\n" +
                 "}")
 
@@ -98,28 +102,32 @@ class RemoteConfigMapperTest {
                     start  ="#f6b9ad",
                     end  ="#ee6f68",
                     icon  ="#5e8d5a"
-                )
+                ),
+                icon = "http://www.icon.com/icon.png"
             ),
             summer = SeasonDetailRco(
                 ChipColorRco(
                     start  ="#eae374",
                     end  ="#f9d62e",
                     icon  ="#ff4e50"
-                )
+                ),
+                icon = "http://www.icon.com/icon.png"
             ),
             autumn = SeasonDetailRco(
                 ChipColorRco(
                     start  ="#f79762",
                     end  ="#f47b20",
                     icon  ="#ffd200"
-                )
+                ),
+                icon = "http://www.icon.com/icon.png"
             ),
             winter = SeasonDetailRco(
                 ChipColorRco(
                     start  ="#230745",
                     end  ="#e3e3ff",
                     icon  ="#020b36"
-                )
+                ),
+                icon = "http://www.icon.com/icon.png"
             ),
         )
 
@@ -149,7 +157,8 @@ class RemoteConfigMapperTest {
                 start  ="#ee000e",
                 end  ="#e3e3ff",
                 icon  ="#020b36"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         )
 
         val seasonDetailConfig = SeasonDetailConfig(
@@ -157,7 +166,8 @@ class RemoteConfigMapperTest {
                 startBorderColor = "#ee000e",
                 endBorderColor = "#e3e3ff",
                 iconColor = "#020b36"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         )
 
         Assert.assertEquals(seasonDetailConfig, seasonDetailRco.toSeasonDetailConfig())
@@ -189,7 +199,8 @@ class RemoteConfigMapperTest {
                 startBorderColor = "#f6b9ad",
                 endBorderColor = "#ee6f68",
                 iconColor = "#5e8d5a"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         )
 
         val summerSeasonDetailConfig = SeasonDetailConfig(
@@ -197,7 +208,8 @@ class RemoteConfigMapperTest {
                 startBorderColor = "#eae374",
                 endBorderColor = "#f9d62e",
                 iconColor = "#ff4e50"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         )
 
         val autumnSeasonDetailConfig = SeasonDetailConfig(
@@ -205,7 +217,8 @@ class RemoteConfigMapperTest {
                 startBorderColor = "#f79762",
                 endBorderColor = "#f47b20",
                 iconColor = "#ffd200"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         )
 
         val winterSeasonDetailConfig = SeasonDetailConfig(
@@ -213,7 +226,8 @@ class RemoteConfigMapperTest {
                 startBorderColor = "#230745",
                 endBorderColor = "#e3e3ff",
                 iconColor = "#020b36"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         )
 
         Assert.assertEquals(springSeasonDetailConfig, seasonRco.toSeasonDetailConfig(SeasonType.SPRING))
@@ -277,28 +291,32 @@ class RemoteConfigMapperTest {
                 start  ="#f6b9ad",
                 end  ="#ee6f68",
                 icon  ="#5e8d5a"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         ),
         summer = SeasonDetailRco(
             ChipColorRco(
                 start  ="#eae374",
                 end  ="#f9d62e",
                 icon  ="#ff4e50"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         ),
         autumn = SeasonDetailRco(
             ChipColorRco(
                 start  ="#f79762",
                 end  ="#f47b20",
                 icon  ="#ffd200"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         ),
         winter = SeasonDetailRco(
             ChipColorRco(
                 start  ="#230745",
                 end  ="#e3e3ff",
                 icon  ="#020b36"
-            )
+            ),
+            icon = "http://www.icon.com/icon.png"
         ),
     )
 }

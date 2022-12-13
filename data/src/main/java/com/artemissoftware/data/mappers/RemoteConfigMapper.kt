@@ -23,7 +23,7 @@ fun FirebaseRemoteConfig.toUserValidationConfig() : UserValidationRco{
 }
 
 fun SeasonDetailRco.toSeasonDetailConfig(): SeasonDetailConfig {
-    return SeasonDetailConfig(this.chipColor.toChipColorConfig())
+    return SeasonDetailConfig(this.chipColor.toChipColorConfig(), icon = this.icon)
 }
 
 fun SeasonRco.toSeasonConfig(): SeasonConfig {
@@ -31,7 +31,15 @@ fun SeasonRco.toSeasonConfig(): SeasonConfig {
 }
 
 fun SeasonRco.toSeasonDetailConfig(seasonType: SeasonType): SeasonDetailConfig {
-    return this.getSeason(seasonType).toSeasonDetailConfig()
+
+    val season = when(seasonType){
+        SeasonType.SPRING -> spring
+        SeasonType.SUMMER -> summer
+        SeasonType.AUTUMN -> autumn
+        SeasonType.WINTER -> winter
+    }
+
+    return season.toSeasonDetailConfig()
 }
 
 fun ChipColorRco.toChipColorConfig(): ChipColorConfig {
