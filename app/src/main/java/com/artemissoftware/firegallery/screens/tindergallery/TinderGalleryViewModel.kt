@@ -9,7 +9,9 @@ import com.artemissoftware.common.models.SwipeResult
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
+import com.artemissoftware.domain.usecases.setup.GetSeasonConfigUseCase
 import com.artemissoftware.domain.usecases.tinder.GetPicturesForTinderUseCase
+import com.artemissoftware.domain.util.SeasonType
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +25,7 @@ import javax.inject.Inject
 class TinderGalleryViewModel @Inject constructor(
     private val getPicturesForTinderUseCase: GetPicturesForTinderUseCase,
     private val updateFavoriteUseCase: UpdateFavoriteUseCase,
+    private val getSeasonConfigUseCase: GetSeasonConfigUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : FGBaseEventViewModel<TinderGalleryEvents>() {
 
@@ -73,9 +76,10 @@ class TinderGalleryViewModel @Inject constructor(
                     _state.value = _state.value.copy(
                         isLoading = false,
                         pictures = resultData,
-                        currentIndex = max(0, resultData.size - 1),
-                        notificationMessage = getNotificationMessage()
+                        currentIndex = max(0, resultData.size - 1)
                     )
+
+                    getSeasonConfig()
                 }
 
                 is Resource.Loading -> {
@@ -116,11 +120,15 @@ class TinderGalleryViewModel @Inject constructor(
     }
 
 
-    private fun getNotificationMessage() : String?{
+    private fun getSeasonConfig(){
         savedStateHandle.get<String>(NavigationArguments.SEASON)?.let {
-            return it.capitalize() + " season pictures"
-        }
+            val message =  it.capitalize() + " season pictures"
+            val seasonDetailConfig = getSeasonConfigUseCase(SeasonType.getType(it))
 
-        return null
+            _state.value = _state.value.copy(
+                notificationMessage = message,
+                seasonDetailConfig = seasonDetailConfig
+            )
+        }
     }
 }
