@@ -6,6 +6,7 @@ data class TinderGalleyState(
     val isLoading : Boolean = false,
     val pictures : List<Picture> = emptyList(),
     val currentIndex : Int = 0,
+    val notificationMessage : String? = null,
 ) {
 
 

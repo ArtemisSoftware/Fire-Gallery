@@ -23,7 +23,7 @@ import javax.inject.Inject
 class TinderGalleryViewModel @Inject constructor(
     private val getPicturesForTinderUseCase: GetPicturesForTinderUseCase,
     private val updateFavoriteUseCase: UpdateFavoriteUseCase,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : FGBaseEventViewModel<TinderGalleryEvents>() {
 
 
@@ -34,8 +34,6 @@ class TinderGalleryViewModel @Inject constructor(
 
 
     init {
-        //TODO: mudar o nome da variável
-        val pictureId = savedStateHandle.get<String>(NavigationArguments.SEASON).orEmpty()
         onTriggerEvent(TinderGalleryEvents.FetchMorePictures)
     }
 
@@ -76,6 +74,7 @@ class TinderGalleryViewModel @Inject constructor(
                         isLoading = false,
                         pictures = resultData,
                         currentIndex = max(0, resultData.size - 1),
+                        notificationMessage = getNotificationMessage()
                     )
                 }
 
@@ -116,4 +115,12 @@ class TinderGalleryViewModel @Inject constructor(
         }
     }
 
+
+    private fun getNotificationMessage() : String?{
+        savedStateHandle.get<String>(NavigationArguments.SEASON)?.let {
+            return it.capitalize() + " season pictures"
+        }
+
+        return null
+    }
 }

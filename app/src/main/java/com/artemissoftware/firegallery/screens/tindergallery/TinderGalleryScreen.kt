@@ -154,17 +154,18 @@ fun BuildTinderGalleryScreen(
                     visible = state.showAddMoreButton(),
                 )
             }
-
-
         }
 
-        //TODO: alterar visibilidade e dados
-        SwipeableNotification(
-            modifier = Modifier.padding(top = 188.dp),
-            text = "Winter Season pictures",
-            imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png",
-            showTutorial = true
-        )
+
+        state.notificationMessage?.let {
+            SwipeableNotification(
+                modifier = Modifier.padding(top = 188.dp),
+                text = it,
+                imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png",
+                showTutorial = true
+            )
+        }
+
 
 
     }

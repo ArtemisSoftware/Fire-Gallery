@@ -12,7 +12,6 @@ interface RemoteConfigRepository {
 
     fun getSeasonConfigs(): SeasonConfig
 
-    fun getCurrentSeasonConfig() : SeasonDetailConfig
-
+    fun getSeasonConfig(season: SeasonType? = null) : SeasonDetailConfig
     fun getUserValidationConfigs(): UserValidationConfig
 }

@@ -34,16 +34,20 @@ class RemoteConfigRepositoryImpl(
         }
     }
 
-
     override fun getSeasonConfigs() = remoteConfigSource.seasonConfig.toSeasonConfig()
 
-    override fun getCurrentSeasonConfig(): SeasonDetailConfig {
+    override fun getSeasonConfig(season: SeasonType?): SeasonDetailConfig {
 
-        val calendar = Calendar.getInstance()
-        val month = calendar.get(Calendar.MONTH) + 1
+        if(season == null){
 
-        val seasonType = SeasonUtil.findSeason(month = month)
-        return remoteConfigSource.seasonConfig.toSeasonDetailConfig(seasonType)
+            val calendar = Calendar.getInstance()
+            val month = calendar.get(Calendar.MONTH) + 1
+            val seasonType = SeasonUtil.findSeason(month = month)
+            return remoteConfigSource.seasonConfig.toSeasonDetailConfig(seasonType)
+        }
+        else{
+            return remoteConfigSource.seasonConfig.toSeasonDetailConfig(season)
+        }
     }
 
     override fun getUserValidationConfigs() = remoteConfigSource.userValidationConfig.toUserValidationConfig()
