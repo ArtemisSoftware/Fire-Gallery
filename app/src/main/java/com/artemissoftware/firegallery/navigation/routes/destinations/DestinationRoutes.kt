@@ -46,7 +46,11 @@ class DestinationRoutes {
     }
 
 
-    private fun getDestination(destinations: List<Destination>, path: String) = destinations.find { path.contains(it.route.toLowerCase()) }
+    private fun getDestination(destinations: List<Destination>, path: String) : Destination?{
+
+        val formattedPath = path.toLowerCase()
+        return destinations.find { formattedPath.contains(it.route.toLowerCase())  }
+    }
 
 
     private fun getHomeGraphDestination(uri: Uri): Pair<Destination, List<String>>? {
