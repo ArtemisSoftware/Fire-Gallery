@@ -7,7 +7,7 @@ val PlateShape =  RoundedCornerShape(
     topStart = 0.dp,
     topEnd = 0.dp,
     bottomEnd = 0.dp,
-    bottomStart = 30.dp,
+    bottomStart = 16.dp,
 )
 
 val RightRoundedCornersShape =  RoundedCornerShape(

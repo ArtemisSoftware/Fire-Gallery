@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,7 +16,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
@@ -24,7 +24,6 @@ import com.artemissoftware.common.composables.animations.models.PulsatingType
 import com.artemissoftware.common.theme.LightBlue
 import com.artemissoftware.common.theme.PlateShape
 import com.artemissoftware.domain.models.Picture
-import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 
 
@@ -77,18 +76,18 @@ private fun PictureContent(
 
             if (addFavoriteButton) {
 
-
                 FavoriteButton(
                     pulsatingType = PulsatingType.LIMITED,
                     modifier = Modifier
+                        .size(36.dp)
                         .align(Alignment.TopEnd)
                         .clip(PlateShape)
                         .background(
                             brush = Brush.linearGradient(colors = listOf(LightBlue, Color.White)),
                             shape = PlateShape
                         )
-                        .padding(8.dp),
-                    size = 40.dp,
+                        .padding(4.dp),
+                    size = 28.dp,
                     onClickToFavorite = {
                         onFavoriteClick.invoke(picture.id)
                     },
