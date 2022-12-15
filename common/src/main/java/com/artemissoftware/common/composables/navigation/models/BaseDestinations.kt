@@ -18,7 +18,7 @@ abstract class BaseDestinations(
         return if(customArguments.isEmpty()) route else fullRoute
     }
 
-    val fullRoute: String = buildString {
+    private val fullRoute: String = buildString {
         append(route)
         customArguments.forEachIndexed { index, custom ->
             val symbol = if (index == 0) "?" else "&"

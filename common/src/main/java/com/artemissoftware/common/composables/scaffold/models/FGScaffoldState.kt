@@ -23,6 +23,13 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
     var bottomBarDestinations = mutableStateOf<List<BottomBarItem>>(emptyList())
         private set
 
+    var selectedBottomBarItem = mutableStateOf<BottomBarState>(BottomBarState())
+        private set
+
+    protected var deepLink = mutableStateOf<Uri?>(null)
+        private set
+
+
 
     fun showDialog(dialogType: DialogType) {
         dialog.value = dialogType
@@ -37,37 +44,62 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
     }
 
 
-    fun changeCurrentPositionBottomBar_final(
+
+    fun setIntent(intent: Intent){
+
+        val action = intent.action
+        val uri = intent.data
+
+        if(action == Intent.ACTION_VIEW && uri != null ){
+            deepLink.value = uri
+        }
+        else{
+            intent.extras?.getString(DEEP_LINK)?.let { link->
+                deepLink.value = Uri.parse(link)
+            }
+        }
+    }
+
+    fun updateIntent(intent: Intent) : Intent{
+
+        deepLink.value?.let { uriDeepLink->
+
+            val updatedIntent = intent.apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                putExtra(DEEP_LINK, uriDeepLink.toString())
+            }
+
+            return updatedIntent
+
+        } ?: kotlin.run {
+            return intent
+        }
+    }
+
+
+    fun changeCurrentPositionBottomBar(
         destination: BaseDestinations,
-        navController: NavHostController
-    ){
-        with(bottomBarDestinations.value) {
+        navController: NavHostController?
+    ) {
 
-            if (isNotEmpty()) {
-                _currentPositionBottomBar.value = indexOfFirst { it.route == destination.getRoutel() }
-                currentbottomBarItemLolo.value = destination.getRoutel()
-                navController?.changeGraph(destination.withArgs("lolollo"))
-            }
+        navController?.let {
+            changeCurrentPositionBottomBar(
+                destination = destination,
+                route = destination.route,
+                navController = it
+            )
         }
     }
 
 
-    fun changeCurrentPositionBottomBar_final_TESTE_TESTE(
-        route: String,
-        navController: NavHostController
-    ){
-        with(bottomBarDestinations.value) {
 
-            if (isNotEmpty()) {
-//                _currentPositionBottomBar.value = 2
-//                currentbottomBarItemLolo.value = route
-                navController.changeGraph(route)
-            }
-        }
+    fun getSelectedBottomBarDestination(defaultDestination: BaseDestinations): BaseDestinations {
+        return selectedBottomBarItem.value.currentDestination ?: defaultDestination
     }
 
 
-    protected fun executeDeepLink( //TODO: arranjar nome melhor para isto. Já não está relacionado com deeplink
+
+    protected fun executeDeepLink(
         destinationWithArguments: Pair<BaseDestinations, List<String>>?,
         navController: NavHostController?
     ) {
@@ -81,7 +113,7 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
 
                 if(isBottomNavigationDestination(destination = destination)){
                     navController?.let {
-                        changeCurrentPositionBottomBar_final_BASE(destination = destination, navController = it, route = route)
+                        changeCurrentPositionBottomBar(destination = destination, navController = it, route = route)
                     }
                     return
                 }
@@ -90,50 +122,13 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
                 }
             }
             catch(e: IllegalArgumentException){
-                //TODO: solucao mais bonita, mas a que está é boa
-                //navController.navigate(it)
+
             }
-
         }
-
     }
 
 
 
-
-
-
-
-    protected fun executeDeepLink(
-        destination: BaseDestinations,
-        navController: NavHostController?
-    ) {
-
-        try {
-            with(bottomBarDestinations.value) {
-
-                if (isNotEmpty()) {
-
-                    if(bottomBarDestinations.value.any { it.route == destination.getRoutel() }){
-
-                        navController?.let {
-                            changeCurrentPositionBottomBar_final(destination = destination, navController = it)
-                        }
-                        return
-                    }
-                }
-            }
-
-            navController?.navigate(destination.getRoutel())
-        }
-        catch(e: IllegalArgumentException){
-            //TODO: solucao mais bonita, mas a que está é boa
-            //navController.navigate(it)
-        }
-    }
-
-
-    //-----------------------------------------------------
 
 
     private fun Pair<BaseDestinations, List<String>>.toDestinationRoute() : String{
@@ -152,7 +147,7 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
         with(bottomBarDestinations.value) {
 
             if (isNotEmpty()) {
-                return any { it.route == destination.getRoutel() }
+                return any { it.destination.getRoutel() == destination.getRoutel() }
             }
         }
 
@@ -160,7 +155,9 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
     }
 
 
-    private fun changeCurrentPositionBottomBar_final_BASE(
+
+
+    private fun changeCurrentPositionBottomBar(
         destination: BaseDestinations,
         route: String,
         navController: NavHostController
@@ -168,12 +165,18 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
         with(bottomBarDestinations.value) {
 
             if (isNotEmpty()) {
-                _currentPositionBottomBar.value = indexOfFirst { it.route == destination.getRoutel() }
-                currentbottomBarItemLolo.value = destination.getRoutel()
+                selectedBottomBarItem.value.update(
+                    currentPosition = indexOfFirst { it.destination.route == destination.getRoutel() },
+                    currentDestination = destination
+                )
                 navController.changeGraph(route)
             }
         }
     }
+
+
+
+
 
     //-----------------------------------------------------
 
@@ -266,169 +269,6 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
 //            duration
         )
     }
-//
-//    fun showBottomBar() {
-//        _isShowingBottomBar.value = true
-//    }
-//
-//    fun hideBottomBar() {
-//        _isShowingBottomBar.value = false
-//    }
-//
-//    fun changeModeSnackBar(mode: EDPSnackbarMode) {
-//        _snackbarMode.value = mode
-//    }
-//
-//    fun hideSearch() {
-//        _openSearch.value = false
-//    }
-//
-//    fun hideProgress() {
-//        _openProgress.value = false
-//    }
-//
-//    fun hideConsumptions() {
-//        _openConsumptions.value = false
-//    }
-//
-//    @ExperimentalAnimationApi
-//    fun changeCurrentPositionBottomBar(
-//        position: Int,
-//        navController: NavHostController?,
-//        openSearch: Boolean = false,
-//        openProgress: Boolean = false,
-//        openConsumptions: Boolean = false
-//    ) {
-//        _currentPositionBottomBar.value = position
-//        _openSearch.value = openSearch
-//        _openProgress.value = openProgress
-//        _openConsumptions.value = openConsumptions
-//
-//        when (position) {
-//            MainActivity.MENU_HOME -> navController?.changeGraph(MainDestinations.Home.route)
-//            MainActivity.MENU_ROUTE_PLANNER -> navController?.changeGraph(MainDestinations.RoutePlanner.route)
-//            MainActivity.MENU_FAVORITES -> navController?.changeGraph(MainDestinations.Favorites.route)
-//            MainActivity.MENU_HISTORY -> navController?.changeGraph(MainDestinations.History.route)
-//            MainActivity.MENU_PROFILE -> navController?.changeGraph(MainDestinations.Profile.route)
-//        }
-//
-//        bottomSheetState.hide()
-//    }
-
-
-
-    ///---------
-
-
-    var currentbottomBarItem = mutableStateOf<BottomBarItem?>(null)
-        private set
-    var currentbottomBarItemLolo = mutableStateOf<String?>(null)
-        private set
-
-
-    private val _currentPositionBottomBar = mutableStateOf(0)
-    val currentPositionBottomBar: Int get() = _currentPositionBottomBar.value
-
-    fun loloo(position: Int){
-        _currentPositionBottomBar.value = position
-    }
-
-
-    fun changeCurrentPositionBottomBar_(
-        position: Int,
-        destination: String,
-        navController: NavHostController?
-    ) {
-
-        with(bottomBarDestinations.value) {
-
-            if (isNotEmpty()) {
-
-                _currentPositionBottomBar.value = position
-                currentbottomBarItemLolo.value = destination
-                //currentbottomBarItem.value = bottomBarItems.value[position]
-               navController?.changeGraph(destination)
-
-            }
-        }
-    }
-
-    fun changeCurrentPositionBottomBar(
-        destination: BaseDestinations,
-        navController: NavHostController?
-    ) {
-
-        with(bottomBarDestinations.value) {
-
-            if (isNotEmpty()) {
-                _currentPositionBottomBar.value = indexOfFirst { it.route == destination.getRoutel() }
-                currentbottomBarItemLolo.value = destination.route
-                //currentbottomBarItem.value = bottomBarItems.value[_currentPositionBottomBar.value]
-
-                navController?.changeGraph(destination.getRoutel())
-            }
-        }
-    }
-
-
-
-    var dddd = -1
-
-    var deepLink = mutableStateOf<Uri?>(null)
-        private set
-
-
-    fun setIntent(intent: Intent){
-
-        val action = intent.action
-        val uri = intent.data
-
-        if(action == Intent.ACTION_VIEW && uri != null ){
-            deepLink.value = uri
-        }
-        else{
-            intent.extras?.getString(DEEP_LINK)?.let { link->
-                deepLink.value = Uri.parse(link)
-            }
-        }
-    }
-
-    fun updateIntent(intent: Intent) : Intent{
-
-        deepLink.value?.let { uriDeepLink->
-
-            val updatedIntent = intent.apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                putExtra(DEEP_LINK, uriDeepLink.toString())
-            }
-
-            return updatedIntent
-
-        } ?: kotlin.run {
-            return intent
-        }
-    }
-
-
-    fun changeCurrentPositionBottomBar_vv(
-        position: Int,
-        destination: String,
-        navController: NavHostController?,
-        uri: Uri
-    ) {
-        _currentPositionBottomBar.value = position
-        currentbottomBarItemLolo.value = destination
-        //currentbottomBarItem.value = bottomBarItems.value[position]
-        navController!!.navigate(uri)
-
-    }
-
-
-
-
-
-    //---------------------
-    //-------------------------------
 
 
 

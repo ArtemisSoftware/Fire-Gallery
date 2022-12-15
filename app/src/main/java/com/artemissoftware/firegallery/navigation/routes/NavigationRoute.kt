@@ -89,11 +89,11 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
                             (context as? Activity)?.finish()
                         },
                         onDeepLink = {
-                            scaffoldState.changeCurrentPositionBottomBar_(
-                                1,
-                                DestinationRoutes.HomeGraph.favorites.route,
-                                navController
-                            )
+//                            scaffoldState.changeCurrentPositionBottomBar_(
+//                                1,
+//                                DestinationRoutes.HomeGraph.favorites.route,
+//                                navController
+//                            )
                         }
                     )
                 }

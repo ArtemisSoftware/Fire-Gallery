@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.animations.FlipAnimation
+import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.text.FGText
 
@@ -103,9 +104,11 @@ fun FGBottomNavigationItem (
 @Composable
 private fun FGBottomNavigationItemPreview() {
 
+    class TestDestination: BaseDestinations(route = "Create")
+
     val list = listOf(
-        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Home, Icons.Outlined.Home, "Home"),
-        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Settings, Icons.Outlined.Settings, "Settings")
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Home, Icons.Outlined.Home, TestDestination()),
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Settings, Icons.Outlined.Settings, TestDestination())
     )
 
     Column(verticalArrangement = Arrangement.spacedBy(36.dp)) {

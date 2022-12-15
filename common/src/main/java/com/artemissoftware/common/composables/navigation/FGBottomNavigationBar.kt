@@ -24,6 +24,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 
@@ -44,25 +45,30 @@ fun FGBottomNavigationBar (
 
             if (showBottomBar(currentDestination, items = items)) {
 
-                FGNavigationBar(
-                    modifier = modifier,
-                    items = items,
-                    navController = navController,
-                    selectedScreen = fgScaffoldState?.currentbottomBarItemLolo?.value ?: items[0].route,
-                    onClick = { item->
 
-                        fgScaffoldState?.changeCurrentPositionBottomBar_(
-                            position = items.indexOf(item),
-                            destination = item.route,
-                            navController = navController
-                        )
+                fgScaffoldState?.let {
+                    FGNavigationBar(
+                        modifier = modifier,
+                        items = items,
+                        selectedDestination = it.getSelectedBottomBarDestination(items[0].destination),
+                        onClick = { item->
+
+                            it.changeCurrentPositionBottomBar(
+                                destination = item.destination,
+                                navController = navController
+                            )
 //                        navController.navigate(item.route) {
 //
 //                            popUpTo(navController.graph.findStartDestination().id)
 //                            launchSingleTop = true
 //                        }
-                    }
-                )
+                        }
+                    )
+
+                }
+
+
+
 
             }
         }
@@ -74,8 +80,7 @@ fun FGBottomNavigationBar (
 private fun FGNavigationBar (
     modifier: Modifier = Modifier,
     items: List<BottomBarItem>,
-    navController: NavHostController,
-    selectedScreen: String,
+    selectedDestination: BaseDestinations,
     onClick: (BottomBarItem) -> Unit
 ) {
 
@@ -93,7 +98,7 @@ private fun FGNavigationBar (
         ) {
 
             for (item in items) {
-                val isSelected = item.route == selectedScreen
+                val isSelected = item.destination.route == selectedDestination.route
                 val animatedWeight by animateFloatAsState(targetValue = if (isSelected) 1.5f else 1f)
 
                 Box(
@@ -120,24 +125,22 @@ private fun FGNavigationBar (
 
 private fun showBottomBar(
     currentDestination: NavDestination?,
-    items: List<BottomBarItem>) = items.any { it.route == currentDestination?.route }
+    items: List<BottomBarItem>) = items.any { it.destination.getRoutel() == currentDestination?.route }
 
 
 @Preview(showBackground = false)
 @Composable
 private fun FGNavigationBarPreview() {
-
-    var selectedScreen = remember { mutableStateOf(0) }
+    class TestDestination: BaseDestinations(route = "Create")
 
     val list = listOf(
-        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, "Create"),
-        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, TestDestination()),
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, TestDestination())
     )
 
     FGNavigationBar(
         items = list,
-        navController = rememberNavController(),
-        selectedScreen = list[0].route,
+        selectedDestination = list[0].destination,
         onClick = {}
     )
 }
@@ -146,9 +149,11 @@ private fun FGNavigationBarPreview() {
 @Composable
 private fun FGBottomNavigationBarPreview() {
 
+    class TestDestination: BaseDestinations(route = "Create")
+
     val list = listOf(
-        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, "Create"),
-        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, TestDestination()),
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, TestDestination())
     )
 
     FGBottomNavigationBar(

@@ -29,6 +29,7 @@ import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.dialog.FGDialog
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
+import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.topbar.FGTopBar
@@ -136,9 +137,11 @@ fun FGScaffold(
 @Composable
 private fun FGScaffoldPreview() {
 
+    class TestDestination: BaseDestinations(route = "Create")
+
     val list = listOf(
-        BottomBarItem(R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, "Create"),
-        BottomBarItem(R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+        BottomBarItem(R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, TestDestination()),
+        BottomBarItem(R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, TestDestination())
     )
 
     FGScaffold(
