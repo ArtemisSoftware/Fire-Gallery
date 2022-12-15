@@ -1,11 +1,8 @@
-package com.artemissoftware.domain.usecases.authentication
+package com.artemissoftware.domain.usecases.validation
 
-import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.profile.UserValidation
 import com.artemissoftware.domain.repositories.RemoteConfigRepository
 import com.artemissoftware.domain.util.UserDataValidation
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ValidateLoginUseCase @Inject constructor(

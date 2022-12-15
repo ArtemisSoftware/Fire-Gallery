@@ -9,7 +9,7 @@ import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.authentication.LogInUseCase
-import com.artemissoftware.domain.usecases.authentication.ValidateLoginUseCase
+import com.artemissoftware.domain.usecases.validation.ValidateLoginUseCase
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes

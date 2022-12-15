@@ -9,7 +9,7 @@ import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.profile.GetValidationRulesUseCase
 import com.artemissoftware.domain.usecases.authentication.RegisterUserUseCase
-import com.artemissoftware.domain.usecases.authentication.ValidateRegisterUseCase
+import com.artemissoftware.domain.usecases.validation.ValidateRegisterUseCase
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent

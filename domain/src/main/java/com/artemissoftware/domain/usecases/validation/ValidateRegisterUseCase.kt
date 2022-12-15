@@ -1,4 +1,4 @@
-package com.artemissoftware.domain.usecases.authentication
+package com.artemissoftware.domain.usecases.validation
 
 import com.artemissoftware.domain.models.profile.UserValidation
 import com.artemissoftware.domain.repositories.RemoteConfigRepository
