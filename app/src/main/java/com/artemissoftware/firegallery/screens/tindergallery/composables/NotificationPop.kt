@@ -1,8 +1,10 @@
 package com.artemissoftware.firegallery.screens.tindergallery.composables
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
@@ -17,6 +19,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -26,7 +29,6 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.text.FGText
-import com.artemissoftware.common.composables.topbar.FGCollapsedState
 import com.artemissoftware.common.theme.Purple200
 import com.artemissoftware.common.theme.RedOrange
 import com.artemissoftware.firegallery.R
@@ -125,6 +127,93 @@ private fun SwipeableNotification_finalPreview() {
 }
 
 
+//--------------------
+
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun SwipeableNotification_finalForSure(
+    modifier: Modifier = Modifier,
+    text: String,
+    imageUrl: String,
+    endBorderColor: Color = RedOrange,
+    startBorderColor: Color = Purple200,
+){
+    val coroutineScope = rememberCoroutineScope()
+
+    var currentState = remember { mutableStateOf(Tutot.TUTORIAL) }
+    var widthText = remember { mutableStateOf(0.dp) }
+    var widthIcon = remember { mutableStateOf(0.dp) }
+
+    var widthText_ = remember { mutableStateOf(0.dp) }
+    var widthIcon_ = remember { mutableStateOf(0.dp) }
+    val shape = animateIntAsState(
+        0,
+        animationSpec = TweenSpec(3500, 0)
+    )
+
+
+
+    when(currentState.value){
+        Tutot.EXPAND -> {
+
+        }
+        Tutot.PREVIEW -> {
+
+            Log.d("lolo", "widthText = " + widthText.value)
+
+            TutorialNotificationCard(
+                text = text,
+                imageUrl = imageUrl,
+                widthIcon = widthIcon,
+                widthText = widthText,
+                shape = shape
+            )
+        }
+        Tutot.TUTORIAL -> {
+            TutorialNotificationCard_OnHold(
+                imageUrl = imageUrl,
+                widthIcon = widthIcon_,
+                widthText = widthText_
+            )
+
+            LaunchedEffect(key1 = true){
+
+                delay(2500)
+
+                currentState.value = Tutot.PREVIEW
+
+            }
+        }
+    }
+
+}
+
+
+
+
+
+@Preview
+@Composable
+private fun SwipeableNotification_finalForSurePreview() {
+    SwipeableNotification_finalForSure(
+        text = "Winter season pictures",
+        imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png"
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun SwipeableNotificationCard(
@@ -191,10 +280,49 @@ private fun SwipeableNotificationCardPreview() {
 
 
 
-enum class Tutot {
+private enum class Tutot {
     EXPAND,
-    RETRACT
+    PREVIEW,
+    TUTORIAL
 }
+
+@Composable
+private fun TutorialNotificationCard_OnHold(
+    modifier: Modifier = Modifier,
+    imageUrl: String,
+    endBorderColor: Color = RedOrange,
+    startBorderColor: Color = Purple200,
+    widthIcon: MutableState<Dp>,
+    widthText: MutableState<Dp>
+) {
+
+
+    val defaultWidthRetracted = -16
+
+    Box(
+        modifier = modifier
+            .offset {
+
+                IntOffset(
+                    defaultWidthRetracted,
+                    //shape.value,
+                    0
+                )
+            }
+
+    ) {
+
+        NotificationCard(
+            text = "",
+            imageUrl = imageUrl,
+            widthIcon = widthIcon,
+            widthText = widthText,
+            endBorderColor = endBorderColor,
+            startBorderColor = startBorderColor
+        )
+    }
+}
+
 
 
 @Composable
@@ -209,22 +337,66 @@ private fun TutorialNotificationCard(
     shape: State<Int>
 ) {
 
-    var start = remember { mutableStateOf(true) }
-    var currentState = remember { mutableStateOf(Tutot.RETRACT) }
+//    var start = remember { mutableStateOf(true) }
+//    var currentState = remember { mutableStateOf(Tutot.PREVIEW) }
+//
+//    LaunchedEffect(key1 = start.value) {
+//        currentState.value =
+//            if (start.value) Tutot.EXPAND else Tutot.PREVIEW
+//    }
+//    val transition = updateTransition(currentState.value, label = "")
+//
+//
+//    var squareSize = widthText.value - 8.dp
+//    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
+//
+//
+//    val optionHeight by animateIntAsState(
+//        targetValue = if (currentState.value == Tutot.PREVIEW) -sizePx.toInt() else 0,
+//        animationSpec = tween(
+//            durationMillis = 2000, // duration
+//            delayMillis = 2000, // delay before start animation
+//            easing = FastOutSlowInEasing
+//        ),
+//        finishedListener = {
+//            //currentState.value = Tutot.RETRACT
+//            start.value = false
+//        }
+//    )
+
+
+
+
+
+    var currentState = remember { mutableStateOf(Tutot.PREVIEW) }
+
+    var start = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = start.value) {
-        currentState.value =
-            if (start.value) Tutot.EXPAND else Tutot.RETRACT
+
+        currentState.value = if (start.value) Tutot.EXPAND else Tutot.PREVIEW
     }
-    val transition = updateTransition(currentState.value, label = "")
+
+    var widthExpanded = widthText.value - 8.dp
+    //--val defaultWidthRetracted = if(widthText.value > 0.dp) - with(LocalDensity.current) { widthText.value.toPx() -16 } else -16
+
+    val defaultWidthRetracted = when {
+
+        (currentState.value == Tutot.PREVIEW && widthText.value == 0.dp) -> {
+            -16
+        }
+        (currentState.value == Tutot.PREVIEW && widthText.value > 0.dp) -> {
+            Log.d("lolo", "wid__thText = " + widthText.value)
+            -with(LocalDensity.current) { widthText.value.toPx() -16 }
+        }
+        else ->{ -16 }
+    }
 
 
-    var squareSize = widthText.value - 8.dp
-    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
-
+    val widthExpandedFinal = with(LocalDensity.current) { widthExpanded.toPx() }
 
     val optionHeight by animateIntAsState(
-        targetValue = if (currentState.value == Tutot.RETRACT) -sizePx.toInt() else 0,
+        targetValue = if (currentState.value == Tutot.PREVIEW) defaultWidthRetracted.toInt() else -widthExpandedFinal.toInt(),
         animationSpec = tween(
             durationMillis = 2000, // duration
             delayMillis = 2000, // delay before start animation
@@ -232,19 +404,19 @@ private fun TutorialNotificationCard(
         ),
         finishedListener = {
             //currentState.value = Tutot.RETRACT
-            start.value = false
+            //--start.value = false
         }
-
     )
 
+    val ddd = if(start.value) optionHeight else defaultWidthRetracted.toInt()
 
     Box(
         modifier = modifier
             .offset {
 
                 IntOffset(
-                    optionHeight,
-                    //shape.value,
+                    //optionHeight,
+                    defaultWidthRetracted.toInt(),
                     0
                 )
             }
@@ -272,8 +444,8 @@ private fun TutorialNotificationCardPreview() {
     TutorialNotificationCard(
         text = "Winter season pictures",
         imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png",
-        widthText = mutableStateOf(100.dp),
-        widthIcon = mutableStateOf(100.dp),
+        widthText = mutableStateOf(0.dp),
+        widthIcon = mutableStateOf(0.dp),
         shape = mutableStateOf(0),
     )
 }
@@ -317,7 +489,7 @@ private fun NotificationCard(
         ) {
 
             Column(
-                modifier = Modifier
+                modifier = Modifier.background(color = Color.Red)
                     .onGloballyPositioned { coordinates ->
                         widthText.value = with(density) { coordinates.size.width.toDp() }
                     }
@@ -934,3 +1106,47 @@ private fun NotificationCardPreview() {
 //fun ppp() {
 //    SwipeFinal(text = "Winter season pictures", imageUrl = "https://cdn-icons-png.flaticon.com/128/2336/2336319.png")
 //}
+
+
+
+@Composable
+fun MeasureUnconstrainedViewWidth(
+    viewToMeasure: @Composable () -> Unit,
+    content: @Composable (measuredWidth: Dp) -> Unit,
+) {
+    SubcomposeLayout { constraints ->
+        val measuredWidth = subcompose("viewToMeasure", viewToMeasure)[0]
+            .measure(Constraints()).width.toDp()
+
+        val contentPlaceable = subcompose("content") {
+            content(measuredWidth)
+        }[0].measure(constraints)
+        layout(contentPlaceable.width, contentPlaceable.height) {
+            contentPlaceable.place(0, 0)
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun ppp() {
+    MeasureUnconstrainedViewWidth(
+        viewToMeasure = {
+            Column(
+                modifier = Modifier.background(color = Color.Red)
+
+            ) {
+
+                FGText(
+                    modifier = Modifier.padding(8.dp),
+                    text = "Winter season pictures"
+                )
+            }
+        }
+    ) { measuredWidth ->
+        Text("ddd = $measuredWidth")
+    }
+
+}
+

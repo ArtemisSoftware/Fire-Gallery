@@ -6,6 +6,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.animations.FGPulsatingAnimation
 import com.artemissoftware.common.composables.animations.models.PulsatingType
@@ -24,7 +26,8 @@ fun FavoriteButton(
     modifier: Modifier = Modifier,
     onClickToFavorite: () -> Unit = {},
     onClickToRemoverFavorite: () -> Unit = {},
-    isFavorite: Boolean
+    isFavorite: Boolean,
+    size : Dp = 50.dp
 ) {
 
     Box(modifier = modifier) {
@@ -43,7 +46,7 @@ fun FavoriteButton(
                     Icon(
                         imageVector = Icons.Default.Favorite,
                         contentDescription = "",
-                        modifier = Modifier.size(50.dp),
+                        modifier = Modifier.size(size),
                         tint = Color.Red
                     )
                 }
@@ -58,7 +61,7 @@ fun FavoriteButton(
                 Icon(
                     imageVector = Icons.TwoTone.Favorite,
                     contentDescription = "",
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier.size(size),
                     tint = Color.LightGray
                 )
             }

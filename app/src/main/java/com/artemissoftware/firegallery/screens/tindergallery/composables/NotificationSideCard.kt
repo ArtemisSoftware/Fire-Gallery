@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,6 +26,7 @@ import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.common.theme.Purple200
 import com.artemissoftware.common.theme.RedOrange
+import com.artemissoftware.common.theme.RightRoundedCornersShape
 import com.artemissoftware.firegallery.R
 
 
@@ -39,23 +39,16 @@ fun NotificationSideCard(
     startBorderColor: Color = Purple200
 ){
 
-    val corners =  RoundedCornerShape(
-        topStart = 0.dp,
-        topEnd = 30.dp,
-        bottomEnd = 30.dp,
-        bottomStart = 0.dp,
-    )
-
     Card(
         modifier = modifier
             .border(
                 width = (0.4).dp,
                 brush = Brush.linearGradient(colors = listOf(startBorderColor, endBorderColor)),
-                shape = corners
+                shape = RightRoundedCornersShape
             )
-            .shadow(clip = true, shape = corners, elevation = 3.dp),
+            .shadow(clip = true, shape = RightRoundedCornersShape, elevation = 3.dp),
         elevation = 24.dp,
-        shape = corners
+        shape = RightRoundedCornersShape
     ) {
 
         Row(
