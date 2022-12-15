@@ -1,7 +1,5 @@
 package com.artemissoftware.common.composables.scaffold.models
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
@@ -14,9 +12,172 @@ import com.artemissoftware.common.extensions.changeGraph
 import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
 import kotlinx.coroutines.CoroutineScope
 
-class FGScaffoldState(
+open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
     private val scope: CoroutineScope? = null
 ) {
+
+
+    var dialog = mutableStateOf<DialogType?>(null)
+        private set
+
+    var bottomBarDestinations = mutableStateOf<List<BottomBarItem>>(emptyList())
+        private set
+
+
+    fun showDialog(dialogType: DialogType) {
+        dialog.value = dialogType
+    }
+
+    fun closeDialog() {
+        dialog.value = null
+    }
+
+    fun setBottomBarDestinations(items: List<BottomBarItem>) {
+        bottomBarDestinations.value = items
+    }
+
+
+    fun changeCurrentPositionBottomBar_final(
+        destination: BaseDestinations,
+        navController: NavHostController
+    ){
+        with(bottomBarDestinations.value) {
+
+            if (isNotEmpty()) {
+                _currentPositionBottomBar.value = indexOfFirst { it.route == destination.getRoutel() }
+                currentbottomBarItemLolo.value = destination.getRoutel()
+                navController?.changeGraph(destination.withArgs("lolollo"))
+            }
+        }
+    }
+
+
+    fun changeCurrentPositionBottomBar_final_TESTE_TESTE(
+        route: String,
+        navController: NavHostController
+    ){
+        with(bottomBarDestinations.value) {
+
+            if (isNotEmpty()) {
+//                _currentPositionBottomBar.value = 2
+//                currentbottomBarItemLolo.value = route
+                navController.changeGraph(route)
+            }
+        }
+    }
+
+
+    protected fun executeDeepLink( //TODO: arranjar nome melhor para isto. Já não está relacionado com deeplink
+        destinationWithArguments: Pair<BaseDestinations, List<String>>?,
+        navController: NavHostController?
+    ) {
+
+        destinationWithArguments?.let { destinationWithArguments ->
+
+            val destination = destinationWithArguments.first
+            val route = destinationWithArguments.toDestinationRoute()
+
+            try {
+
+                if(isBottomNavigationDestination(destination = destination)){
+                    navController?.let {
+                        changeCurrentPositionBottomBar_final_BASE(destination = destination, navController = it, route = route)
+                    }
+                    return
+                }
+                else{
+                    navController?.navigate(route)
+                }
+            }
+            catch(e: IllegalArgumentException){
+                //TODO: solucao mais bonita, mas a que está é boa
+                //navController.navigate(it)
+            }
+
+        }
+
+    }
+
+
+
+
+
+
+
+    protected fun executeDeepLink(
+        destination: BaseDestinations,
+        navController: NavHostController?
+    ) {
+
+        try {
+            with(bottomBarDestinations.value) {
+
+                if (isNotEmpty()) {
+
+                    if(bottomBarDestinations.value.any { it.route == destination.getRoutel() }){
+
+                        navController?.let {
+                            changeCurrentPositionBottomBar_final(destination = destination, navController = it)
+                        }
+                        return
+                    }
+                }
+            }
+
+            navController?.navigate(destination.getRoutel())
+        }
+        catch(e: IllegalArgumentException){
+            //TODO: solucao mais bonita, mas a que está é boa
+            //navController.navigate(it)
+        }
+    }
+
+
+    //-----------------------------------------------------
+
+
+    private fun Pair<BaseDestinations, List<String>>.toDestinationRoute() : String{
+
+        val destination = this.first
+
+        return if(this.second.isNotEmpty()) {
+            destination.withArgs(this.second)
+        }
+        else destination.getRoutel()
+    }
+
+
+    private fun isBottomNavigationDestination(destination: BaseDestinations) : Boolean{
+
+        with(bottomBarDestinations.value) {
+
+            if (isNotEmpty()) {
+                return any { it.route == destination.getRoutel() }
+            }
+        }
+
+        return false
+    }
+
+
+    private fun changeCurrentPositionBottomBar_final_BASE(
+        destination: BaseDestinations,
+        route: String,
+        navController: NavHostController
+    ){
+        with(bottomBarDestinations.value) {
+
+            if (isNotEmpty()) {
+                _currentPositionBottomBar.value = indexOfFirst { it.route == destination.getRoutel() }
+                currentbottomBarItemLolo.value = destination.getRoutel()
+                navController.changeGraph(route)
+            }
+        }
+    }
+
+    //-----------------------------------------------------
+
+
 
 
     //TODO: refactor this class
@@ -158,60 +319,60 @@ class FGScaffoldState(
 
     ///---------
 
-    var bottomBarItems = mutableStateOf<List<BottomBarItem>>(emptyList())
-        private set
 
     var currentbottomBarItem = mutableStateOf<BottomBarItem?>(null)
         private set
     var currentbottomBarItemLolo = mutableStateOf<String?>(null)
         private set
 
-    var modalVisible = mutableStateOf<DialogType?>(null)
-        private set
 
     private val _currentPositionBottomBar = mutableStateOf(0)
     val currentPositionBottomBar: Int get() = _currentPositionBottomBar.value
 
-    fun showDialog(dialogType: DialogType) {
-        modalVisible.value = dialogType
+    fun loloo(position: Int){
+        _currentPositionBottomBar.value = position
     }
 
-    fun closeDialog() {
-        modalVisible.value = null
-    }
 
     fun changeCurrentPositionBottomBar_(
         position: Int,
         destination: String,
         navController: NavHostController?
     ) {
-        _currentPositionBottomBar.value = position
-        currentbottomBarItemLolo.value = destination
-        //currentbottomBarItem.value = bottomBarItems.value[position]
-        navController?.changeGraph(destination)
 
+        with(bottomBarDestinations.value) {
+
+            if (isNotEmpty()) {
+
+                _currentPositionBottomBar.value = position
+                currentbottomBarItemLolo.value = destination
+                //currentbottomBarItem.value = bottomBarItems.value[position]
+               navController?.changeGraph(destination)
+
+            }
+        }
     }
 
     fun changeCurrentPositionBottomBar(
         destination: BaseDestinations,
         navController: NavHostController?
     ) {
-        with(bottomBarItems.value) {
+
+        with(bottomBarDestinations.value) {
 
             if (isNotEmpty()) {
-                _currentPositionBottomBar.value = indexOfFirst { it.route == destination.route }
+                _currentPositionBottomBar.value = indexOfFirst { it.route == destination.getRoutel() }
                 currentbottomBarItemLolo.value = destination.route
                 //currentbottomBarItem.value = bottomBarItems.value[_currentPositionBottomBar.value]
-                navController?.changeGraph(destination.route)
+
+                navController?.changeGraph(destination.getRoutel())
             }
         }
     }
 
 
-    fun setBottomBarDestinations(items: List<BottomBarItem>) {
-        bottomBarItems.value = items
-    }
 
+    var dddd = -1
 
     var deepLink = mutableStateOf<Uri?>(null)
         private set
@@ -248,18 +409,27 @@ class FGScaffoldState(
         }
     }
 
-    fun executeDeepLink(navController: NavHostController){
-        deepLink.value?.let{
-            try {
-                navController.navigate(it)
-            }
-            catch(e: IllegalArgumentException){
-                //TODO: solucao mais bonita, mas a que está é boa
-                //navController.navigate(it)
-            }
-        }
 
-        deepLink.value = null
+    fun changeCurrentPositionBottomBar_vv(
+        position: Int,
+        destination: String,
+        navController: NavHostController?,
+        uri: Uri
+    ) {
+        _currentPositionBottomBar.value = position
+        currentbottomBarItemLolo.value = destination
+        //currentbottomBarItem.value = bottomBarItems.value[position]
+        navController!!.navigate(uri)
+
     }
+
+
+
+
+
+    //---------------------
+    //-------------------------------
+
+
 
 }

@@ -34,10 +34,10 @@ import kotlinx.coroutines.MainScope
 @Composable
 fun FGDialog(fgScaffoldState: FGScaffoldState) {
 
-    fgScaffoldState.modalVisible.value?.let { dialogType->
+    fgScaffoldState.dialog.value?.let { dialogType->
 
         Dialog(
-            onDismissRequest = {
+            onDismissRequest = { //TODO: rever isto
                 //fgScaffoldState.hideBottomBar()
             }
         ) {

@@ -42,7 +42,6 @@ class LogInViewModel @Inject constructor(
 
     init {
         redirectRoute = savedStateHandle.get<String>(NavigationArguments.REDIRECT_ROUTE)
-
     }
 
     override fun onTriggerEvent(event: LogInEvents) {
@@ -59,14 +58,8 @@ class LogInViewModel @Inject constructor(
             }
             LogInEvents.PopBackStack -> {
 
-                redirectRoute?.let {
+                redirect(false)
 
-                    //sendUiEvent(UiEvent.ChangeCurrentPositionBottomBar(DestinationRoutes.HomeGraph.gallery))
-                    sendUiEvent(UiEvent.NavigatePopUpTo(currentRoute = DestinationRoutes.ProfileGraph.login.getRoutel(),  destinationRoute = DestinationRoutes.HomeGraph.gallery.getRoutel()))
-                    redirectRoute = null
-                } ?: kotlin.run {
-                    sendUiEvent(UiEvent.PopBackStack)
-                }
 
             }
         }
@@ -89,7 +82,7 @@ class LogInViewModel @Inject constructor(
                         isLoading = false
                     )
 
-                    redirect()
+                    redirect(true)
                 }
                 is Resource.Error -> {
 
@@ -122,14 +115,22 @@ class LogInViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun redirect(){
+    private fun redirect(isLoggedIn: Boolean){
 
-        redirectRoute?.let {
-            sendUiEvent(UiEvent.PopBackStackInclusive(route = it))
-        } ?: kotlin.run {
-            sendUiEvent(UiEvent.PopBackStack)
+        when{
+
+            redirectRoute != null && isLoggedIn ->{
+                redirectRoute?.let { sendUiEvent(UiEvent.Redirect(route = it)) }
+            }
+            redirectRoute != null && !isLoggedIn ->{
+                sendUiEvent(UiEvent.NavigatePopUpTo(currentRoute = DestinationRoutes.ProfileGraph.login.getRoutel(),  destinationRoute = DestinationRoutes.HomeGraph.gallery.getRoutel()))
+            }
+            else ->{
+                sendUiEvent(UiEvent.PopBackStack)
+            }
         }
 
+        redirectRoute = null
     }
 
 }

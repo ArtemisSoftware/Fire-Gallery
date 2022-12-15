@@ -14,8 +14,9 @@ fun ManageUIEvents(
     onNavigatePopUpTo: (UiEvent.NavigatePopUpTo) -> Unit = {},
     onChangeCurrentPositionBottomBar: (UiEvent.ChangeCurrentPositionBottomBar) -> Unit = {},
     onPopBackStack: () -> Unit = {},
-    onPopBackStackInclusive: (UiEvent.PopBackStackInclusive) -> Unit = {},
-    onFinishAndStartActivity: (UiEvent.FinishAndStartActivity) -> Unit = {}
+    onRedirect: (UiEvent.Redirect) -> Unit = {},
+    onFinishAndStartActivity: (UiEvent.FinishAndStartActivity) -> Unit = {},
+    onDeepLink: () -> Unit = {},
 ) {
 
     LaunchedEffect(key1 = true) {
@@ -26,11 +27,12 @@ fun ManageUIEvents(
                     scaffoldState.showDialog(event.dialogType)
                 }
                 is UiEvent.PopBackStack -> { onPopBackStack.invoke() }
-                is UiEvent.PopBackStackInclusive -> { onPopBackStackInclusive.invoke(event) }
+                is UiEvent.Redirect -> { onRedirect.invoke(event) }
                 is UiEvent.Navigate -> { onNavigate(event) }
                 is UiEvent.ChangeCurrentPositionBottomBar -> { onChangeCurrentPositionBottomBar(event) }
                 is UiEvent.NavigatePopUpTo -> { onNavigatePopUpTo(event) }
                 is UiEvent.FinishAndStartActivity -> { onFinishAndStartActivity(event) }
+                is UiEvent.DeepLink -> { onDeepLink() }
             }
         }
     }

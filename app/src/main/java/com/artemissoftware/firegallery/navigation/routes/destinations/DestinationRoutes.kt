@@ -49,9 +49,23 @@ class DestinationRoutes {
     private fun getDestination(destinations: List<Destination>, path: String) : Destination?{
 
         val formattedPath = path.toLowerCase()
-        return destinations.find { formattedPath.contains(it.route.toLowerCase())  }
+        val dd = destinations.find { formattedPath.contains(it.route.toLowerCase()) || argumentCheck(it, path) }
+
+        return dd
     }
 
+    private fun argumentCheck(dest: Destination, path: String): Boolean{
+
+        if(dest.arguments.isEmpty()) return false
+
+        dest.arguments.forEach {
+            if(!path.contains(it.name)){
+                return false
+            }
+        }
+
+        return true
+    }
 
     private fun getHomeGraphDestination(uri: Uri): Pair<Destination, List<String>>? {
 
@@ -59,16 +73,13 @@ class DestinationRoutes {
 
             getDestination(HomeGraph.getRoutes(), path)?.let { destination->
 
+                val arguments = mutableListOf<String>()
+
                 return when (destination) {
 
                     is Destination.Tinder -> {
-
-                        val arguments = mutableListOf<String>()
-
                         uri.getQueryParameter(NavigationArguments.SEASON)?.let { argument-> arguments.add(argument) }
-
                         Pair(destination as Destination, arguments)
-
                     }
                     else ->{
                         null

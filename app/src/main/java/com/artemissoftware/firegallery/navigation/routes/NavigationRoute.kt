@@ -7,7 +7,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.routes.destinations.Destination
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.*
@@ -50,54 +49,55 @@ interface NavigationRoute<E: FGBaseEvents, T : FGBaseEventViewModel<E>> {
 
             val context = LocalContext.current
 
-            val viewModel = viewModel()
-
             AuthenticationChecker(
                 scaffoldState = scaffoldState,
                 required = requiresAuthentication(),
+                finalRoute = it.arguments,
                 redirect = {
-                    navController.navigate(DestinationRoutes.ProfileGraph.login.withArgs(this.getDestination().getRoutel()))
+                    navController.popBackStack()
+                    navController.navigate(it)
+                },
+                content = {
+
+                    val viewModel = viewModel()
+
+                    Content(viewModel)
+
+                    ManageUIEvents(
+                        uiEvent = viewModel.uiEvent,
+                        scaffoldState = scaffoldState,
+                        onNavigatePopUpTo = { event->
+                            navController.popBackStack(event.destinationRoute, inclusive = false, saveState = false)
+                        },
+                        onPopBackStack = {
+                            navController.popBackStack()
+                        },
+                        onRedirect = { event->
+                            navController.popBackStack()
+                            scaffoldState.redirect(event.route, navController)
+                        },
+                        onNavigate =  { event->
+                            navController.navigate(event.route)
+                        },
+                        onChangeCurrentPositionBottomBar = { event->
+                            scaffoldState.changeCurrentPositionBottomBar(event.destination, navController = navController)
+                        },
+                        onFinishAndStartActivity = { event->
+
+                            val intent = Intent(context, event.activity)
+                            context.startActivity(scaffoldState.updateIntent(intent))
+                            (context as? Activity)?.finish()
+                        },
+                        onDeepLink = {
+                            scaffoldState.changeCurrentPositionBottomBar_(
+                                1,
+                                DestinationRoutes.HomeGraph.favorites.route,
+                                navController
+                            )
+                        }
+                    )
                 }
             )
-
-            ManageUIEvents(
-                uiEvent = viewModel.uiEvent,
-                scaffoldState = scaffoldState,
-                onNavigatePopUpTo = {
-
-                    navController.popBackStack(it.destinationRoute, inclusive = false, saveState = false)
-
-                                    //navController?.changeGraph(it.destinationRoute)
-                    //--navController.navigate(it.destinationRoute) { popUpToTop(navController) }
-                    //navController.popBackStack(route = it.destinationRoute, inclusive = false)
-//                    navController.navigate(it.destinationRoute) {
-//                        popUpTo(it.currentRoute) {
-//                            inclusive = true
-//                        }
-//                    }
-
-                },
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                onPopBackStackInclusive = {
-                    navController.popBackStack(route = it.route, inclusive = true)
-                },
-                onNavigate =  {
-                    navController.navigate(it.route)
-                },
-                onChangeCurrentPositionBottomBar = {
-                    scaffoldState.changeCurrentPositionBottomBar(it.destination, navController = navController)
-                },
-                onFinishAndStartActivity = {
-
-                    val intent = Intent(context, it.activity)
-                    context.startActivity(scaffoldState.updateIntent(intent))
-                    (context as? Activity)?.finish()
-                },
-            )
-
-            Content(viewModel)
         }
     }
 

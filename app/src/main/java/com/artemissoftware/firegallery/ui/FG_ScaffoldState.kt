@@ -21,29 +21,32 @@ class FG_ScaffoldState(scope: CoroutineScope?) : FGScaffoldState(scope) {
     fun isLoggedIn() = this.user.value != null
 
 
-    fun executeDeepLink___(navController: NavHostController){//TODO: experimentar com caminho inválido
+    fun executeDeepLink(navController: NavHostController){//TODO: experimentar com caminho inválido
         deepLink.value?.let{
-            try {
-
-                //TODO o que fazer  quando devolver null????
-                DestinationRoutes().findDestination(it)?.let { destination->
-                    executeDeepLink(navController = navController, destinationWithArguments = destination)
-                }
-
-            }
-            catch(e: IllegalArgumentException){
-                //TODO: solucao mais bonita, mas a que está é boa
-                //navController.navigate(it)
-            }
+            findDestinationAndNavigateTo(uri = it, navController = navController)
         }
         deepLink.value = null
     }
 
     fun redirect(uri:String, navController: NavHostController){//TODO: experimentar com caminho inválido
+        findDestinationAndNavigateTo(uri = Uri.parse(uri), navController = navController)
+    }
 
-        DestinationRoutes().findDestination(Uri.parse(uri))?.let { destination ->
-            executeDeepLink(navController = navController, destinationWithArguments = destination)
+    private fun findDestinationAndNavigateTo(uri:Uri, navController: NavHostController){
+
+        try {
+
+            //TODO o que fazer  quando devolver null????
+            DestinationRoutes().findDestination(uri)?.let { destination->
+                executeDeepLink(navController = navController, destinationWithArguments = destination)
+            } ?: kotlin.run {
+                navController.navigate(uri)
+            }
+
         }
-
+        catch(e: IllegalArgumentException){
+            //TODO: solucao mais bonita, mas a que está é boa
+            //navController.navigate(it)
+        }
     }
 }

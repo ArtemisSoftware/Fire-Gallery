@@ -11,6 +11,7 @@ import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
+import com.artemissoftware.firegallery.ui.FG_ScaffoldState
 import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -32,20 +33,13 @@ class PictureDetailViewModel @Inject constructor(
 
     init {
         pictureId = savedStateHandle.get<String>(NavigationArguments.PICTURE_ID).orEmpty()
-        onTriggerEvent(PictureDetailEvents.GetPicture(pictureId))
-        onTriggerEvent(PictureDetailEvents.GetUser)
+        getUser()
+        getPicture(pictureId)
     }
 
     override fun onTriggerEvent(event: PictureDetailEvents) {
 
         when(event){
-            is PictureDetailEvents.GetPicture -> {
-                getPicture(event.id)
-            }
-
-            is PictureDetailEvents.GetUser -> {
-                getUser()
-            }
             is PictureDetailEvents.FavoritePicture -> {
                 saveFavorite(pictureId = event.id, isFavorite = event.isFavorite)
             }

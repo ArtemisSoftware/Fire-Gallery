@@ -34,7 +34,15 @@ abstract class BaseDestinations(
         }
     }
 
-    val deepLink: List<NavDeepLink> = listOf(navDeepLink { uriPattern = link })
+    private val linkQuery: String = buildString {
+        append("$baseDeepLink/$route")
+        customArguments.forEachIndexed { index, custom ->
+            val symbol = if (index == 0) "?" else "&"
+            append("$symbol${custom.key}={${custom.key}}")
+        }
+    }
+
+    val deepLink: List<NavDeepLink> = listOf(navDeepLink { uriPattern = link }, navDeepLink { uriPattern = linkQuery })
 
     val arguments: List<NamedNavArgument> = customArguments.map {
         navArgument(it.key) {

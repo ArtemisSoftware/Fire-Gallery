@@ -24,6 +24,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.text.FGText
+import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.common.theme.Purple200
 import com.artemissoftware.common.theme.RedOrange
 import com.artemissoftware.firegallery.R
@@ -48,7 +49,7 @@ fun NotificationSideCard(
     Card(
         modifier = modifier
             .border(
-                width = (0.1).dp,
+                width = (0.4).dp,
                 brush = Brush.linearGradient(colors = listOf(startBorderColor, endBorderColor)),
                 shape = corners
             )
@@ -67,6 +68,7 @@ fun NotificationSideCard(
             ) {
 
                 FGText(
+                    style = FGStyle.TextAlbertSansBold,
                     modifier = Modifier.padding(8.dp),
                     text = text
                 )
@@ -93,7 +95,7 @@ fun NotificationSideCard(
                         .size(24.dp)
                         .clip(CircleShape)
                         .border(
-                            width = (0.1).dp,
+                            width = (0.4).dp,
                             brush = Brush.linearGradient(
                                 colors = listOf(
                                     startBorderColor,

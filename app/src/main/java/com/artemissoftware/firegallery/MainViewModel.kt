@@ -14,6 +14,8 @@ import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
+import com.artemissoftware.firegallery.ui.FG_ScaffoldState
+import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,7 +26,7 @@ class MainViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase
 ): FGBaseEventViewModel<MainEvents>() {
 
-    val scaffoldState by lazy { FGScaffoldState(viewModelScope) }
+    val scaffoldState by lazy { FG_ScaffoldState(viewModelScope) }
 
     init {
         getUser()
@@ -34,11 +36,13 @@ class MainViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            getUserUseCase.invoke().collectLatest { result ->
+            getUserUseCase.invoke().collectLatest { user ->
+
+                scaffoldState.setUser(user = user)
 
                 with(DestinationRoutes.HomeGraph){
 
-                    val bottomBarItems = result?.let {
+                    val bottomBarItems = user?.let {
 
                         listOf(
                             gallery,
@@ -50,7 +54,6 @@ class MainViewModel @Inject constructor(
                     } ?: kotlin.run {
                         listOf(
                             gallery,
-                            tinderGallery,
                             profile
                         )
                     }

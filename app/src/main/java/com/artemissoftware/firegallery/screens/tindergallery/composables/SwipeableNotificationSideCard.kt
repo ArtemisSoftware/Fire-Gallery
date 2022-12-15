@@ -19,10 +19,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.text.FGText
+import com.artemissoftware.common.extensions.hextoColor
 import com.artemissoftware.common.theme.Purple200
 import com.artemissoftware.common.theme.RedOrange
+import com.artemissoftware.domain.models.configurations.SeasonDetailConfig
 import com.artemissoftware.firegallery.screens.tindergallery.types.SwipeNotificationTypes.*
 import kotlin.math.roundToInt
+
+
+@Composable
+fun SwipeableNotification(
+    modifier: Modifier = Modifier,
+    text: String? = null,
+    seasonDetailConfig: SeasonDetailConfig? = null,
+    showTutorial: Boolean = true
+) {
+
+    if(text != null && seasonDetailConfig != null){
+
+        SwipeableNotification(
+            modifier = modifier,
+            text = text,
+            imageUrl = seasonDetailConfig.icon,
+            endBorderColor = seasonDetailConfig.chipColorConfig.endBorderColor.hextoColor(),
+            startBorderColor = seasonDetailConfig.chipColorConfig.startBorderColor.hextoColor(),
+            showTutorial = showTutorial
+        )
+
+    }
+}
+
 
 @Composable
 fun SwipeableNotification(

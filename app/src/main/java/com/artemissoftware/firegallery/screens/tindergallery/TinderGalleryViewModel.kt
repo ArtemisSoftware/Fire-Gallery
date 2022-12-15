@@ -37,6 +37,7 @@ class TinderGalleryViewModel @Inject constructor(
 
 
     init {
+        val season = savedStateHandle.get<String>(NavigationArguments.SEASON)
         onTriggerEvent(TinderGalleryEvents.FetchMorePictures)
     }
 
