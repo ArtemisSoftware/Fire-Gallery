@@ -49,9 +49,7 @@ class DestinationRoutes {
     private fun getDestination(destinations: List<Destination>, path: String) : Destination?{
 
         val formattedPath = path.toLowerCase()
-        val dd = destinations.find { formattedPath.contains(it.route.toLowerCase()) || argumentCheck(it, path) }
-
-        return dd
+        return destinations.find { formattedPath.contains(it.route.toLowerCase()) || argumentCheck(it, path) }
     }
 
     private fun argumentCheck(dest: Destination, path: String): Boolean{
@@ -100,7 +98,6 @@ class DestinationRoutes {
         }
 
         return null
-
     }
 
 

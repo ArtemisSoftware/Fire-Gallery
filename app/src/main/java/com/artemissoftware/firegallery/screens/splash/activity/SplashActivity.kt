@@ -41,8 +41,6 @@ class SplashActivity : ComponentActivity() {
                 }
             }
         }
-
-        //startNextAndFinish()
     }
 
 
@@ -59,21 +57,5 @@ class SplashActivity : ComponentActivity() {
         }
     }
 
-    fun startNextAndFinish(){
-
-        val action = intent.action
-        val uri = intent.data
-
-        if(action == Intent.ACTION_VIEW && uri != null){
-
-            val intent = Intent(this, MainActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                putExtra(DEEP_LINK, uri.toString())
-            }
-
-            startActivity(intent)
-            finish()
-        }
-    }
 
 }

@@ -128,9 +128,6 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
     }
 
 
-
-
-
     private fun Pair<BaseDestinations, List<String>>.toDestinationRoute() : String{
 
         val destination = this.first
@@ -155,8 +152,6 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
     }
 
 
-
-
     private fun changeCurrentPositionBottomBar(
         destination: BaseDestinations,
         route: String,
@@ -173,103 +168,5 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
             }
         }
     }
-
-
-
-
-
-    //-----------------------------------------------------
-
-
-
-
-    //TODO: refactor this class
-
-//    private val _scaffoldState = BottomSheetScaffoldState(
-//        DrawerState(DrawerValue.Closed),
-//        BottomSheetState(
-//            initialValue = BottomSheetValue.Collapsed,
-//            animationSpec = SwipeableDefaults.AnimationSpec,
-//            confirmStateChange = { true }
-//        ),
-//        SnackbarHostState()
-//    )
-//    private val _bottomSheetState by lazy { EDPBottomSheetState(_scaffoldState.bottomSheetState) }
-    private val _snackbarHostState = FGSnackbarHostState()
-//    private val _snackbarMode = mutableStateOf(EDPSnackbarMode.INFORMATIVE)
-//    private val _isShowingBottomBar = mutableStateOf(true)
-//    private val _currentPositionBottomBar = mutableStateOf(0)
-    //    private val _openSearch = mutableStateOf(false)
-//    private val _openProgress = mutableStateOf(false)
-//    private val _openConsumptions = mutableStateOf(false)
-
-//    val state = _scaffoldState
-//    val bottomSheetState = _bottomSheetState
-    val snackbarHostState = _snackbarHostState
-//    val snackbarMode: EDPSnackbarMode get() = _snackbarMode.value
-
-//    val openSearch: Boolean get() = _openSearch.value
-//    val openProgress: Boolean get() = _openProgress.value
-//    val openConsumptions: Boolean get() = _openConsumptions.value
-//    val isShowingBottomBar: Boolean get() = _isShowingBottomBar.value
-//    val currentPositionBottomBar: Int get() = _currentPositionBottomBar.value
-
-
-
-
-
-
-
-    private fun showSnackbar(
-//        mode: EDPSnackbarMode,
-        message: String,
-        actionText: String? = null,
-//        onAction: (() -> Unit)?,
-//        duration: SnackbarDuration = SnackbarDuration.Short
-    ) {
-//        scope.launch {
-//
-//            snackbarHostState.showSnackbar(mode, message, actionText, duration).apply {
-//                if (this == SnackbarResult.ActionPerformed) {
-//                    onAction?.invoke()
-//                }
-//            }
-//        }
-    }
-//
-//    fun showInformative(
-//        message: String,
-//        actionText: String? = null,
-//        onAction: (() -> Unit)? = null,
-//        duration: SnackbarDuration = SnackbarDuration.Short
-//    ) {
-//        showSnackbar(EDPSnackbarMode.INFORMATIVE, message, actionText, onAction, duration)
-//    }
-//
-//    fun showError(
-//        message: String,
-//        actionText: String? = null,
-//        onAction: (() -> Unit)? = null,
-//        duration: SnackbarDuration = SnackbarDuration.Short
-//    ) {
-//        showSnackbar(EDPSnackbarMode.ERROR, message, actionText, onAction, duration)
-//    }
-
-    fun showSuccess(
-        message: String,
-        actionText: String? = null,
-//        onAction: (() -> Unit)? = null,
-//        duration: SnackbarDuration = SnackbarDuration.Short
-    ) {
-        showSnackbar(
-//            EDPSnackbarMode.SUCCESS,
-            message,
-            actionText,
-//            onAction,
-//            duration
-        )
-    }
-
-
 
 }

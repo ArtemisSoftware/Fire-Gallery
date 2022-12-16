@@ -38,21 +38,10 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
 
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        val localNotification = getLocalNotification(remoteMessage.data)
+        val localNotification = NotificationProcessor.getLocalNotification(remoteMessage.data)
         sendNotification(localNotification)
     }
 
-
-    private fun getLocalNotification(data: MutableMap<String, String>): LocalNotification{
-
-        if (data.isNotEmpty()) {
-            with(data){
-                return LocalNotification(title = get(TITLE), text = get(BODY), link = get(LINK), cls = SplashActivity::class.java)
-            }
-        }
-
-        return LocalNotification()
-    }
 
     private fun sendNotification(localNotification: LocalNotification) {
 
@@ -66,11 +55,5 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
     override fun onDestroy() {
         job.cancel()
         super.onDestroy()
-    }
-
-    companion object{
-        private const val LINK = "link"
-        private const val TITLE = "title"
-        private const val BODY = "body"
     }
 }

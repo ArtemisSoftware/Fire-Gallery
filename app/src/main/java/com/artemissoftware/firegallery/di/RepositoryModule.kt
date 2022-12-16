@@ -8,6 +8,7 @@ import com.artemissoftware.data.firebase.source.CloudStoreSource
 import com.artemissoftware.data.firebase.source.RemoteConfigSource
 import com.artemissoftware.data.repositories.*
 import com.artemissoftware.domain.repositories.*
+import com.artemissoftware.firegallery.ui.FG_ScaffoldState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,5 +54,11 @@ object RepositoryModule {
     @Singleton
     fun provideAuthenticationRepository(authenticationSource: AuthenticationSource): AuthenticationRepository {
         return AuthenticationRepositoryImpl(authenticationSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppScaffold(): FG_ScaffoldState {
+        return FG_ScaffoldState(null)
     }
 }
