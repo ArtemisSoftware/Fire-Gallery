@@ -11,7 +11,6 @@ import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.FG_ScaffoldState
 import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*

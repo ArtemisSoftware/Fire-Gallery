@@ -9,7 +9,7 @@ import com.artemissoftware.firegallery.navigation.routes.destinations.Destinatio
 
 @Composable
 fun AuthenticationChecker(
-    scaffoldState: FG_ScaffoldState,
+    scaffoldState: FGScaffoldState,
     finalRoute: Bundle? = null,
     required: Boolean,
     redirect: (String) -> Unit,

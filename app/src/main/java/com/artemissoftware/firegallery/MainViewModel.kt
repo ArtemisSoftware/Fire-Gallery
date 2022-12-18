@@ -8,14 +8,12 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.*
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.navigation.mapper.toBottomBarItem
-import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.BaseDestination
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
-import com.artemissoftware.firegallery.ui.FG_ScaffoldState
-import com.artemissoftware.firegallery.ui.UiEvent
+import com.artemissoftware.firegallery.ui.FGScaffoldState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,7 +24,7 @@ class MainViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase
 ): FGBaseEventViewModel<MainEvents>() {
 
-    val scaffoldState by lazy { FG_ScaffoldState(viewModelScope) }
+    val scaffoldState by lazy { FGScaffoldState(viewModelScope) }
 
     init {
         getUser()
@@ -65,7 +63,7 @@ class MainViewModel @Inject constructor(
     }
 
 
-    private fun setBottomBarItems(items: List<BaseDestinations>) {
+    private fun setBottomBarItems(items: List<BaseDestination>) {
 
         val bottomBarItems = mutableListOf<BottomBarItem>()
 

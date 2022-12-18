@@ -10,15 +10,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.grid.FGStaggeredVerticalGrid
 import com.artemissoftware.common.composables.scaffold.FGScaffold
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
-import com.artemissoftware.firegallery.ui.ManageUIEvents
-import com.artemissoftware.firegallery.ui.UiEvent
 
 @Composable
 fun FavoritesScreen(

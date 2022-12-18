@@ -1,9 +1,8 @@
 package com.artemissoftware.firegallery.navigation.routes.destinations
 
-import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.BaseDestination
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.firegallery.navigation.NavigationArguments
-import com.artemissoftware.firegallery.navigation.graphs.RootDestinations
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 
 sealed class Destination(
@@ -11,7 +10,7 @@ sealed class Destination(
     customArguments: List<CustomArguments> = emptyList(),
     host: String = NavigationArguments.FIRE_GALLERY_HOST,
     baseDeepLink: String = NavigationArguments.FIRE_GALLERY_URI
-) : BaseDestinations(route = route, customArguments = customArguments, host = host, baseDeepLink = baseDeepLink){
+) : BaseDestination(route = route, customArguments = customArguments, host = host, baseDeepLink = baseDeepLink){
 
     object Profile : Destination(route = "PROFILE")
     object RegisterUser : Destination(route = "REGISTER_USER")

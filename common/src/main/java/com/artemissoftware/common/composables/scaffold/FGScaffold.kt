@@ -29,9 +29,9 @@ import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.dialog.FGDialog
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
-import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.BaseDestination
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.composables.scaffold.models.FGUiScaffoldState
 import com.artemissoftware.common.composables.topbar.FGTopBar
 import kotlin.math.roundToInt
 
@@ -50,7 +50,7 @@ fun FGScaffold(
 //    isSearchAppBar: Boolean = false,
 //    searchValue: String = "",
 //    onSearchValue: (String) -> Unit = {},
-    fgScaffoldState: FGScaffoldState? = null,
+    fgUiScaffoldState: FGUiScaffoldState? = null,
     isLoading: Boolean = false,
     @RawRes lottieId: Int = R.raw.gallery_photo,
     showTopBar: Boolean = false,
@@ -107,7 +107,7 @@ fun FGScaffold(
                         },
                     items = bottomBarItems,
                     navController = navController,
-                    fgScaffoldState = fgScaffoldState
+                    fgUiScaffoldState = fgUiScaffoldState
                 )
 
             },
@@ -126,7 +126,7 @@ fun FGScaffold(
 
         FGLoading(isLoading = isLoading, lottieId = lottieId)
 
-        fgScaffoldState?.let { FGDialog(fgScaffoldState = it) }
+        fgUiScaffoldState?.let { FGDialog(fgUiScaffoldState = it) }
 
     }
 }
@@ -137,7 +137,7 @@ fun FGScaffold(
 @Composable
 private fun FGScaffoldPreview() {
 
-    class TestDestination: BaseDestinations(route = "Create")
+    class TestDestination: BaseDestination(route = "Create")
 
     val list = listOf(
         BottomBarItem(R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, TestDestination()),

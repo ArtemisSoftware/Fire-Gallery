@@ -63,9 +63,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation rootProject.tests.junit
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation rootProject.tests.espresso
     androidTestImplementation rootProject.tests.uiTestJunit4
     debugImplementation rootProject.libraries.composeUiTooling
     debugImplementation rootProject.tests.uiTestManifest
@@ -75,11 +75,10 @@ dependencies {
     implementation project(":domain")
     implementation project(':common')
 
-    implementation platform('com.google.firebase:firebase-bom:30.2.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform(rootProject.libraries.firebaseBom)
+    implementation rootProject.libraries.firebaseAnalytics
 
     implementation rootProject.libraries.firebaseMessaging
-    //implementation rootProject.libraries.firebaseFirestore
 
     implementation rootProject.libraries.coilCompose
 

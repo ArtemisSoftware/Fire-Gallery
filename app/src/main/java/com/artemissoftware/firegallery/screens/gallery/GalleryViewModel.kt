@@ -6,7 +6,7 @@ import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetGalleriesUseCase
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +33,7 @@ class GalleryViewModel @Inject constructor(
         when(event){
 
             is GalleryEvents.GoToPictures -> {
-                sendUiEvent(UiEvent.Navigate(GalleryDestinations.Pictures.withCustomArgs(event.galleryUI)))
+                sendUiEvent(UiEvent.Navigate(DestinationRoutes.GalleryGraph.pictures.withCustomArgs(event.galleryUI)))
             }
         }
     }

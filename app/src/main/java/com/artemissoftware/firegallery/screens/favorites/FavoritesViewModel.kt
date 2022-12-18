@@ -9,7 +9,6 @@ import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase
 import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
@@ -43,7 +42,7 @@ class FavoritesViewModel @Inject constructor(
                 remove(event.pictureId)
             }
             is FavoriteEvents.GoToPictureDetail -> {
-                sendUiEvent(UiEvent.Navigate(GalleryDestinations.PictureDetail.withArgs(event.pictureId)))
+                sendUiEvent(UiEvent.Navigate(DestinationRoutes.GalleryGraph.pictureDetail.withArgs(event.pictureId)))
             }
         }
     }

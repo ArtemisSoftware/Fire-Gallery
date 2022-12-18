@@ -39,40 +39,22 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.2.1'
-    //implementation 'com.google.firebase:firebase-config-ktx:21.1.2'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation rootProject.tests.junit
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation rootProject.tests.espresso
 
     testImplementation rootProject.tests.mockito
 
-    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation platform(rootProject.libraries.firebaseBom)
     api rootProject.libraries.firebaseFirestore
     api rootProject.libraries.firebaseConfig
     api rootProject.libraries.firebaseAuth
 
     implementation rootProject.libraries.gson
     implementation rootProject.libraries.datastore
-//    implementation rootProject.libraries.datastoreCore
-//    implementation rootProject.libraries.kotlinxSerializationJson
-//    implementation "androidx.datastore:datastore-preferences:1.0.0"
-
-
-    //DataStore
-//    implementation "androidx.datastore:datastore-core:1.0.0"
-//    implementation "androidx.datastore:datastore-preferences:1.0.0"
-//    //ProtoBuf
-//    implementation "com.google.protobuf:protobuf-javalite:3.14.0"
-
-
-    //Datastore without proto files
-    //implementation "androidx.datastore:datastore-core:1.0.0"
-//    implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
+    implementation rootProject.libraries.kotlinxSerializationJson
 
     implementation project(':domain')
 
-
     implementation rootProject.libraries.dagger
-    //annotationProcessor  rootProject.libraries.daggerCompiler
 }

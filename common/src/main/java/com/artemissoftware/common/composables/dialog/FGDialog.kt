@@ -25,29 +25,26 @@ import com.artemissoftware.common.composables.dialog.models.DialogButtonType
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.icon.FGCircularIcon
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.composables.scaffold.models.FGUiScaffoldState
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.common.theme.primaryText
 import kotlinx.coroutines.MainScope
 
 @Composable
-fun FGDialog(fgScaffoldState: FGScaffoldState) {
+fun FGDialog(fgUiScaffoldState: FGUiScaffoldState) {
 
-    fgScaffoldState.dialog.value?.let { dialogType->
+    fgUiScaffoldState.dialog.value?.let { dialogType->
 
         Dialog(
-            onDismissRequest = { //TODO: rever isto
-                //fgScaffoldState.hideBottomBar()
+            onDismissRequest = { },
+            content = {
+                FGDialog(
+                    fgUiScaffoldState = fgUiScaffoldState,
+                    dialogType = dialogType
+                )
             }
-        ) {
-
-            FGDialog(
-                fgScaffoldState = fgScaffoldState,
-                dialogType = dialogType
-            )
-
-        }
+        )
     }
 
 }
@@ -56,7 +53,7 @@ fun FGDialog(fgScaffoldState: FGScaffoldState) {
 
 @Composable
 private fun FGDialog(
-    fgScaffoldState: FGScaffoldState,
+    fgUiScaffoldState: FGUiScaffoldState,
     dialogType: DialogType
 ){
     val imageContent: @Composable () -> Unit = when{
@@ -103,7 +100,7 @@ private fun FGDialog(
     }
 
     FGDialog(
-        fgScaffoldState = fgScaffoldState,
+        fgUiScaffoldState = fgUiScaffoldState,
         dialogType = dialogType,
         imageContent = imageContent
     )
@@ -114,7 +111,7 @@ private fun FGDialog(
 
 @Composable
 private fun FGDialog(
-    fgScaffoldState: FGScaffoldState,
+    fgUiScaffoldState: FGUiScaffoldState,
     dialogType: DialogType,
     imageContent: @Composable () -> Unit
 ){
@@ -142,7 +139,7 @@ private fun FGDialog(
             FGDialogMessage(dialogType = dialogType)
 
             FGDialogOptions(
-                fgScaffoldState = fgScaffoldState,
+                fgUiScaffoldState = fgUiScaffoldState,
                 mainColor = dialogType.mainColor,
                 textColor = textColor,
                 dialogOptions = dialogType.dialogOptions
@@ -181,7 +178,7 @@ private fun FGDialogMessage(dialogType: DialogType){
 
 @Composable
 private fun FGDialogOptions(
-    fgScaffoldState: FGScaffoldState,
+    fgUiScaffoldState: FGUiScaffoldState,
     mainColor : Color,
     textColor: Color = MaterialTheme.colors.primaryText,
     dialogOptions: DialogOptions
@@ -201,7 +198,7 @@ private fun FGDialogOptions(
             TextButton(
                 onClick = {
                     dialogOptions.cancel()
-                    fgScaffoldState.closeDialog()
+                    fgUiScaffoldState.closeDialog()
                 }
             ) {
 
@@ -218,7 +215,7 @@ private fun FGDialogOptions(
             modifier = confirmModifier,
             onClick = {
                 dialogOptions.confirmation()
-                fgScaffoldState.closeDialog()
+                fgUiScaffoldState.closeDialog()
             }
         ) {
             FGText(
@@ -279,8 +276,8 @@ private fun FGDialogOptionsPreview(){
     )
 
     Column {
-        FGDialogOptions(fgScaffoldState = FGScaffoldState(MainScope()), mainColor = dialogTypeSuccess.mainColor, dialogOptions = dialogTypeSuccess.dialogOptions)
-        FGDialogOptions(fgScaffoldState = FGScaffoldState(MainScope()), mainColor = dialogTypError.mainColor, dialogOptions = dialogTypError.dialogOptions)
+        FGDialogOptions(fgUiScaffoldState = FGUiScaffoldState(MainScope()), mainColor = dialogTypeSuccess.mainColor, dialogOptions = dialogTypeSuccess.dialogOptions)
+        FGDialogOptions(fgUiScaffoldState = FGUiScaffoldState(MainScope()), mainColor = dialogTypError.mainColor, dialogOptions = dialogTypError.dialogOptions)
     }
 }
 
@@ -309,7 +306,7 @@ private fun FGDialogPreview(){
     )
 
     Column {
-        FGDialog(FGScaffoldState(MainScope()), dialogTypeSuccess)
-        FGDialog(FGScaffoldState(MainScope()), dialogTypError)
+        FGDialog(FGUiScaffoldState(MainScope()), dialogTypeSuccess)
+        FGDialog(FGUiScaffoldState(MainScope()), dialogTypError)
     }
 }

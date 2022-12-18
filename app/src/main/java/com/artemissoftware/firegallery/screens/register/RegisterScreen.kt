@@ -9,17 +9,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.button.FGButton
 import com.artemissoftware.common.composables.scaffold.FGScaffold
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.composables.textfield.FGOutlinedTextField
 import com.artemissoftware.common.composables.textfield.FGTextFieldType
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
-import com.artemissoftware.firegallery.ui.ManageUIEvents
 
 
 @Composable

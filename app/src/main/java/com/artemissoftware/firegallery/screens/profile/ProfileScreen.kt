@@ -15,18 +15,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.button.FGButton
 import com.artemissoftware.common.composables.button.FGOutlinedButton
 import com.artemissoftware.common.composables.scaffold.FGScaffold
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold28
 import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
-import com.artemissoftware.firegallery.ui.ManageUIEvents
-import com.artemissoftware.firegallery.ui.UiEvent
 
 
 @Composable

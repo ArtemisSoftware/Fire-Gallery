@@ -2,14 +2,14 @@ package com.artemissoftware.firegallery.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.composables.scaffold.models.FGUiScaffoldState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ManageUIEvents(
     uiEvent: Flow<UiEvent>,
-    scaffoldState: FGScaffoldState,
+    scaffoldState: FGUiScaffoldState,
     onNavigate: (UiEvent.Navigate) -> Unit = {},
     onNavigatePopUpTo: (UiEvent.NavigatePopUpTo) -> Unit = {},
     onChangeCurrentPositionBottomBar: (UiEvent.ChangeCurrentPositionBottomBar) -> Unit = {},

@@ -31,6 +31,11 @@ ext.versions = [
 
         mockito                     : '3.2.0',
 
+
+        firebaseBoM            : '30.2.0',
+
+        junit            : '4.13.2',
+
 //        gradle                 : '7.0.3',
 //        kotlin                 : '1.5.31',
 //        coroutines             : '1.4.3',
@@ -61,7 +66,7 @@ ext.versions = [
 //        junitExtension         : '1.1.2',
 //        coreTesting            : '2.1.0',
 //        mockito                : '3.2.0',
-//        espresso               : '3.3.0',
+        espresso               : '3.4.0',
 //        playcore               : '1.10.2',
 //        playcorektx            : '1.8.1'
 ]
@@ -75,10 +80,12 @@ ext.libraries = [
 
         coilCompose               : "io.coil-kt:coil-compose:$versions.coil",
 
+        firebaseBom               : "com.google.firebase:firebase-bom:$versions.firebaseBoM",
+        firebaseAnalytics         : "com.google.firebase:firebase-analytics-ktx",
         firebaseFirestore         : "com.google.firebase:firebase-firestore-ktx",
         firebaseMessaging         : "com.google.firebase:firebase-messaging-ktx",
         firebaseConfig            : "com.google.firebase:firebase-config-ktx",
-        firebaseAuth            : "com.google.firebase:firebase-auth-ktx",
+        firebaseAuth              : "com.google.firebase:firebase-auth-ktx",
 
         gson                      : "com.google.code.gson:gson:$versions.gson",
 
@@ -150,12 +157,13 @@ ext.libraries = [
 
 ext.tests = [
 //        kotlin        : "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin",
-//        junit         : "junit:junit:$versions.junit",
+        junit         : "junit:junit:$versions.junit",
 //        junitExtension: "androidx.test.ext:junit:$versions.junitExtension",
 //        coreTesting   : "androidx.arch.core:core-testing:$versions.coreTesting",
         mockito       : "org.mockito.kotlin:mockito-kotlin:$versions.mockito",
 //        coroutines    : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines",
-//        espresso      : "androidx.test.espresso:espresso-core:$versions.espresso",
+        espresso      : "androidx.test.espresso:espresso-core:$versions.espresso",
+
 
         uiTestJunit4    : "androidx.compose.ui:ui-test-junit4:$versions.compose",
         uiTestManifest  : "androidx.compose.ui:ui-test-manifest:$versions.compose"

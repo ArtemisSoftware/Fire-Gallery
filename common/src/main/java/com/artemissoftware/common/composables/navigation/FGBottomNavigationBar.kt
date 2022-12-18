@@ -13,7 +13,6 @@ import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,16 +23,16 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.BaseDestination
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.composables.scaffold.models.FGUiScaffoldState
 
 @Composable
 fun FGBottomNavigationBar (
     items: List<BottomBarItem>,
     navController: NavHostController? = null,
     modifier: Modifier = Modifier,
-    fgScaffoldState: FGScaffoldState? = null,
+    fgUiScaffoldState: FGUiScaffoldState? = null,
 ) {
 
     navController?.let {
@@ -46,7 +45,7 @@ fun FGBottomNavigationBar (
             if (showBottomBar(currentDestination, items = items)) {
 
 
-                fgScaffoldState?.let {
+                fgUiScaffoldState?.let {
                     FGNavigationBar(
                         modifier = modifier,
                         items = items,
@@ -80,7 +79,7 @@ fun FGBottomNavigationBar (
 private fun FGNavigationBar (
     modifier: Modifier = Modifier,
     items: List<BottomBarItem>,
-    selectedDestination: BaseDestinations,
+    selectedDestination: BaseDestination,
     onClick: (BottomBarItem) -> Unit
 ) {
 
@@ -131,7 +130,7 @@ private fun showBottomBar(
 @Preview(showBackground = false)
 @Composable
 private fun FGNavigationBarPreview() {
-    class TestDestination: BaseDestinations(route = "Create")
+    class TestDestination: BaseDestination(route = "Create")
 
     val list = listOf(
         BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, TestDestination()),
@@ -149,7 +148,7 @@ private fun FGNavigationBarPreview() {
 @Composable
 private fun FGBottomNavigationBarPreview() {
 
-    class TestDestination: BaseDestinations(route = "Create")
+    class TestDestination: BaseDestination(route = "Create")
 
     val list = listOf(
         BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, TestDestination()),

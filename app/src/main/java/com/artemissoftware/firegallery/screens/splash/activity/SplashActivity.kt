@@ -1,6 +1,5 @@
 package com.artemissoftware.firegallery.screens.splash.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,8 +11,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.artemissoftware.common.composables.scaffold.FGScaffold
-import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
-import com.artemissoftware.firegallery.MainActivity
 import com.artemissoftware.firegallery.navigation.graphs.RootNavigationGraph
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -47,7 +44,7 @@ class SplashActivity : ComponentActivity() {
     @Composable
     private fun Splash() {
         FGScaffold(
-            fgScaffoldState = viewModel.scaffoldState
+            fgUiScaffoldState = viewModel.scaffoldState
         ) {
 
             RootNavigationGraph(

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
@@ -27,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.animations.FlipAnimation
-import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.BaseDestination
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.text.FGText
 
@@ -104,7 +103,7 @@ fun FGBottomNavigationItem (
 @Composable
 private fun FGBottomNavigationItemPreview() {
 
-    class TestDestination: BaseDestinations(route = "Create")
+    class TestDestination: BaseDestination(route = "Create")
 
     val list = listOf(
         BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Home, Icons.Outlined.Home, TestDestination()),

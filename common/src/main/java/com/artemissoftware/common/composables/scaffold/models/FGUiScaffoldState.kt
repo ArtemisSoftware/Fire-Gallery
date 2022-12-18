@@ -5,14 +5,13 @@ import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavHostController
 import com.artemissoftware.common.composables.dialog.models.DialogType
-import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.BaseDestination
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
-import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
 import com.artemissoftware.common.extensions.changeGraph
 import com.artemissoftware.common.models.DeepLinkNavigation.DEEP_LINK
 import kotlinx.coroutines.CoroutineScope
 
-open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
+open class FGUiScaffoldState(
     private val scope: CoroutineScope? = null
 ) {
 
@@ -78,7 +77,7 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
 
 
     fun changeCurrentPositionBottomBar(
-        destination: BaseDestinations,
+        destination: BaseDestination,
         navController: NavHostController?
     ) {
 
@@ -93,14 +92,14 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
 
 
 
-    fun getSelectedBottomBarDestination(defaultDestination: BaseDestinations): BaseDestinations {
+    fun getSelectedBottomBarDestination(defaultDestination: BaseDestination): BaseDestination {
         return selectedBottomBarItem.value.currentDestination ?: defaultDestination
     }
 
 
 
     protected fun executeDeepLink(
-        destinationWithArguments: Pair<BaseDestinations, List<String>>?,
+        destinationWithArguments: Pair<BaseDestination, List<String>>?,
         navController: NavHostController?
     ) {
 
@@ -128,7 +127,7 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
     }
 
 
-    private fun Pair<BaseDestinations, List<String>>.toDestinationRoute() : String{
+    private fun Pair<BaseDestination, List<String>>.toDestinationRoute() : String{
 
         val destination = this.first
 
@@ -139,7 +138,7 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
     }
 
 
-    private fun isBottomNavigationDestination(destination: BaseDestinations) : Boolean{
+    private fun isBottomNavigationDestination(destination: BaseDestination) : Boolean{
 
         with(bottomBarDestinations.value) {
 
@@ -153,7 +152,7 @@ open class FGScaffoldState( //TODO: sugestões - FGUiScaffoldState
 
 
     private fun changeCurrentPositionBottomBar(
-        destination: BaseDestinations,
+        destination: BaseDestination,
         route: String,
         navController: NavHostController
     ){

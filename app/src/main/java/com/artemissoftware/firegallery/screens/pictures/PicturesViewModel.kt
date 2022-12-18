@@ -12,7 +12,7 @@ import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion
 import com.artemissoftware.domain.usecases.pictures.GetPicturesUseCase.Companion.NO_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.NavigationArguments
-import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
+import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.screens.gallery.models.GalleryUI
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
@@ -53,7 +53,7 @@ class PicturesViewModel @Inject constructor(
                 getPictures(event.galleryId)
             }
             is PictureEvents.GoToPictureDetail -> {
-                sendUiEvent(UiEvent.Navigate(GalleryDestinations.PictureDetail.withArgs(event.pictureId)))
+                sendUiEvent(UiEvent.Navigate(DestinationRoutes.GalleryGraph.pictureDetail.withArgs(event.pictureId)))
             }
             PictureEvents.PopBackStack -> {
                 sendUiEvent(UiEvent.PopBackStack)
