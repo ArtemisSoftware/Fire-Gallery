@@ -3,7 +3,6 @@ package com.artemissoftware.common.composables.topbar
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,16 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.button.FGCircularButton
+import com.artemissoftware.common.composables.button.FGSquareIconButton
 import com.artemissoftware.common.composables.text.FGOutlinedText
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
-
-@SuppressLint("UnrememberedMutableState")
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun FGTopBar(
     modifier: Modifier = Modifier.padding(top = 0.dp),
@@ -125,11 +120,6 @@ private fun TitleSection(
 
             FGOutlinedText(text = it, textSize = textSize)
 
-//            FGText(
-//                text = it,
-//                style = FGStyle.TextAlbertSansBold16,
-//                textAlign = TextAlign.Start
-//            )
         }
 
         subTitle?.let {
@@ -172,9 +162,10 @@ fun TopBar(
 
         ) {
 
-            FGCircularButton(
+            FGSquareIconButton(
                 imageVector = Icons.Default.KeyboardArrowLeft,
                 modifier = Modifier,
+                buttonSize = 40.dp,
                 onClick = {
                     currentState.value = FGCollapsedState.COLLAPSED
                     onNavigationClick.invoke()
@@ -301,6 +292,7 @@ private fun FGTopBar_1_Preview() {
                 modifier = Modifier,
                 onClick = { }
             )
+
         },
         isVisible = false
     )
@@ -310,11 +302,12 @@ private fun FGTopBar_1_Preview() {
 @Composable
 private fun FGTopBar_2_Preview() {
     FGTopBar(
-        backgroundColor = Color.Red,
+        backgroundColor = Color.Yellow,
         title = "I am the title",
         subTitle = "You are my subtitle",
         onNavigationClick = {},
         optionComposable = {
+
             FGCircularButton(
                 imageVector = Icons.Default.KeyboardArrowLeft,
                 modifier = Modifier,

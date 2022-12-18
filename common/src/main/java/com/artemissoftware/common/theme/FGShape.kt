@@ -16,3 +16,10 @@ val RightRoundedCornersShape =  RoundedCornerShape(
     bottomEnd = 30.dp,
     bottomStart = 0.dp,
 )
+
+val SquareCornersShape =  RoundedCornerShape(
+    topStart = 10.dp,
+    topEnd = 10.dp,
+    bottomEnd = 10.dp,
+    bottomStart = 10.dp,
+)

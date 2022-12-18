@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -18,6 +20,8 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.animations.models.PulsatingType
 import com.artemissoftware.common.composables.scaffold.FGBottomSheetScaffold
+import com.artemissoftware.common.theme.LightBlue
+import com.artemissoftware.common.theme.PlateShape
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 import com.artemissoftware.firegallery.screens.picturedetail.composables.PictureInformation
@@ -56,6 +60,15 @@ private fun BuildPictureDetailScreen(
                 if(state.isAuthenticated) {
 
                     FavoriteButton(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(PlateShape)
+                            .background(
+                                brush = Brush.linearGradient(colors = listOf(LightBlue, Color.White)),
+                                shape = PlateShape
+                            )
+                            .padding(4.dp),
+                        size = 28.dp,
                         isFavorite = state.isFavorite,
                         pulsatingType = PulsatingType.LIMITED,
                         onClickToFavorite = {

@@ -35,3 +35,4 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
 val LightBlue = Color(0xDDF6F9FF)
+val PlateGrey = Color(0x26F6F9FF)
