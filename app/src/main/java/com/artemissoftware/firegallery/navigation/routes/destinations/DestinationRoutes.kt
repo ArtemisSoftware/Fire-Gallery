@@ -1,8 +1,11 @@
 package com.artemissoftware.firegallery.navigation.routes.destinations
 
 import android.net.Uri
+import androidx.navigation.NamedNavArgument
 import com.artemissoftware.firegallery.navigation.NavigationArguments
+import com.artemissoftware.firegallery.navigation.NavigationArguments.FIRE_GALLERY_URI
 import com.artemissoftware.firegallery.navigation.routes.NavigationGraph
+import java.util.*
 
 class DestinationRoutes {
 
@@ -48,8 +51,8 @@ class DestinationRoutes {
 
     private fun getDestination(destinations: List<Destination>, path: String) : Destination?{
 
-        val formattedPath = path.toLowerCase()
-        return destinations.find { formattedPath.contains(it.route.toLowerCase()) || argumentCheck(it, path) }
+        val formattedPath = path.lowercase(Locale.ROOT)
+        return destinations.find { formattedPath.contains(it.route.lowercase(Locale.ROOT)) || argumentCheck(it, path) }
     }
 
     private fun argumentCheck(dest: Destination, path: String): Boolean{
@@ -65,19 +68,34 @@ class DestinationRoutes {
         return true
     }
 
+    private fun getUriArguments(uri: Uri, path: String, destinationArguments: List<NamedNavArgument>) : List<String>{
+
+        var arguments = mutableListOf<String>()
+
+        uri.getQueryParameter(NavigationArguments.SEASON)?.let { argument-> arguments.add(argument) }
+
+        if(arguments.isEmpty()){
+
+            val tempUri = Uri.parse(FIRE_GALLERY_URI + "/temp?" + path.removePrefix("/"))
+
+            destinationArguments.forEach { arg->
+                tempUri.getQueryParameter(arg.name)?.let { argument-> arguments.add(argument) }
+            }
+        }
+
+        return arguments
+    }
+
     private fun getHomeGraphDestination(uri: Uri): Pair<Destination, List<String>>? {
 
         uri.path?.let { path->
 
             getDestination(HomeGraph.getRoutes(), path)?.let { destination->
 
-                val arguments = mutableListOf<String>()
-
                 return when (destination) {
 
                     is Destination.Tinder -> {
-                        uri.getQueryParameter(NavigationArguments.SEASON)?.let { argument-> arguments.add(argument) }
-                        Pair(destination as Destination, arguments)
+                        Pair(destination as Destination, getUriArguments(uri = uri, path = path, destinationArguments = destination.arguments))
                     }
                     else ->{
                         null
@@ -89,8 +107,6 @@ class DestinationRoutes {
         return null
     }
 
-
-    //TODO o que fazer  quando devolver null????
     fun findDestination(uri: Uri): Pair<Destination, List<String>>?{
 
         getHomeGraphDestination(uri)?.let { destination->
@@ -100,15 +116,6 @@ class DestinationRoutes {
         return null
     }
 
-
-//    Uri uri = Uri.parse("http://www.chalklit.in/post.html?chapter=V-Maths-Addition%20&%20Subtraction&post=394");
-//    String server = uri.getAuthority();
-//    String path = uri.getPath();
-//    String protocol = uri.getScheme();
-//    Set<String> args = uri.getQueryParameterNames();
-//    Then you can even get a specific element from the query parameters as such;
-//
-//    String chapter = uri.getQueryParameter("chapter");  //will return "V-Maths-Addition "
 }
 
 
