@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.navigation.mapper.toBottomBarItem
 import com.artemissoftware.common.composables.navigation.models.BaseDestination
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
-import com.artemissoftware.domain.usecases.GetUserUseCase
+import com.artemissoftware.domain.usecases.authentication.GetUserUseCase
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.FGScaffoldState

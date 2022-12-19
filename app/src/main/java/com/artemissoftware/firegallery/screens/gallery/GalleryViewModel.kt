@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.usecases.GetGalleriesUseCase
+import com.artemissoftware.domain.usecases.gallery.GetGalleriesUseCase
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.routes.destinations.DestinationRoutes
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel

@@ -1,4 +1,4 @@
-package com.artemissoftware.domain.usecases
+package com.artemissoftware.domain.usecases.tinder
 
 import BaseUseCaseTest
 import com.artemissoftware.domain.FirebaseResponse
@@ -9,7 +9,6 @@ import com.artemissoftware.domain.models.profile.User
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.artemissoftware.domain.repositories.GalleryRepository
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
-import com.artemissoftware.domain.usecases.tinder.GetPicturesForTinderUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList

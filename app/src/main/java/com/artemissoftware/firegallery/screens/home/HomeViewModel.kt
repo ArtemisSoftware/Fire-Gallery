@@ -1,8 +1,6 @@
 package com.artemissoftware.firegallery.screens.home
 
-import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.firegallery.MainEvents
-import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailEvents
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel

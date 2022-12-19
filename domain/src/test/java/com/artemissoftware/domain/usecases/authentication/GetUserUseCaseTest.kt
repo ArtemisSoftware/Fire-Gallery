@@ -5,7 +5,6 @@ import com.artemissoftware.domain.models.UserFavoriteImages
 import com.artemissoftware.domain.models.profile.User
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
-import com.artemissoftware.domain.usecases.GetUserUseCase
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runBlockingTest
