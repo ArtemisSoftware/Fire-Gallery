@@ -10,7 +10,7 @@ class GetUserUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository
 ) {
 
-    operator fun invoke() = profileDataStoreRepository.getUserProfile().combine( authenticationRepository.getUser()) { userLocalData, user ->
+    operator fun invoke() = profileDataStoreRepository.getUserProfile().combine(authenticationRepository.getUser()) { userLocalData, user ->
 
         user?.let { user ->
             userLocalData.data[user.email]?.let { user.favorites = it }
