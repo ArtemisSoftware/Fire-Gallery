@@ -24,8 +24,7 @@ class RemoteConfigRepositoryImpl(
 
         return try {
 
-            //TODO: pictureFso deve ser alterado
-            val response = HandleFirebase.safeApiCall<Boolean, PictureFso>{  remoteConfigSource.fetchValues() }
+            val response = HandleFirebase.safeApiCall<Boolean, Boolean>{  remoteConfigSource.fetchValues() }
 
             return FirebaseResponse(data = response)
 

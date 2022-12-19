@@ -27,7 +27,7 @@ class GalleryRepositoryImpl @Inject constructor(
 
         return try {
 
-            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso>{ cloudStoreSource.getDocuments(collectionName = FireStoreCollection.GALLERY) }
+            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, GalleryFso>{ cloudStoreSource.getDocuments(collectionName = FireStoreCollection.GALLERY) }
 
             return FirebaseResponse(data = response.map { document ->
                 document.toObject<GalleryFso>()!!.toGallery()

@@ -10,6 +10,7 @@ import com.artemissoftware.domain.FirebaseResponse
 import com.artemissoftware.domain.models.profile.User
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -22,8 +23,7 @@ class AuthenticationRepositoryImpl(
 
         return try {
 
-            //TODO: pictureFso deve ser alterado
-            val response = HandleFirebase.safeApiCall<FirebaseUser, PictureFso>{ authenticationSource.loginUser(email, password) }
+            val response = HandleFirebase.safeApiCall<FirebaseUser, FirebaseUser>{ authenticationSource.loginUser(email, password) }
 
             return FirebaseResponse(data = true)
 
@@ -36,8 +36,7 @@ class AuthenticationRepositoryImpl(
 
         return try {
 
-            //TODO: pictureFso deve ser alterado
-            val response = HandleFirebase.safeApiCall<FirebaseUser, PictureFso>{ authenticationSource.registerUser(email = email, password = password, username = username) }
+            val response = HandleFirebase.safeApiCall<FirebaseUser, FirebaseUser>{ authenticationSource.registerUser(email = email, password = password, username = username) }
 
             return FirebaseResponse(data = true)
 
@@ -46,6 +45,7 @@ class AuthenticationRepositoryImpl(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getUser(): Flow<User?> {
         return authenticationSource.getUser().map { it?.toUser() }
     }

@@ -12,23 +12,35 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 
 object HandleFirebase {
 
-    suspend inline fun <T, reified MM> safeApiCall(callFunction: suspend () -> T): T {
+    suspend inline fun <T, reified OUT_TYPE> safeApiCall(callFunction: suspend () -> T): T {
 
         return try{
 
-            val apiResponse = callFunction.invoke()
+           val apiResponse = callFunction.invoke()
 
-            //TODO: testar isto
-//            with(apiResponse as List<DocumentSnapshot>) {
-//
-//                this.map { document ->
-//                    if(document.toObject<MM>() == null) throw FireGalleryException(message = "Invalid Type")
-//                }
-//
-//            }
+            if(apiResponse is OUT_TYPE){
+                return apiResponse
+            }
+
+            with(apiResponse as List<DocumentSnapshot>) {
+
+                this.map { document ->
+                    if(document.toObject<OUT_TYPE>() == null)
+                        throw FireGalleryException(
+                            message = "Invalid Type",
+                            description = "Type provided for conversion is invalid ${apiResponse!!::class.java}"
+                        )
+                }
+            }
 
             apiResponse
 
+        }
+        catch (exCast: ClassCastException){
+            throw FireGalleryException(
+                message = "Invalid Type",
+                description = "Type provided for conversion is invalid"
+            )
         }
         catch (ex: FirebaseException){
 
