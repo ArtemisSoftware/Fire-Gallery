@@ -38,7 +38,7 @@ class ValidateLoginUseCaseTest: BaseUseCaseTest() {
 
         val userValidation = validateLoginUseCase(email = email, password = password)
 
-        verify(remoteConfigRepository, times(2)).getUserValidationConfigs()
+        verify(remoteConfigRepository, times(1)).getUserValidationConfigs()
         assertEquals(true, userValidation.isValid)
         assertEquals(userValidation.emailError, "")
         assertEquals(userValidation.passwordError, "")
@@ -57,7 +57,7 @@ class ValidateLoginUseCaseTest: BaseUseCaseTest() {
 
         val userValidation = validateLoginUseCase(email = email, password = password)
 
-        verify(remoteConfigRepository, times(2)).getUserValidationConfigs()
+        verify(remoteConfigRepository, times(1)).getUserValidationConfigs()
 
         assertEquals(userValidation.isValid, false)
         assertEquals(userValidation.emailError, INVALID_EMAIL)
@@ -77,7 +77,7 @@ class ValidateLoginUseCaseTest: BaseUseCaseTest() {
         val userValidation = validateLoginUseCase(email = email, password = password)
 
 
-        verify(remoteConfigRepository, times(2)).getUserValidationConfigs()
+        verify(remoteConfigRepository, times(1)).getUserValidationConfigs()
 
         assertEquals(userValidation.isValid, false)
         assertEquals(userValidation.emailError, "")
@@ -99,7 +99,7 @@ class ValidateLoginUseCaseTest: BaseUseCaseTest() {
         val userValidation = validateLoginUseCase(email = email, password = password)
 
 
-        verify(remoteConfigRepository, times(2)).getUserValidationConfigs()
+        verify(remoteConfigRepository, times(1)).getUserValidationConfigs()
 
         assertEquals(userValidation.isValid, false)
         assertEquals(userValidation.emailError, INVALID_EMAIL)

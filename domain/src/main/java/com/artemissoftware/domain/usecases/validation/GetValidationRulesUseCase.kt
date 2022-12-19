@@ -1,4 +1,4 @@
-package com.artemissoftware.domain.usecases.profile
+package com.artemissoftware.domain.usecases.validation
 
 import com.artemissoftware.domain.repositories.RemoteConfigRepository
 import javax.inject.Inject

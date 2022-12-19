@@ -1,34 +1,31 @@
 package com.artemissoftware.domain.util
 
-import com.artemissoftware.domain.models.configurations.UserValidationConfig
-
 object UserDataValidation {
-
 
     fun isEmailValid(emailRegex: String, email: String): Boolean {
         return emailRegex.toRegex().matches(email);
     }
 
-    fun validateUsername(username: String, userValidationConfigs: UserValidationConfig) : Boolean{
+    fun validateUsername(username: String, usernameMinLength: Int, usernameMaxLength: Int) : Boolean{
 
         if (username.isEmpty() || username.isBlank()) {
             return false
         }
 
-        if (username.trim().length < userValidationConfigs.usernameMinLength || username.length > userValidationConfigs.usernameMaxLength) {
+        if (username.trim().length < usernameMinLength || username.length > usernameMaxLength) {
             return false
         }
 
         return true
     }
 
-    fun validatePassword(password: String, userValidationConfigs: UserValidationConfig) : Boolean{
+    fun validatePassword(password: String, passwordMinLength: Int, passwordMaxLength: Int) : Boolean{
 
         if (password.isEmpty() || password.isBlank()) {
             return false
         }
 
-        if (password.trim().length < userValidationConfigs.passwordMinLength || password.length > userValidationConfigs.passwordMaxLength) {
+        if (password.trim().length < passwordMinLength || password.length > passwordMaxLength) {
             return false
         }
 
@@ -38,11 +35,10 @@ object UserDataValidation {
 
     fun validatePasswordConfirmation(
         password: String,
-        passwordConfirm: String,
-        userValidationConfigs: UserValidationConfig
+        passwordConfirm: String, passwordMinLength: Int, passwordMaxLength: Int
     ) : Boolean{
 
-        if (!validatePassword(password, userValidationConfigs)) {
+        if (!validatePassword(password, passwordMinLength, passwordMaxLength)) {
             return false
         }
 

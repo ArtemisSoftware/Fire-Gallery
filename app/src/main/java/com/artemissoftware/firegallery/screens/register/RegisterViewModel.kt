@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.usecases.profile.GetValidationRulesUseCase
+import com.artemissoftware.domain.usecases.validation.GetValidationRulesUseCase
 import com.artemissoftware.domain.usecases.authentication.RegisterUserUseCase
 import com.artemissoftware.domain.usecases.validation.ValidateRegisterUseCase
 import com.artemissoftware.firegallery.R
@@ -43,15 +43,11 @@ class RegisterViewModel @Inject constructor(
         private set
 
     init {
-        onTriggerEvent(RegisterEvents.GetValidationRules)
+        getValidationRules()
     }
 
     override fun onTriggerEvent(event: RegisterEvents) {
         when(event){
-
-            is RegisterEvents.GetValidationRules ->{
-                getValidationRules()
-            }
 
             is RegisterEvents.ValidateRegister ->{
                 email = event.email.orEmpty()

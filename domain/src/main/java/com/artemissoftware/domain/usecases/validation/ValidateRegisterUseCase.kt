@@ -16,27 +16,30 @@ class ValidateRegisterUseCase @Inject constructor(
         var validPassword = false
         var validUsername = false
 
-        if(UserDataValidation.isEmailValid(remoteConfigRepository.getUserValidationConfigs().emailRegex, email)){
-            validEmail = true
-        }
-        else{
-            userValidation.emailError = INVALID_EMAIL
-        }
+        with(remoteConfigRepository.getUserValidationConfigs()){
 
-        if(UserDataValidation.validatePasswordConfirmation(password, passwordConfirm, remoteConfigRepository.getUserValidationConfigs())){
-            validPassword = true
-        }
-        else{
-            userValidation.passwordError = INVALID_PASSWORD
-        }
+            if(UserDataValidation.isEmailValid(emailRegex, email)){
+                validEmail = true
+            }
+            else{
+                userValidation.emailError = INVALID_EMAIL
+            }
 
-        if(UserDataValidation.validateUsername(username, remoteConfigRepository.getUserValidationConfigs())){
-            validUsername = true
-        }
-        else{
-            userValidation.usernameError = INVALID_USERNAME
-        }
+            if(UserDataValidation.validatePasswordConfirmation(password, passwordConfirm, passwordMinLength, passwordMaxLength)){
+                validPassword = true
+            }
+            else{
+                userValidation.passwordError = INVALID_PASSWORD
+            }
 
+            if(UserDataValidation.validateUsername(username, usernameMinLength, usernameMaxLength)){
+                validUsername = true
+            }
+            else{
+                userValidation.usernameError = INVALID_USERNAME
+            }
+
+        }
         userValidation.isValid = validEmail && validPassword && validUsername
         return userValidation
     }
