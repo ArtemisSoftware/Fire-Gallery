@@ -23,3 +23,10 @@ val SquareCornersShape =  RoundedCornerShape(
     bottomEnd = 10.dp,
     bottomStart = 10.dp,
 )
+
+val BottomRoundedCornersShape =  RoundedCornerShape(
+    topStart = 0.dp,
+    topEnd = 0.dp,
+    bottomEnd = 16.dp,
+    bottomStart = 16.dp,
+)

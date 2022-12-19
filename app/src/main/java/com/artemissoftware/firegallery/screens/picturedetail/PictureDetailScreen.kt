@@ -20,6 +20,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.animations.models.PulsatingType
 import com.artemissoftware.common.composables.scaffold.FGBottomSheetScaffold
+import com.artemissoftware.common.theme.BottomRoundedCornersShape
 import com.artemissoftware.common.theme.LightBlue
 import com.artemissoftware.common.theme.PlateShape
 import com.artemissoftware.domain.models.Picture
@@ -62,10 +63,10 @@ private fun BuildPictureDetailScreen(
                     FavoriteButton(
                         modifier = Modifier
                             .size(36.dp)
-                            .clip(PlateShape)
+                            .clip(BottomRoundedCornersShape)
                             .background(
                                 brush = Brush.linearGradient(colors = listOf(LightBlue, Color.White)),
-                                shape = PlateShape
+                                shape = BottomRoundedCornersShape
                             )
                             .padding(4.dp),
                         size = 28.dp,
